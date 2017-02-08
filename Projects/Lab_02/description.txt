@@ -1,0 +1,21 @@
+Case sensitive lexical tokens:
+  One-line comments starting with // 
+  Multiple-line comments starting with /* and ending with */
+  Identifiers starting with a letter and followed by letter or digit
+  Keywords: read write while if else int double 
+		char struct return void
+  Integer constants without sign
+  Real constants with floating point
+	12.3, 2., .34
+  Real constants with mantissa and exponent
+	34.12E-3, 3e3
+  Char constants between ' and '
+  Char constants identifying the ASCII code, e.g. '\126'
+  The two special char constants '\n' and '\t'
+  The following operators:
+	+ - / * % > < = == <= >= != ( ) && || ! [] .
+  { } to delimit scopes
+  The ; statement delimiter
+  The , character for multiple variable definition
+
+JFLEX returns 0 when the end of file is reached
