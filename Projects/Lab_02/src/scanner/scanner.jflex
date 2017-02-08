@@ -39,14 +39,26 @@ public Object getYylval() {
 %}
 
 // ************  Macros ********************
-IntConstant = [0-9]*  // Is it correct?
-
+IntConstant = 0|[1-9][0-9]*  // Is it correct?YES 
+Letter = [a-zA-Z]
+Blank = [\t\n \r]
 %%
 // ************  Lexical Rules ********************
+
+// * Blank
+{BLANK}			{}
+
+//* Comments
+"//" . *		{}
+"/*" . * "*/"		{}
 
 // * Integer constant
 {IntConstant}		{ this.yylval = new Integer(yytext());
          			  return Parser.INT_CONSTANT;  }
+
+// * Letter
+
+{}
 
 
 
