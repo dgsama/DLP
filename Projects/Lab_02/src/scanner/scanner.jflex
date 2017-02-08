@@ -48,3 +48,27 @@ IntConstant = [0-9]*  // Is it correct?
 {IntConstant}		{ this.yylval = new Integer(yytext());
          			  return Parser.INT_CONSTANT;  }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

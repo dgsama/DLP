@@ -11,7 +11,7 @@ Case sensitive lexical tokens:
 	34.12E-3, 3e3
   Char constants between ' and '
   Char constants identifying the ASCII code, e.g. '\126'
-  The two special char constants '\n' and '\t'
+  The two special char constants '\n' and '\t' ---> WRITE 'a','/n','b'
   The following operators:
 	+ - / * % > < = == <= >= != ( ) && || ! [] .
   { } to delimit scopes
@@ -19,3 +19,14 @@ Case sensitive lexical tokens:
   The , character for multiple variable definition
 
 JFLEX returns 0 when the end of file is reached
+
+SCANNER:
+
+
+get line and get column retornan pos+1; Las lineas empiezan en 0 pero las posiciones en 1
+
+-YYLVALOBJECT
+Scanner(Reader)
+
+
+para tirar tools.sh estar en carpeta src y hacer sh ../tools.sh
