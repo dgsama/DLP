@@ -39,26 +39,24 @@ public Object getYylval() {
 %}
 
 // ************  Macros ********************
-IntConstant = 0|[1-9][0-9]*  // Is it correct?YES 
-Letter = [a-zA-Z]
-Blank = [\t\n \r]
+INT_CONSTANT = 0|[1-9][0-9]*  
+LETTER = [a-zA-ZáéíóúÁÉÍÓÚñÑ]
+IDENTS = {LETTER}({LETTER}*{INT_CONSTANT}*)*
+COMMENT = "//" . *	
+COMMENT_MULTILINE = "/*" ~ "*/"
+OPERATOR = [+\-*%/\[\]\.<>=!\^]
+SEPARATORS = [{};,]
+EXPONENT = [eE](\-|"+")?{INT_CONSTANT}
+REAL_CONSTANT={INT_CONSTANT}({EXPONENT}|(\.({INT_CONSTANT}{EXPONENT}?)?))
+BLANKS = [\t\n \r]
+
 %%
 // ************  Lexical Rules ********************
 
-// * Blank
-{BLANK}			{}
-
-//* Comments
-"//" . *		{}
-"/*" . * "*/"		{}
 
 // * Integer constant
-{IntConstant}		{ this.yylval = new Integer(yytext());
+{INT_CONSTANT}		{ this.yylval = new Integer(yytext());
          			  return Parser.INT_CONSTANT;  }
-
-// * Letter
-
-{}
 
 
 
