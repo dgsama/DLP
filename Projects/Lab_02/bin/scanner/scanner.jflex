@@ -36,13 +36,41 @@ public Object getYylval() {
 }
 
 // * CHAR CONSTANT METHOD
+public char convertChar(String text){
+	String result = text.replace("'","");
+	if(result.charAt(0)=='\\'){
+		if(result.charAt(1)=='n'){
+			return '\n';
+			}else if(result.charAt(1)=='t'){
+			return '\t';}
+			else if(isInt(result.replace("\\",""))){
+				return (char) Integer.parseInt(result.replace("\\",""));
+			}else{
+			return result.charAt(1);}
+	}else{
+	return result.charAt(0);}
+		
+	}
+
+
+private boolean isInt(String text){
+if(text.isEmpty()){
+	return false;
+}else{
+	for(char c: text.toCharArray()){
+		if(!Character.isDigit(c)){
+			return false;
+			}
+		}
+	}return true;
+}
 
 
 %}
 
 // ************  Macros ********************
 INT_CONSTANT = 0|[1-9][0-9]*  
-LETTER = [a-zA-Z√°√©√≠√≥√∫√Å√â√ç√ì√ö√±√ë]
+LETTER = [a-zA-Z·ÈÌÛ˙¡…Õ”⁄Ò—]
 IDENTS = {LETTER}({LETTER}*{INT_CONSTANT}*)*
 COMMENT = "//" . *	
 COMMENT_MULTILINE = "/*" ~ "*/"
@@ -69,24 +97,26 @@ BLANKS = (\t|\n|" "|\r)
 
 // * KEYWORDS
 
-read	{return Parser.READ;}
-write	{return Parser.WRITE;}
-While	{return Parser.WHILE;}
-if	{return Parser.IF;}
-else	{return Parser.ELSE;}
-int	{return Parser.INT;}	
-double	{return Parser.DOUBLE;}
-char	{return Parser.CHAR;}
-struct	{return Parser.STRUCT;}
-return	{return Parser.RETURN;}
-void	{return Parser.VOID;}
-main	{return Parser.MAIN;}
+read	{this.yylval = yytext();	return Parser.READ;}
+write	{this.yylval = yytext();	return Parser.WRITE;}
+While	{this.yylval = yytext();	return Parser.WHILE;}
+if		{this.yylval = yytext();	return Parser.IF;}
+else	{this.yylval = yytext();	return Parser.ELSE;}
+int		{this.yylval = yytext();	return Parser.INT;}	
+double	{this.yylval = yytext();	return Parser.DOUBLE;}
+char	{this.yylval = yytext();	return Parser.CHAR;}
+struct	{this.yylval = yytext();	return Parser.STRUCT;}
+return	{this.yylval = yytext();	return Parser.RETURN;}
+void	{this.yylval = yytext();	return Parser.VOID;}
+main	{this.yylval = yytext();	return Parser.MAIN;}
 
 // * OPERATORS
-{OPERATOR}		{return (int)yytext().charAt(0);}
+{OPERATOR}		{this.yylval = yytext();
+					return (int)yytext().charAt(0);}
 
 // * Separators
-{SEPARATORS}		{return (int)yytext().charAt(0);}
+{SEPARATORS}		{this.yylval = yytext();
+						return (int)yytext().charAt(0);}
 
 // * IDs
 {IDENTS}		{this.yylval = yytext();
@@ -95,7 +125,8 @@ main	{return Parser.MAIN;}
 {REAL_CONSTANT}		{this.yylval = new Double(yytext());
 				return Parser.REAL_CONSTANT;}
 // * Char constant
-{CHAR_CONSTANT}		{return Parser.CHAR_CONSTANT;}
+{CHAR_CONSTANT}		{this.yylval = convertChar(yytext());
+				return Parser.CHAR_CONSTANT;}
 
 // * Integer constant
 {INT_CONSTANT}		{this.yylval = new Integer(yytext());
