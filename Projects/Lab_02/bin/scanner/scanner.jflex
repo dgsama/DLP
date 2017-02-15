@@ -35,51 +35,77 @@ public Object getYylval() {
 	return this.yylval;
 }
 
+// * CHAR CONSTANT METHOD
+
 
 %}
 
 // ************  Macros ********************
-IntConstant = 0|[1-9][0-9]*  // Is it correct?YES 
-Letter = [a-zA-Z]
-Blank = [\t\n \r]
+INT_CONSTANT = 0|[1-9][0-9]*  
+LETTER = [a-zA-ZáéíóúÁÉÍÓÚñÑ]
+IDENTS = {LETTER}({LETTER}*{INT_CONSTANT}*)*
+COMMENT = "//" . *	
+COMMENT_MULTILINE = "/*" ~ "*/"
+OPERATOR = [+\-*%/\[\]\.<>=!\^\(\)]
+SEPARATORS = [{};,]
+EXPONENT = [eE](\-|"+")?{INT_CONSTANT}
+REAL_CONSTANT=({INT_CONSTANT}{EXPONENT}?\.)|(\.{INT_CONSTANT}{EXPONENT}?)|({INT_CONSTANT}\.{INT_CONSTANT}{EXPONENT}?)
+CHAR_CONSTANT = \'(\\[0-256]|.|\\n|\\t)\'
+BLANKS = (\t|\n|" "|\r)
+
 %%
 // ************  Lexical Rules ********************
 
-// * Blank
-{BLANK}			{}
+// * DOUBLE OPERATORS
 
-//* Comments
-"//" . *		{}
-"/*" . * "*/"		{}
+"**"	{return Parser.POW;}
+"=="	{return Parser.EQ;}
+"<="	{return Parser.L_EQ;}
+">="	{return Parser.G_EQ;}
+"!="	{return Parser.NOT_EQ;}
+"&&"	{return Parser.AND;}
+"||"	{return Parser.OR;}
+
+
+// * KEYWORDS
+
+read	{return Parser.READ;}
+write	{return Parser.WRITE;}
+While	{return Parser.WHILE;}
+if	{return Parser.IF;}
+else	{return Parser.ELSE;}
+int	{return Parser.INT;}	
+double	{return Parser.DOUBLE;}
+char	{return Parser.CHAR;}
+struct	{return Parser.STRUCT;}
+return	{return Parser.RETURN;}
+void	{return Parser.VOID;}
+main	{return Parser.MAIN;}
+
+// * OPERATORS
+{OPERATOR}		{return (int)yytext().charAt(0);}
+
+// * Separators
+{SEPARATORS}		{return (int)yytext().charAt(0);}
+
+// * IDs
+{IDENTS}		{this.yylval = yytext();
+				return Parser.ID;}
+// * Real Constants
+{REAL_CONSTANT}		{this.yylval = new Double(yytext());
+				return Parser.REAL_CONSTANT;}
+// * Char constant
+{CHAR_CONSTANT}		{return Parser.CHAR_CONSTANT;}
 
 // * Integer constant
-{IntConstant}		{ this.yylval = new Integer(yytext());
-         			  return Parser.INT_CONSTANT;  }
+{INT_CONSTANT}		{this.yylval = new Integer(yytext());
+         			  return Parser.INT_CONSTANT;}
 
-// * Letter
-
-{}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// * DO NOTHING
+{BLANKS}		{}
+{COMMENT}		{System.out.print("Comment");}
+{COMMENT_MULTILINE}	{System.out.print("Multiline comment");}
+.			{System.err.println("Error in line: ["+getLine()+"] column: ["+getColumn()+ "] --> "+yytext().toString() );}
 
 
 
