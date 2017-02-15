@@ -7,34 +7,34 @@ Functions are defined specifying the return type, the function identifier and a
 list of coma-separated parameters between ( and ). The return type and parameter 
 types must be built-in (i.e., no arrays or records). The function body goes between
  { and }.
+	
+The bodies of functions are sequences of variable definitions followed by sequences                            
+of statements. Both must end with the ";" character.                                                           
 
-The bodies of functions are sequences of variable definitions followed by sequences 
-of statements. Both must end with the ";" character.
+The last and mandatory function is "main", which returns void and receives                                     
+no parameters.                                                                                                 
 
-The last and mandatory function is "main", which returns void and receives 
-no parameters.
+Built-in types are "int", "double" and "char".                                                                 
 
-Built-in types are "int", "double" and "char". 
+Array types can be created with the "[]" type constructor, following the Java                                  
+syntax but specifying the size of                                                                              
+the array with an integer constant (like C).                                                                   
 
-Array types can be created with the "[]" type constructor, following the Java 
-syntax but specifying the size of 
-the array with an integer constant (like C). 
+The "struct" type constructor is                                                                               
+added for specifying record types. Records have no type identifier, and fields                                 
+are declared as var definitions between { and }. Type definition (i.e., typedef)                               
+is not supported.                                                                                              
 
-The "struct" type constructor is 
-added for specifying record types. Records have no type identifier, and fields 
-are declared as var definitions between { and }. Type definition (i.e., typedef) 
-is not supported.
+The syntax of a write statement is the "write" keyword followed by a non-empty                                 
+comma-separated list of expressions. The read statement is similar, but using                                  
+the "read" keyword.                                                                                            
 
-The syntax of a write statement is the "write" keyword followed by a non-empty 
-comma-separated list of expressions. The read statement is similar, but using 
-the "read" keyword.
+Assignments are built with two expressions separated by the "=" operator.                                      
 
-Assignments are built with two expressions separated by the "=" operator.
+If / else and while statements follow the C syntax.                                                            
 
-If / else and while statements follow the C syntax. 
-
-The return <expression> 
-statement is also supported (the expression is mandatory).
+The return <expression>                                                                                        
+statement is also supported (the expression is mandatory).                                                     
 
 A function invocation may be an expression or a statement. A procedure invocation 
 is always a statement.

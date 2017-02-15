@@ -6,15 +6,47 @@ import scanner.Scanner;
 
 // * Yacc declarations
 //   Token definition
-%token INT_CONSTANT CHAR_CONSTANT DOUBLE_CONSTANT
+%token
+CONSTANT
+REAL_CONSTANT
+EQ
+POW
+VOID
+OR
+RETURN
+ID
+DOUBLE
+WRITE
+ELSE
+IF
+CHAR
+STRUCT
+READ
+AND
+NOT_EQ
+WHILE
+G_EQ
+INT
+L_EQ
+MAIN
+CHAR_CONSTANT
 %token 
+
+//Lower precedence
+%left '+' '-'
+%left '*'
+%right UNARY_MINUS
+
+
 
 %%
 // * Actions
 expression: expression '+' expression
           | expression '*' expression
-          | INT_CONSTANT
-          ;
+          |	expression '-' expression 
+          | INT_CONSTANT				%prec UNARY_MINUS
+          ;          
+
 %%
 
 // * Code

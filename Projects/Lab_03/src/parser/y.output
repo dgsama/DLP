@@ -1,0 +1,97 @@
+   0  $accept : expression $end
+
+   1  expression : expression '+' expression
+   2             | expression '*' expression
+   3             | expression '-' expression
+   4             | INT_CONSTANT
+
+state 0
+	$accept : . expression $end  (0)
+
+	INT_CONSTANT  shift 1
+	.  error
+
+	expression  goto 2
+
+
+state 1
+	expression : INT_CONSTANT .  (4)
+
+	.  reduce 4
+
+
+state 2
+	$accept : expression . $end  (0)
+	expression : expression . '+' expression  (1)
+	expression : expression . '*' expression  (2)
+	expression : expression . '-' expression  (3)
+
+	$end  accept
+	'+'  shift 3
+	'-'  shift 4
+	'*'  shift 5
+	.  error
+
+
+state 3
+	expression : expression '+' . expression  (1)
+
+	INT_CONSTANT  shift 1
+	.  error
+
+	expression  goto 6
+
+
+state 4
+	expression : expression '-' . expression  (3)
+
+	INT_CONSTANT  shift 1
+	.  error
+
+	expression  goto 7
+
+
+state 5
+	expression : expression '*' . expression  (2)
+
+	INT_CONSTANT  shift 1
+	.  error
+
+	expression  goto 8
+
+
+state 6
+	expression : expression . '+' expression  (1)
+	expression : expression '+' expression .  (1)
+	expression : expression . '*' expression  (2)
+	expression : expression . '-' expression  (3)
+
+	'*'  shift 5
+	$end  reduce 1
+	'+'  reduce 1
+	'-'  reduce 1
+
+
+state 7
+	expression : expression . '+' expression  (1)
+	expression : expression . '*' expression  (2)
+	expression : expression . '-' expression  (3)
+	expression : expression '-' expression .  (3)
+
+	'*'  shift 5
+	$end  reduce 3
+	'+'  reduce 3
+	'-'  reduce 3
+
+
+state 8
+	expression : expression . '+' expression  (1)
+	expression : expression . '*' expression  (2)
+	expression : expression '*' expression .  (2)
+	expression : expression . '-' expression  (3)
+
+	.  reduce 2
+
+
+30 terminals, 2 nonterminals
+5 grammar rules, 9 states

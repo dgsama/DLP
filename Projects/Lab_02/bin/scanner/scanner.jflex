@@ -36,35 +36,42 @@ public Object getYylval() {
 }
 
 // * CHAR CONSTANT METHOD
-public char convertChar(String text){
-	String result = text.replace("'","");
-	if(result.charAt(0)=='\\'){
-		if(result.charAt(1)=='n'){
-			return '\n';
-			}else if(result.charAt(1)=='t'){
-			return '\t';}
-			else if(isInt(result.replace("\\",""))){
-				return (char) Integer.parseInt(result.replace("\\",""));
-			}else{
-			return result.charAt(1);}
-	}else{
-	return result.charAt(0);}
-		
+	public char convertChar(String text) {
+		String result = text.replace("'", "");
+		if (!isALetter(result.charAt(0))) {
+			if (result.charAt(1) == 'n') {
+				return '\n';
+			} else if (result.charAt(1) == 't') {
+				return '\t';
+			} else if (isInt(result.replace('\\', ' '))) {
+				return (char) Integer.parseInt(result.replace('\\', ' '));
+			} else {
+				return result.charAt(1);
+			}
+		} else {
+			return result.charAt(0);
+		}
+
 	}
 
+	private boolean isALetter(char c) {
+		if (Character.isLetter(c))
+			return true;
+		return false;
+	}
 
-private boolean isInt(String text){
-if(text.isEmpty()){
-	return false;
-}else{
-	for(char c: text.toCharArray()){
-		if(!Character.isDigit(c)){
+	private boolean isInt(String text) {
+		if (text.isEmpty()) {
 			return false;
+		} else {
+			for (char c : text.toCharArray()) {
+				if (!Character.isDigit(c)) {
+					return false;
+				}
 			}
 		}
-	}return true;
-}
-
+		return true;
+	}
 
 %}
 
@@ -110,6 +117,10 @@ return	{this.yylval = yytext();	return Parser.RETURN;}
 void	{this.yylval = yytext();	return Parser.VOID;}
 main	{this.yylval = yytext();	return Parser.MAIN;}
 
+// * Char constant
+{CHAR_CONSTANT}		{this.yylval = convertChar(yytext());
+				return Parser.CHAR_CONSTANT;}
+
 // * OPERATORS
 {OPERATOR}		{this.yylval = yytext();
 					return (int)yytext().charAt(0);}
@@ -124,9 +135,6 @@ main	{this.yylval = yytext();	return Parser.MAIN;}
 // * Real Constants
 {REAL_CONSTANT}		{this.yylval = new Double(yytext());
 				return Parser.REAL_CONSTANT;}
-// * Char constant
-{CHAR_CONSTANT}		{this.yylval = convertChar(yytext());
-				return Parser.CHAR_CONSTANT;}
 
 // * Integer constant
 {INT_CONSTANT}		{this.yylval = new Integer(yytext());
@@ -134,8 +142,8 @@ main	{this.yylval = yytext();	return Parser.MAIN;}
 
 // * DO NOTHING
 {BLANKS}		{}
-{COMMENT}		{System.out.print("Comment");}
-{COMMENT_MULTILINE}	{System.out.print("Multiline comment");}
+{COMMENT}		{System.out.println("Comment");}
+{COMMENT_MULTILINE}	{System.out.println("Multiline comment");}
 .			{System.err.println("Error in line: ["+getLine()+"] column: ["+getColumn()+ "] --> "+yytext().toString() );}
 
 
