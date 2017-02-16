@@ -36,38 +36,31 @@ public Object getYylval() {
 }
 
 // * CHAR CONSTANT METHOD
-	public char convertChar(String text) {
-		String result = text.replace("'", "");
-		if (!isALetter(result.charAt(0))) {
-			if (result.charAt(1) == 'n') {
-				return '\n';
-			} else if (result.charAt(1) == 't') {
-				return '\t';
-			} else if (isInt(result.replace('\\', ' '))) {
-				return (char) Integer.parseInt(result.replace('\\', ' '));
-			} else {
-				return result.charAt(1);
-			}
-		} else {
-			return result.charAt(0);
-		}
-
-	}
-
-	private boolean isALetter(char c) {
-		if (Character.isLetter(c))
-			return true;
-		return false;
-	}
-
-	private boolean isInt(String text) {
-		if (text.isEmpty()) {
-			return false;
-		} else {
-			for (char c : text.toCharArray()) {
-				if (!Character.isDigit(c)) {
-					return false;
+	public char convertToChar(String text){
+		char[]chars = text.toCharArray();
+		if(chars[1]=='\\'){
+				if(chars[2]=='n'){
+					return '\n';
+				}else if(chars[2]=='t'){
+					return '\t';
+				}else if(isIntNexts(chars)){
+					String aux ="";
+					for(int i =2;i<chars.length;i++){
+						aux+=chars[i];
+					}
+					return (char)Integer.parseInt(aux);
 				}
+		}else{
+			return chars[1];
+		}
+		return 0;
+		
+	}
+
+	private boolean isIntNexts(char[] c) {
+		for (int i = 2; i < c.length; i++) {
+			if (Character.isDigit(c[i])) {
+				return false;
 			}
 		}
 		return true;
@@ -77,6 +70,7 @@ public Object getYylval() {
 
 // ************  Macros ********************
 INT_CONSTANT = 0|[1-9][0-9]*  
+ASCII = 0|[1-9 ][0-9]?|1[0-9][0-9]|2[0-5][0-6]
 LETTER = [a-zA-ZáéíóúÁÉÍÓÚñÑ]
 IDENTS = {LETTER}({LETTER}*{INT_CONSTANT}*)*
 COMMENT = "//" . *	
@@ -85,7 +79,7 @@ OPERATOR = [+\-*%/\[\]\.<>=!\^\(\)]
 SEPARATORS = [{};,]
 EXPONENT = [eE](\-|"+")?{INT_CONSTANT}
 REAL_CONSTANT=({INT_CONSTANT}{EXPONENT}?\.)|(\.{INT_CONSTANT}{EXPONENT}?)|({INT_CONSTANT}\.{INT_CONSTANT}{EXPONENT}?)
-CHAR_CONSTANT = \'(\\[0-256]|.|\\n|\\t)\'
+CHAR_CONSTANT =\'(\\{ASCII}|.|\\n|\\t)\'
 BLANKS = (\t|\n|" "|\r)
 
 %%
@@ -93,13 +87,13 @@ BLANKS = (\t|\n|" "|\r)
 
 // * DOUBLE OPERATORS
 
-"**"	{return Parser.POW;}
-"=="	{return Parser.EQ;}
-"<="	{return Parser.L_EQ;}
-">="	{return Parser.G_EQ;}
-"!="	{return Parser.NOT_EQ;}
-"&&"	{return Parser.AND;}
-"||"	{return Parser.OR;}
+"**"	{this.yylval = yytext();	return Parser.POW;}
+"=="	{this.yylval = yytext();	return Parser.EQ;}
+"<="	{this.yylval = yytext();	return Parser.L_EQ;}
+">="	{this.yylval = yytext();	return Parser.G_EQ;}
+"!="	{this.yylval = yytext();	return Parser.NOT_EQ;}
+"&&"	{this.yylval = yytext();	return Parser.AND;}
+"||"	{this.yylval = yytext();	return Parser.OR;}
 
 
 // * KEYWORDS
@@ -118,7 +112,7 @@ void	{this.yylval = yytext();	return Parser.VOID;}
 main	{this.yylval = yytext();	return Parser.MAIN;}
 
 // * Char constant
-{CHAR_CONSTANT}		{this.yylval = convertChar(yytext());
+{CHAR_CONSTANT}		{this.yylval = convertToChar(yytext());
 				return Parser.CHAR_CONSTANT;}
 
 // * OPERATORS
