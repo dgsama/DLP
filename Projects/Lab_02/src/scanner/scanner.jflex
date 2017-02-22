@@ -70,7 +70,7 @@ public Object getYylval() {
 
 // ************  Macros ********************
 INT_CONSTANT = 0|[1-9][0-9]*  
-ASCII = 0|[1-9][0-9]?|1[0-9][0-9]|2[0-5][0-6]
+ASCII = 0|[1-9][0-9]?|1[0-9][0-9]|2[0-4][0-9]|25[0-6]
 LETTER = [a-zA-ZáéíóúÁÉÍÓÚñÑ]
 IDENTS = {LETTER}({LETTER}*{INT_CONSTANT}*)*
 COMMENT = "//" . *	
@@ -84,6 +84,10 @@ BLANKS = (\t|\n|" "|\r)
 
 %%
 // ************  Lexical Rules ********************
+// * COMMENTS
+
+{COMMENT}		{System.out.println("Comment");}
+{COMMENT_MULTILINE}	{System.out.println("Multiline comment");}
 
 // * DOUBLE OPERATORS
 
@@ -136,8 +140,6 @@ main	{this.yylval = yytext();	return Parser.MAIN;}
 
 // * DO NOTHING
 {BLANKS}		{}
-{COMMENT}		{System.out.println("Comment");}
-{COMMENT_MULTILINE}	{System.out.println("Multiline comment");}
 .			{System.err.println("Error in line: ["+getLine()+"] column: ["+getColumn()+ "] --> "+yytext().toString() );}
 
 
