@@ -1,0 +1,2011 @@
+   0  $accept : main $end
+
+   1  main : VOID MAIN '(' ')' '{' opt_list_var opt_statements '}'
+
+   2  func : ID p_type '(' opt_list_param ')' '{' opt_list_var opt_statements '}'
+   3       | ID VOID '(' opt_list_param ')' '{' opt_list_var opt_statements '}'
+
+   4  opt_list_func : opt_list_func func
+   5                |
+
+   6  param : p_type ID
+
+   7  list_param : list_param ',' param
+   8             | param
+
+   9  opt_list_param : list_param
+  10                 |
+
+  11  p_type : INT
+  12         | DOUBLE
+  13         | CHAR
+
+  14  vector : vector '[' INT_CONSTANT ']'
+  15         | '[' INT_CONSTANT ']'
+
+  16  ident : ID
+  17        | vector ID
+
+  18  list_ident : list_ident ',' ident
+  19             | ident
+
+  20  opt_statements :
+  21                 | opt_statements statement
+
+  22  statement : RETURN '(' exp ')' ';'
+  23            | READ '(' list_exp ')' ';'
+  24            | WRITE '(' list_exp ')' ';'
+  25            | IF '(' exp ')' '{' opt_statements '}'
+  26            | IF '(' exp ')' '{' opt_statements '}' ELSE '{' opt_statements '}'
+  27            | WHILE '(' exp ')' '{' opt_statements '}'
+  28            | exp '=' exp ';'
+  29            | ID '(' opt_list_exp ')' ';'
+
+  30  opt_list_exp :
+  31               | list_exp
+
+  32  list_exp : list_exp ',' exp
+  33           | exp
+
+  34  exp : exp '+' exp
+  35      | exp '*' exp
+  36      | exp '/' exp
+  37      | exp '-' exp
+  38      | exp '%' exp
+  39      | exp EQ exp
+  40      | exp NOT_EQ exp
+  41      | exp '>' exp
+  42      | exp '<' exp
+  43      | exp L_EQ exp
+  44      | exp G_EQ exp
+  45      | exp AND exp
+  46      | exp OR exp
+  47      | exp '!' exp
+  48      | '(' p_type ')' exp
+  49      | exp '[' exp ']'
+  50      | exp '.' ID
+  51      | ID '(' opt_list_exp ')'
+  52      | '-' exp
+  53      | '(' exp ')'
+  54      | INT_CONSTANT
+  55      | ID
+  56      | CHAR_CONSTANT
+  57      | REAL_CONSTANT
+
+state 0
+	$accept : . main $end  (0)
+
+	VOID  shift 1
+	.  error
+
+	main  goto 2
+
+
+state 1
+	main : VOID . MAIN '(' ')' '{' opt_list_var opt_statements '}'  (1)
+
+	MAIN  shift 3
+	.  error
+
+
+state 2
+	$accept : main . $end  (0)
+
+	$end  accept
+
+
+state 3
+	main : VOID MAIN . '(' ')' '{' opt_list_var opt_statements '}'  (1)
+
+	'('  shift 4
+	.  error
+
+
+state 4
+	main : VOID MAIN '(' . ')' '{' opt_list_var opt_statements '}'  (1)
+
+	')'  shift 5
+	.  error
+
+
+state 5
+	main : VOID MAIN '(' ')' . '{' opt_list_var opt_statements '}'  (1)
+
+	'{'  shift 6
+	.  error
+
+
+state 6
+	main : VOID MAIN '(' ')' '{' . opt_list_var opt_statements '}'  (1)
+
+	opt_list_var  shift 7
+	.  error
+
+
+state 7
+	main : VOID MAIN '(' ')' '{' opt_list_var . opt_statements '}'  (1)
+	opt_statements : .  (20)
+
+	.  reduce 20
+
+	opt_statements  goto 8
+
+
+state 8
+	main : VOID MAIN '(' ')' '{' opt_list_var opt_statements . '}'  (1)
+	opt_statements : opt_statements . statement  (21)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	RETURN  shift 11
+	ID  shift 12
+	WRITE  shift 13
+	IF  shift 14
+	READ  shift 15
+	WHILE  shift 16
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	'}'  shift 20
+	.  error
+
+	statement  goto 21
+	exp  goto 22
+
+
+state 9
+	exp : INT_CONSTANT .  (54)
+
+	.  reduce 54
+
+
+state 10
+	exp : REAL_CONSTANT .  (57)
+
+	.  reduce 57
+
+
+state 11
+	statement : RETURN . '(' exp ')' ';'  (22)
+
+	'('  shift 23
+	.  error
+
+
+state 12
+	statement : ID . '(' opt_list_exp ')' ';'  (29)
+	exp : ID . '(' opt_list_exp ')'  (51)
+	exp : ID .  (55)
+
+	'('  shift 24
+	EQ  reduce 55
+	OR  reduce 55
+	AND  reduce 55
+	NOT_EQ  reduce 55
+	G_EQ  reduce 55
+	L_EQ  reduce 55
+	'='  reduce 55
+	'!'  reduce 55
+	'>'  reduce 55
+	'<'  reduce 55
+	'+'  reduce 55
+	'-'  reduce 55
+	'*'  reduce 55
+	'/'  reduce 55
+	'%'  reduce 55
+	'['  reduce 55
+	'.'  reduce 55
+
+
+state 13
+	statement : WRITE . '(' list_exp ')' ';'  (24)
+
+	'('  shift 25
+	.  error
+
+
+state 14
+	statement : IF . '(' exp ')' '{' opt_statements '}'  (25)
+	statement : IF . '(' exp ')' '{' opt_statements '}' ELSE '{' opt_statements '}'  (26)
+
+	'('  shift 26
+	.  error
+
+
+state 15
+	statement : READ . '(' list_exp ')' ';'  (23)
+
+	'('  shift 27
+	.  error
+
+
+state 16
+	statement : WHILE . '(' exp ')' '{' opt_statements '}'  (27)
+
+	'('  shift 28
+	.  error
+
+
+state 17
+	exp : CHAR_CONSTANT .  (56)
+
+	.  reduce 56
+
+
+state 18
+	exp : '-' . exp  (52)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	exp  goto 30
+
+
+state 19
+	exp : '(' . p_type ')' exp  (48)
+	exp : '(' . exp ')'  (53)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	DOUBLE  shift 31
+	CHAR  shift 32
+	INT  shift 33
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	p_type  goto 34
+	exp  goto 35
+
+
+state 20
+	main : VOID MAIN '(' ')' '{' opt_list_var opt_statements '}' .  (1)
+
+	.  reduce 1
+
+
+state 21
+	opt_statements : opt_statements statement .  (21)
+
+	.  reduce 21
+
+
+state 22
+	statement : exp . '=' exp ';'  (28)
+	exp : exp . '+' exp  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp . '/' exp  (36)
+	exp : exp . '-' exp  (37)
+	exp : exp . '%' exp  (38)
+	exp : exp . EQ exp  (39)
+	exp : exp . NOT_EQ exp  (40)
+	exp : exp . '>' exp  (41)
+	exp : exp . '<' exp  (42)
+	exp : exp . L_EQ exp  (43)
+	exp : exp . G_EQ exp  (44)
+	exp : exp . AND exp  (45)
+	exp : exp . OR exp  (46)
+	exp : exp . '!' exp  (47)
+	exp : exp . '[' exp ']'  (49)
+	exp : exp . '.' ID  (50)
+
+	EQ  shift 36
+	OR  shift 37
+	AND  shift 38
+	NOT_EQ  shift 39
+	G_EQ  shift 40
+	L_EQ  shift 41
+	'='  shift 42
+	'!'  shift 43
+	'>'  shift 44
+	'<'  shift 45
+	'+'  shift 46
+	'-'  shift 47
+	'*'  shift 48
+	'/'  shift 49
+	'%'  shift 50
+	'['  shift 51
+	'.'  shift 52
+	.  error
+
+
+state 23
+	statement : RETURN '(' . exp ')' ';'  (22)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	exp  goto 53
+
+
+state 24
+	statement : ID '(' . opt_list_exp ')' ';'  (29)
+	exp : ID '(' . opt_list_exp ')'  (51)
+	opt_list_exp : .  (30)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	')'  reduce 30
+
+	exp  goto 54
+	list_exp  goto 55
+	opt_list_exp  goto 56
+
+
+state 25
+	statement : WRITE '(' . list_exp ')' ';'  (24)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	exp  goto 54
+	list_exp  goto 57
+
+
+state 26
+	statement : IF '(' . exp ')' '{' opt_statements '}'  (25)
+	statement : IF '(' . exp ')' '{' opt_statements '}' ELSE '{' opt_statements '}'  (26)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	exp  goto 58
+
+
+state 27
+	statement : READ '(' . list_exp ')' ';'  (23)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	exp  goto 54
+	list_exp  goto 59
+
+
+state 28
+	statement : WHILE '(' . exp ')' '{' opt_statements '}'  (27)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	exp  goto 60
+
+
+state 29
+	exp : ID . '(' opt_list_exp ')'  (51)
+	exp : ID .  (55)
+
+	'('  shift 61
+	EQ  reduce 55
+	OR  reduce 55
+	AND  reduce 55
+	NOT_EQ  reduce 55
+	G_EQ  reduce 55
+	L_EQ  reduce 55
+	'='  reduce 55
+	'!'  reduce 55
+	'>'  reduce 55
+	'<'  reduce 55
+	'+'  reduce 55
+	'-'  reduce 55
+	'*'  reduce 55
+	'/'  reduce 55
+	'%'  reduce 55
+	'['  reduce 55
+	']'  reduce 55
+	'.'  reduce 55
+	')'  reduce 55
+	','  reduce 55
+	';'  reduce 55
+
+
+state 30
+	exp : exp . '+' exp  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp . '/' exp  (36)
+	exp : exp . '-' exp  (37)
+	exp : exp . '%' exp  (38)
+	exp : exp . EQ exp  (39)
+	exp : exp . NOT_EQ exp  (40)
+	exp : exp . '>' exp  (41)
+	exp : exp . '<' exp  (42)
+	exp : exp . L_EQ exp  (43)
+	exp : exp . G_EQ exp  (44)
+	exp : exp . AND exp  (45)
+	exp : exp . OR exp  (46)
+	exp : exp . '!' exp  (47)
+	exp : exp . '[' exp ']'  (49)
+	exp : exp . '.' ID  (50)
+	exp : '-' exp .  (52)
+
+	'['  shift 51
+	'.'  shift 52
+	EQ  reduce 52
+	OR  reduce 52
+	AND  reduce 52
+	NOT_EQ  reduce 52
+	G_EQ  reduce 52
+	L_EQ  reduce 52
+	'='  reduce 52
+	'!'  reduce 52
+	'>'  reduce 52
+	'<'  reduce 52
+	'+'  reduce 52
+	'-'  reduce 52
+	'*'  reduce 52
+	'/'  reduce 52
+	'%'  reduce 52
+	']'  reduce 52
+	')'  reduce 52
+	','  reduce 52
+	';'  reduce 52
+
+
+state 31
+	p_type : DOUBLE .  (12)
+
+	.  reduce 12
+
+
+state 32
+	p_type : CHAR .  (13)
+
+	.  reduce 13
+
+
+state 33
+	p_type : INT .  (11)
+
+	.  reduce 11
+
+
+state 34
+	exp : '(' p_type . ')' exp  (48)
+
+	')'  shift 62
+	.  error
+
+
+state 35
+	exp : exp . '+' exp  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp . '/' exp  (36)
+	exp : exp . '-' exp  (37)
+	exp : exp . '%' exp  (38)
+	exp : exp . EQ exp  (39)
+	exp : exp . NOT_EQ exp  (40)
+	exp : exp . '>' exp  (41)
+	exp : exp . '<' exp  (42)
+	exp : exp . L_EQ exp  (43)
+	exp : exp . G_EQ exp  (44)
+	exp : exp . AND exp  (45)
+	exp : exp . OR exp  (46)
+	exp : exp . '!' exp  (47)
+	exp : exp . '[' exp ']'  (49)
+	exp : exp . '.' ID  (50)
+	exp : '(' exp . ')'  (53)
+
+	EQ  shift 36
+	OR  shift 37
+	AND  shift 38
+	NOT_EQ  shift 39
+	G_EQ  shift 40
+	L_EQ  shift 41
+	'!'  shift 43
+	'>'  shift 44
+	'<'  shift 45
+	'+'  shift 46
+	'-'  shift 47
+	'*'  shift 48
+	'/'  shift 49
+	'%'  shift 50
+	'['  shift 51
+	'.'  shift 52
+	')'  shift 63
+	.  error
+
+
+state 36
+	exp : exp EQ . exp  (39)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	exp  goto 64
+
+
+state 37
+	exp : exp OR . exp  (46)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	exp  goto 65
+
+
+state 38
+	exp : exp AND . exp  (45)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	exp  goto 66
+
+
+state 39
+	exp : exp NOT_EQ . exp  (40)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	exp  goto 67
+
+
+state 40
+	exp : exp G_EQ . exp  (44)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	exp  goto 68
+
+
+state 41
+	exp : exp L_EQ . exp  (43)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	exp  goto 69
+
+
+state 42
+	statement : exp '=' . exp ';'  (28)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	exp  goto 70
+
+
+state 43
+	exp : exp '!' . exp  (47)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	exp  goto 71
+
+
+state 44
+	exp : exp '>' . exp  (41)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	exp  goto 72
+
+
+state 45
+	exp : exp '<' . exp  (42)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	exp  goto 73
+
+
+state 46
+	exp : exp '+' . exp  (34)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	exp  goto 74
+
+
+state 47
+	exp : exp '-' . exp  (37)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	exp  goto 75
+
+
+state 48
+	exp : exp '*' . exp  (35)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	exp  goto 76
+
+
+state 49
+	exp : exp '/' . exp  (36)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	exp  goto 77
+
+
+state 50
+	exp : exp '%' . exp  (38)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	exp  goto 78
+
+
+state 51
+	exp : exp '[' . exp ']'  (49)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	exp  goto 79
+
+
+state 52
+	exp : exp '.' . ID  (50)
+
+	ID  shift 80
+	.  error
+
+
+state 53
+	statement : RETURN '(' exp . ')' ';'  (22)
+	exp : exp . '+' exp  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp . '/' exp  (36)
+	exp : exp . '-' exp  (37)
+	exp : exp . '%' exp  (38)
+	exp : exp . EQ exp  (39)
+	exp : exp . NOT_EQ exp  (40)
+	exp : exp . '>' exp  (41)
+	exp : exp . '<' exp  (42)
+	exp : exp . L_EQ exp  (43)
+	exp : exp . G_EQ exp  (44)
+	exp : exp . AND exp  (45)
+	exp : exp . OR exp  (46)
+	exp : exp . '!' exp  (47)
+	exp : exp . '[' exp ']'  (49)
+	exp : exp . '.' ID  (50)
+
+	EQ  shift 36
+	OR  shift 37
+	AND  shift 38
+	NOT_EQ  shift 39
+	G_EQ  shift 40
+	L_EQ  shift 41
+	'!'  shift 43
+	'>'  shift 44
+	'<'  shift 45
+	'+'  shift 46
+	'-'  shift 47
+	'*'  shift 48
+	'/'  shift 49
+	'%'  shift 50
+	'['  shift 51
+	'.'  shift 52
+	')'  shift 81
+	.  error
+
+
+state 54
+	list_exp : exp .  (33)
+	exp : exp . '+' exp  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp . '/' exp  (36)
+	exp : exp . '-' exp  (37)
+	exp : exp . '%' exp  (38)
+	exp : exp . EQ exp  (39)
+	exp : exp . NOT_EQ exp  (40)
+	exp : exp . '>' exp  (41)
+	exp : exp . '<' exp  (42)
+	exp : exp . L_EQ exp  (43)
+	exp : exp . G_EQ exp  (44)
+	exp : exp . AND exp  (45)
+	exp : exp . OR exp  (46)
+	exp : exp . '!' exp  (47)
+	exp : exp . '[' exp ']'  (49)
+	exp : exp . '.' ID  (50)
+
+	EQ  shift 36
+	OR  shift 37
+	AND  shift 38
+	NOT_EQ  shift 39
+	G_EQ  shift 40
+	L_EQ  shift 41
+	'!'  shift 43
+	'>'  shift 44
+	'<'  shift 45
+	'+'  shift 46
+	'-'  shift 47
+	'*'  shift 48
+	'/'  shift 49
+	'%'  shift 50
+	'['  shift 51
+	'.'  shift 52
+	')'  reduce 33
+	','  reduce 33
+
+
+state 55
+	opt_list_exp : list_exp .  (31)
+	list_exp : list_exp . ',' exp  (32)
+
+	','  shift 82
+	')'  reduce 31
+
+
+state 56
+	statement : ID '(' opt_list_exp . ')' ';'  (29)
+	exp : ID '(' opt_list_exp . ')'  (51)
+
+	')'  shift 83
+	.  error
+
+
+state 57
+	statement : WRITE '(' list_exp . ')' ';'  (24)
+	list_exp : list_exp . ',' exp  (32)
+
+	')'  shift 84
+	','  shift 82
+	.  error
+
+
+state 58
+	statement : IF '(' exp . ')' '{' opt_statements '}'  (25)
+	statement : IF '(' exp . ')' '{' opt_statements '}' ELSE '{' opt_statements '}'  (26)
+	exp : exp . '+' exp  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp . '/' exp  (36)
+	exp : exp . '-' exp  (37)
+	exp : exp . '%' exp  (38)
+	exp : exp . EQ exp  (39)
+	exp : exp . NOT_EQ exp  (40)
+	exp : exp . '>' exp  (41)
+	exp : exp . '<' exp  (42)
+	exp : exp . L_EQ exp  (43)
+	exp : exp . G_EQ exp  (44)
+	exp : exp . AND exp  (45)
+	exp : exp . OR exp  (46)
+	exp : exp . '!' exp  (47)
+	exp : exp . '[' exp ']'  (49)
+	exp : exp . '.' ID  (50)
+
+	EQ  shift 36
+	OR  shift 37
+	AND  shift 38
+	NOT_EQ  shift 39
+	G_EQ  shift 40
+	L_EQ  shift 41
+	'!'  shift 43
+	'>'  shift 44
+	'<'  shift 45
+	'+'  shift 46
+	'-'  shift 47
+	'*'  shift 48
+	'/'  shift 49
+	'%'  shift 50
+	'['  shift 51
+	'.'  shift 52
+	')'  shift 85
+	.  error
+
+
+state 59
+	statement : READ '(' list_exp . ')' ';'  (23)
+	list_exp : list_exp . ',' exp  (32)
+
+	')'  shift 86
+	','  shift 82
+	.  error
+
+
+state 60
+	statement : WHILE '(' exp . ')' '{' opt_statements '}'  (27)
+	exp : exp . '+' exp  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp . '/' exp  (36)
+	exp : exp . '-' exp  (37)
+	exp : exp . '%' exp  (38)
+	exp : exp . EQ exp  (39)
+	exp : exp . NOT_EQ exp  (40)
+	exp : exp . '>' exp  (41)
+	exp : exp . '<' exp  (42)
+	exp : exp . L_EQ exp  (43)
+	exp : exp . G_EQ exp  (44)
+	exp : exp . AND exp  (45)
+	exp : exp . OR exp  (46)
+	exp : exp . '!' exp  (47)
+	exp : exp . '[' exp ']'  (49)
+	exp : exp . '.' ID  (50)
+
+	EQ  shift 36
+	OR  shift 37
+	AND  shift 38
+	NOT_EQ  shift 39
+	G_EQ  shift 40
+	L_EQ  shift 41
+	'!'  shift 43
+	'>'  shift 44
+	'<'  shift 45
+	'+'  shift 46
+	'-'  shift 47
+	'*'  shift 48
+	'/'  shift 49
+	'%'  shift 50
+	'['  shift 51
+	'.'  shift 52
+	')'  shift 87
+	.  error
+
+
+state 61
+	exp : ID '(' . opt_list_exp ')'  (51)
+	opt_list_exp : .  (30)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	')'  reduce 30
+
+	exp  goto 54
+	list_exp  goto 55
+	opt_list_exp  goto 88
+
+
+state 62
+	exp : '(' p_type ')' . exp  (48)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	exp  goto 89
+
+
+state 63
+	exp : '(' exp ')' .  (53)
+
+	.  reduce 53
+
+
+state 64
+	exp : exp . '+' exp  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp . '/' exp  (36)
+	exp : exp . '-' exp  (37)
+	exp : exp . '%' exp  (38)
+	exp : exp . EQ exp  (39)
+	exp : exp EQ exp .  (39)
+	exp : exp . NOT_EQ exp  (40)
+	exp : exp . '>' exp  (41)
+	exp : exp . '<' exp  (42)
+	exp : exp . L_EQ exp  (43)
+	exp : exp . G_EQ exp  (44)
+	exp : exp . AND exp  (45)
+	exp : exp . OR exp  (46)
+	exp : exp . '!' exp  (47)
+	exp : exp . '[' exp ']'  (49)
+	exp : exp . '.' ID  (50)
+
+	G_EQ  shift 40
+	L_EQ  shift 41
+	'>'  shift 44
+	'<'  shift 45
+	'+'  shift 46
+	'-'  shift 47
+	'*'  shift 48
+	'/'  shift 49
+	'%'  shift 50
+	'['  shift 51
+	'.'  shift 52
+	EQ  reduce 39
+	OR  reduce 39
+	AND  reduce 39
+	NOT_EQ  reduce 39
+	'='  reduce 39
+	'!'  reduce 39
+	']'  reduce 39
+	')'  reduce 39
+	','  reduce 39
+	';'  reduce 39
+
+
+state 65
+	exp : exp . '+' exp  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp . '/' exp  (36)
+	exp : exp . '-' exp  (37)
+	exp : exp . '%' exp  (38)
+	exp : exp . EQ exp  (39)
+	exp : exp . NOT_EQ exp  (40)
+	exp : exp . '>' exp  (41)
+	exp : exp . '<' exp  (42)
+	exp : exp . L_EQ exp  (43)
+	exp : exp . G_EQ exp  (44)
+	exp : exp . AND exp  (45)
+	exp : exp . OR exp  (46)
+	exp : exp OR exp .  (46)
+	exp : exp . '!' exp  (47)
+	exp : exp . '[' exp ']'  (49)
+	exp : exp . '.' ID  (50)
+
+	EQ  shift 36
+	NOT_EQ  shift 39
+	G_EQ  shift 40
+	L_EQ  shift 41
+	'>'  shift 44
+	'<'  shift 45
+	'+'  shift 46
+	'-'  shift 47
+	'*'  shift 48
+	'/'  shift 49
+	'%'  shift 50
+	'['  shift 51
+	'.'  shift 52
+	OR  reduce 46
+	AND  reduce 46
+	'='  reduce 46
+	'!'  reduce 46
+	']'  reduce 46
+	')'  reduce 46
+	','  reduce 46
+	';'  reduce 46
+
+
+state 66
+	exp : exp . '+' exp  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp . '/' exp  (36)
+	exp : exp . '-' exp  (37)
+	exp : exp . '%' exp  (38)
+	exp : exp . EQ exp  (39)
+	exp : exp . NOT_EQ exp  (40)
+	exp : exp . '>' exp  (41)
+	exp : exp . '<' exp  (42)
+	exp : exp . L_EQ exp  (43)
+	exp : exp . G_EQ exp  (44)
+	exp : exp . AND exp  (45)
+	exp : exp AND exp .  (45)
+	exp : exp . OR exp  (46)
+	exp : exp . '!' exp  (47)
+	exp : exp . '[' exp ']'  (49)
+	exp : exp . '.' ID  (50)
+
+	EQ  shift 36
+	NOT_EQ  shift 39
+	G_EQ  shift 40
+	L_EQ  shift 41
+	'>'  shift 44
+	'<'  shift 45
+	'+'  shift 46
+	'-'  shift 47
+	'*'  shift 48
+	'/'  shift 49
+	'%'  shift 50
+	'['  shift 51
+	'.'  shift 52
+	OR  reduce 45
+	AND  reduce 45
+	'='  reduce 45
+	'!'  reduce 45
+	']'  reduce 45
+	')'  reduce 45
+	','  reduce 45
+	';'  reduce 45
+
+
+state 67
+	exp : exp . '+' exp  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp . '/' exp  (36)
+	exp : exp . '-' exp  (37)
+	exp : exp . '%' exp  (38)
+	exp : exp . EQ exp  (39)
+	exp : exp . NOT_EQ exp  (40)
+	exp : exp NOT_EQ exp .  (40)
+	exp : exp . '>' exp  (41)
+	exp : exp . '<' exp  (42)
+	exp : exp . L_EQ exp  (43)
+	exp : exp . G_EQ exp  (44)
+	exp : exp . AND exp  (45)
+	exp : exp . OR exp  (46)
+	exp : exp . '!' exp  (47)
+	exp : exp . '[' exp ']'  (49)
+	exp : exp . '.' ID  (50)
+
+	G_EQ  shift 40
+	L_EQ  shift 41
+	'>'  shift 44
+	'<'  shift 45
+	'+'  shift 46
+	'-'  shift 47
+	'*'  shift 48
+	'/'  shift 49
+	'%'  shift 50
+	'['  shift 51
+	'.'  shift 52
+	EQ  reduce 40
+	OR  reduce 40
+	AND  reduce 40
+	NOT_EQ  reduce 40
+	'='  reduce 40
+	'!'  reduce 40
+	']'  reduce 40
+	')'  reduce 40
+	','  reduce 40
+	';'  reduce 40
+
+
+state 68
+	exp : exp . '+' exp  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp . '/' exp  (36)
+	exp : exp . '-' exp  (37)
+	exp : exp . '%' exp  (38)
+	exp : exp . EQ exp  (39)
+	exp : exp . NOT_EQ exp  (40)
+	exp : exp . '>' exp  (41)
+	exp : exp . '<' exp  (42)
+	exp : exp . L_EQ exp  (43)
+	exp : exp . G_EQ exp  (44)
+	exp : exp G_EQ exp .  (44)
+	exp : exp . AND exp  (45)
+	exp : exp . OR exp  (46)
+	exp : exp . '!' exp  (47)
+	exp : exp . '[' exp ']'  (49)
+	exp : exp . '.' ID  (50)
+
+	'+'  shift 46
+	'-'  shift 47
+	'*'  shift 48
+	'/'  shift 49
+	'%'  shift 50
+	'['  shift 51
+	'.'  shift 52
+	EQ  reduce 44
+	OR  reduce 44
+	AND  reduce 44
+	NOT_EQ  reduce 44
+	G_EQ  reduce 44
+	L_EQ  reduce 44
+	'='  reduce 44
+	'!'  reduce 44
+	'>'  reduce 44
+	'<'  reduce 44
+	']'  reduce 44
+	')'  reduce 44
+	','  reduce 44
+	';'  reduce 44
+
+
+state 69
+	exp : exp . '+' exp  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp . '/' exp  (36)
+	exp : exp . '-' exp  (37)
+	exp : exp . '%' exp  (38)
+	exp : exp . EQ exp  (39)
+	exp : exp . NOT_EQ exp  (40)
+	exp : exp . '>' exp  (41)
+	exp : exp . '<' exp  (42)
+	exp : exp . L_EQ exp  (43)
+	exp : exp L_EQ exp .  (43)
+	exp : exp . G_EQ exp  (44)
+	exp : exp . AND exp  (45)
+	exp : exp . OR exp  (46)
+	exp : exp . '!' exp  (47)
+	exp : exp . '[' exp ']'  (49)
+	exp : exp . '.' ID  (50)
+
+	'+'  shift 46
+	'-'  shift 47
+	'*'  shift 48
+	'/'  shift 49
+	'%'  shift 50
+	'['  shift 51
+	'.'  shift 52
+	EQ  reduce 43
+	OR  reduce 43
+	AND  reduce 43
+	NOT_EQ  reduce 43
+	G_EQ  reduce 43
+	L_EQ  reduce 43
+	'='  reduce 43
+	'!'  reduce 43
+	'>'  reduce 43
+	'<'  reduce 43
+	']'  reduce 43
+	')'  reduce 43
+	','  reduce 43
+	';'  reduce 43
+
+
+state 70
+	statement : exp '=' exp . ';'  (28)
+	exp : exp . '+' exp  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp . '/' exp  (36)
+	exp : exp . '-' exp  (37)
+	exp : exp . '%' exp  (38)
+	exp : exp . EQ exp  (39)
+	exp : exp . NOT_EQ exp  (40)
+	exp : exp . '>' exp  (41)
+	exp : exp . '<' exp  (42)
+	exp : exp . L_EQ exp  (43)
+	exp : exp . G_EQ exp  (44)
+	exp : exp . AND exp  (45)
+	exp : exp . OR exp  (46)
+	exp : exp . '!' exp  (47)
+	exp : exp . '[' exp ']'  (49)
+	exp : exp . '.' ID  (50)
+
+	EQ  shift 36
+	OR  shift 37
+	AND  shift 38
+	NOT_EQ  shift 39
+	G_EQ  shift 40
+	L_EQ  shift 41
+	'!'  shift 43
+	'>'  shift 44
+	'<'  shift 45
+	'+'  shift 46
+	'-'  shift 47
+	'*'  shift 48
+	'/'  shift 49
+	'%'  shift 50
+	'['  shift 51
+	'.'  shift 52
+	';'  shift 90
+	.  error
+
+
+state 71
+	exp : exp . '+' exp  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp . '/' exp  (36)
+	exp : exp . '-' exp  (37)
+	exp : exp . '%' exp  (38)
+	exp : exp . EQ exp  (39)
+	exp : exp . NOT_EQ exp  (40)
+	exp : exp . '>' exp  (41)
+	exp : exp . '<' exp  (42)
+	exp : exp . L_EQ exp  (43)
+	exp : exp . G_EQ exp  (44)
+	exp : exp . AND exp  (45)
+	exp : exp . OR exp  (46)
+	exp : exp . '!' exp  (47)
+	exp : exp '!' exp .  (47)
+	exp : exp . '[' exp ']'  (49)
+	exp : exp . '.' ID  (50)
+
+	EQ  shift 36
+	NOT_EQ  shift 39
+	G_EQ  shift 40
+	L_EQ  shift 41
+	'>'  shift 44
+	'<'  shift 45
+	'+'  shift 46
+	'-'  shift 47
+	'*'  shift 48
+	'/'  shift 49
+	'%'  shift 50
+	'['  shift 51
+	'.'  shift 52
+	OR  reduce 47
+	AND  reduce 47
+	'='  reduce 47
+	'!'  reduce 47
+	']'  reduce 47
+	')'  reduce 47
+	','  reduce 47
+	';'  reduce 47
+
+
+state 72
+	exp : exp . '+' exp  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp . '/' exp  (36)
+	exp : exp . '-' exp  (37)
+	exp : exp . '%' exp  (38)
+	exp : exp . EQ exp  (39)
+	exp : exp . NOT_EQ exp  (40)
+	exp : exp . '>' exp  (41)
+	exp : exp '>' exp .  (41)
+	exp : exp . '<' exp  (42)
+	exp : exp . L_EQ exp  (43)
+	exp : exp . G_EQ exp  (44)
+	exp : exp . AND exp  (45)
+	exp : exp . OR exp  (46)
+	exp : exp . '!' exp  (47)
+	exp : exp . '[' exp ']'  (49)
+	exp : exp . '.' ID  (50)
+
+	'+'  shift 46
+	'-'  shift 47
+	'*'  shift 48
+	'/'  shift 49
+	'%'  shift 50
+	'['  shift 51
+	'.'  shift 52
+	EQ  reduce 41
+	OR  reduce 41
+	AND  reduce 41
+	NOT_EQ  reduce 41
+	G_EQ  reduce 41
+	L_EQ  reduce 41
+	'='  reduce 41
+	'!'  reduce 41
+	'>'  reduce 41
+	'<'  reduce 41
+	']'  reduce 41
+	')'  reduce 41
+	','  reduce 41
+	';'  reduce 41
+
+
+state 73
+	exp : exp . '+' exp  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp . '/' exp  (36)
+	exp : exp . '-' exp  (37)
+	exp : exp . '%' exp  (38)
+	exp : exp . EQ exp  (39)
+	exp : exp . NOT_EQ exp  (40)
+	exp : exp . '>' exp  (41)
+	exp : exp . '<' exp  (42)
+	exp : exp '<' exp .  (42)
+	exp : exp . L_EQ exp  (43)
+	exp : exp . G_EQ exp  (44)
+	exp : exp . AND exp  (45)
+	exp : exp . OR exp  (46)
+	exp : exp . '!' exp  (47)
+	exp : exp . '[' exp ']'  (49)
+	exp : exp . '.' ID  (50)
+
+	'+'  shift 46
+	'-'  shift 47
+	'*'  shift 48
+	'/'  shift 49
+	'%'  shift 50
+	'['  shift 51
+	'.'  shift 52
+	EQ  reduce 42
+	OR  reduce 42
+	AND  reduce 42
+	NOT_EQ  reduce 42
+	G_EQ  reduce 42
+	L_EQ  reduce 42
+	'='  reduce 42
+	'!'  reduce 42
+	'>'  reduce 42
+	'<'  reduce 42
+	']'  reduce 42
+	')'  reduce 42
+	','  reduce 42
+	';'  reduce 42
+
+
+state 74
+	exp : exp . '+' exp  (34)
+	exp : exp '+' exp .  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp . '/' exp  (36)
+	exp : exp . '-' exp  (37)
+	exp : exp . '%' exp  (38)
+	exp : exp . EQ exp  (39)
+	exp : exp . NOT_EQ exp  (40)
+	exp : exp . '>' exp  (41)
+	exp : exp . '<' exp  (42)
+	exp : exp . L_EQ exp  (43)
+	exp : exp . G_EQ exp  (44)
+	exp : exp . AND exp  (45)
+	exp : exp . OR exp  (46)
+	exp : exp . '!' exp  (47)
+	exp : exp . '[' exp ']'  (49)
+	exp : exp . '.' ID  (50)
+
+	'*'  shift 48
+	'/'  shift 49
+	'%'  shift 50
+	'['  shift 51
+	'.'  shift 52
+	EQ  reduce 34
+	OR  reduce 34
+	AND  reduce 34
+	NOT_EQ  reduce 34
+	G_EQ  reduce 34
+	L_EQ  reduce 34
+	'='  reduce 34
+	'!'  reduce 34
+	'>'  reduce 34
+	'<'  reduce 34
+	'+'  reduce 34
+	'-'  reduce 34
+	']'  reduce 34
+	')'  reduce 34
+	','  reduce 34
+	';'  reduce 34
+
+
+state 75
+	exp : exp . '+' exp  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp . '/' exp  (36)
+	exp : exp . '-' exp  (37)
+	exp : exp '-' exp .  (37)
+	exp : exp . '%' exp  (38)
+	exp : exp . EQ exp  (39)
+	exp : exp . NOT_EQ exp  (40)
+	exp : exp . '>' exp  (41)
+	exp : exp . '<' exp  (42)
+	exp : exp . L_EQ exp  (43)
+	exp : exp . G_EQ exp  (44)
+	exp : exp . AND exp  (45)
+	exp : exp . OR exp  (46)
+	exp : exp . '!' exp  (47)
+	exp : exp . '[' exp ']'  (49)
+	exp : exp . '.' ID  (50)
+
+	'*'  shift 48
+	'/'  shift 49
+	'%'  shift 50
+	'['  shift 51
+	'.'  shift 52
+	EQ  reduce 37
+	OR  reduce 37
+	AND  reduce 37
+	NOT_EQ  reduce 37
+	G_EQ  reduce 37
+	L_EQ  reduce 37
+	'='  reduce 37
+	'!'  reduce 37
+	'>'  reduce 37
+	'<'  reduce 37
+	'+'  reduce 37
+	'-'  reduce 37
+	']'  reduce 37
+	')'  reduce 37
+	','  reduce 37
+	';'  reduce 37
+
+
+state 76
+	exp : exp . '+' exp  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp '*' exp .  (35)
+	exp : exp . '/' exp  (36)
+	exp : exp . '-' exp  (37)
+	exp : exp . '%' exp  (38)
+	exp : exp . EQ exp  (39)
+	exp : exp . NOT_EQ exp  (40)
+	exp : exp . '>' exp  (41)
+	exp : exp . '<' exp  (42)
+	exp : exp . L_EQ exp  (43)
+	exp : exp . G_EQ exp  (44)
+	exp : exp . AND exp  (45)
+	exp : exp . OR exp  (46)
+	exp : exp . '!' exp  (47)
+	exp : exp . '[' exp ']'  (49)
+	exp : exp . '.' ID  (50)
+
+	'['  shift 51
+	'.'  shift 52
+	EQ  reduce 35
+	OR  reduce 35
+	AND  reduce 35
+	NOT_EQ  reduce 35
+	G_EQ  reduce 35
+	L_EQ  reduce 35
+	'='  reduce 35
+	'!'  reduce 35
+	'>'  reduce 35
+	'<'  reduce 35
+	'+'  reduce 35
+	'-'  reduce 35
+	'*'  reduce 35
+	'/'  reduce 35
+	'%'  reduce 35
+	']'  reduce 35
+	')'  reduce 35
+	','  reduce 35
+	';'  reduce 35
+
+
+state 77
+	exp : exp . '+' exp  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp . '/' exp  (36)
+	exp : exp '/' exp .  (36)
+	exp : exp . '-' exp  (37)
+	exp : exp . '%' exp  (38)
+	exp : exp . EQ exp  (39)
+	exp : exp . NOT_EQ exp  (40)
+	exp : exp . '>' exp  (41)
+	exp : exp . '<' exp  (42)
+	exp : exp . L_EQ exp  (43)
+	exp : exp . G_EQ exp  (44)
+	exp : exp . AND exp  (45)
+	exp : exp . OR exp  (46)
+	exp : exp . '!' exp  (47)
+	exp : exp . '[' exp ']'  (49)
+	exp : exp . '.' ID  (50)
+
+	'['  shift 51
+	'.'  shift 52
+	EQ  reduce 36
+	OR  reduce 36
+	AND  reduce 36
+	NOT_EQ  reduce 36
+	G_EQ  reduce 36
+	L_EQ  reduce 36
+	'='  reduce 36
+	'!'  reduce 36
+	'>'  reduce 36
+	'<'  reduce 36
+	'+'  reduce 36
+	'-'  reduce 36
+	'*'  reduce 36
+	'/'  reduce 36
+	'%'  reduce 36
+	']'  reduce 36
+	')'  reduce 36
+	','  reduce 36
+	';'  reduce 36
+
+
+state 78
+	exp : exp . '+' exp  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp . '/' exp  (36)
+	exp : exp . '-' exp  (37)
+	exp : exp . '%' exp  (38)
+	exp : exp '%' exp .  (38)
+	exp : exp . EQ exp  (39)
+	exp : exp . NOT_EQ exp  (40)
+	exp : exp . '>' exp  (41)
+	exp : exp . '<' exp  (42)
+	exp : exp . L_EQ exp  (43)
+	exp : exp . G_EQ exp  (44)
+	exp : exp . AND exp  (45)
+	exp : exp . OR exp  (46)
+	exp : exp . '!' exp  (47)
+	exp : exp . '[' exp ']'  (49)
+	exp : exp . '.' ID  (50)
+
+	'['  shift 51
+	'.'  shift 52
+	EQ  reduce 38
+	OR  reduce 38
+	AND  reduce 38
+	NOT_EQ  reduce 38
+	G_EQ  reduce 38
+	L_EQ  reduce 38
+	'='  reduce 38
+	'!'  reduce 38
+	'>'  reduce 38
+	'<'  reduce 38
+	'+'  reduce 38
+	'-'  reduce 38
+	'*'  reduce 38
+	'/'  reduce 38
+	'%'  reduce 38
+	']'  reduce 38
+	')'  reduce 38
+	','  reduce 38
+	';'  reduce 38
+
+
+state 79
+	exp : exp . '+' exp  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp . '/' exp  (36)
+	exp : exp . '-' exp  (37)
+	exp : exp . '%' exp  (38)
+	exp : exp . EQ exp  (39)
+	exp : exp . NOT_EQ exp  (40)
+	exp : exp . '>' exp  (41)
+	exp : exp . '<' exp  (42)
+	exp : exp . L_EQ exp  (43)
+	exp : exp . G_EQ exp  (44)
+	exp : exp . AND exp  (45)
+	exp : exp . OR exp  (46)
+	exp : exp . '!' exp  (47)
+	exp : exp . '[' exp ']'  (49)
+	exp : exp '[' exp . ']'  (49)
+	exp : exp . '.' ID  (50)
+
+	EQ  shift 36
+	OR  shift 37
+	AND  shift 38
+	NOT_EQ  shift 39
+	G_EQ  shift 40
+	L_EQ  shift 41
+	'!'  shift 43
+	'>'  shift 44
+	'<'  shift 45
+	'+'  shift 46
+	'-'  shift 47
+	'*'  shift 48
+	'/'  shift 49
+	'%'  shift 50
+	'['  shift 51
+	']'  shift 91
+	'.'  shift 52
+	.  error
+
+
+state 80
+	exp : exp '.' ID .  (50)
+
+	.  reduce 50
+
+
+state 81
+	statement : RETURN '(' exp ')' . ';'  (22)
+
+	';'  shift 92
+	.  error
+
+
+state 82
+	list_exp : list_exp ',' . exp  (32)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	ID  shift 29
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	exp  goto 93
+
+
+state 83
+	statement : ID '(' opt_list_exp ')' . ';'  (29)
+	exp : ID '(' opt_list_exp ')' .  (51)
+
+	';'  shift 94
+	EQ  reduce 51
+	OR  reduce 51
+	AND  reduce 51
+	NOT_EQ  reduce 51
+	G_EQ  reduce 51
+	L_EQ  reduce 51
+	'='  reduce 51
+	'!'  reduce 51
+	'>'  reduce 51
+	'<'  reduce 51
+	'+'  reduce 51
+	'-'  reduce 51
+	'*'  reduce 51
+	'/'  reduce 51
+	'%'  reduce 51
+	'['  reduce 51
+	'.'  reduce 51
+
+
+state 84
+	statement : WRITE '(' list_exp ')' . ';'  (24)
+
+	';'  shift 95
+	.  error
+
+
+state 85
+	statement : IF '(' exp ')' . '{' opt_statements '}'  (25)
+	statement : IF '(' exp ')' . '{' opt_statements '}' ELSE '{' opt_statements '}'  (26)
+
+	'{'  shift 96
+	.  error
+
+
+state 86
+	statement : READ '(' list_exp ')' . ';'  (23)
+
+	';'  shift 97
+	.  error
+
+
+state 87
+	statement : WHILE '(' exp ')' . '{' opt_statements '}'  (27)
+
+	'{'  shift 98
+	.  error
+
+
+state 88
+	exp : ID '(' opt_list_exp . ')'  (51)
+
+	')'  shift 99
+	.  error
+
+
+state 89
+	exp : exp . '+' exp  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp . '/' exp  (36)
+	exp : exp . '-' exp  (37)
+	exp : exp . '%' exp  (38)
+	exp : exp . EQ exp  (39)
+	exp : exp . NOT_EQ exp  (40)
+	exp : exp . '>' exp  (41)
+	exp : exp . '<' exp  (42)
+	exp : exp . L_EQ exp  (43)
+	exp : exp . G_EQ exp  (44)
+	exp : exp . AND exp  (45)
+	exp : exp . OR exp  (46)
+	exp : exp . '!' exp  (47)
+	exp : '(' p_type ')' exp .  (48)
+	exp : exp . '[' exp ']'  (49)
+	exp : exp . '.' ID  (50)
+
+	.  reduce 48
+
+
+state 90
+	statement : exp '=' exp ';' .  (28)
+
+	.  reduce 28
+
+
+state 91
+	exp : exp '[' exp ']' .  (49)
+
+	.  reduce 49
+
+
+state 92
+	statement : RETURN '(' exp ')' ';' .  (22)
+
+	.  reduce 22
+
+
+state 93
+	list_exp : list_exp ',' exp .  (32)
+	exp : exp . '+' exp  (34)
+	exp : exp . '*' exp  (35)
+	exp : exp . '/' exp  (36)
+	exp : exp . '-' exp  (37)
+	exp : exp . '%' exp  (38)
+	exp : exp . EQ exp  (39)
+	exp : exp . NOT_EQ exp  (40)
+	exp : exp . '>' exp  (41)
+	exp : exp . '<' exp  (42)
+	exp : exp . L_EQ exp  (43)
+	exp : exp . G_EQ exp  (44)
+	exp : exp . AND exp  (45)
+	exp : exp . OR exp  (46)
+	exp : exp . '!' exp  (47)
+	exp : exp . '[' exp ']'  (49)
+	exp : exp . '.' ID  (50)
+
+	EQ  shift 36
+	OR  shift 37
+	AND  shift 38
+	NOT_EQ  shift 39
+	G_EQ  shift 40
+	L_EQ  shift 41
+	'!'  shift 43
+	'>'  shift 44
+	'<'  shift 45
+	'+'  shift 46
+	'-'  shift 47
+	'*'  shift 48
+	'/'  shift 49
+	'%'  shift 50
+	'['  shift 51
+	'.'  shift 52
+	')'  reduce 32
+	','  reduce 32
+
+
+state 94
+	statement : ID '(' opt_list_exp ')' ';' .  (29)
+
+	.  reduce 29
+
+
+state 95
+	statement : WRITE '(' list_exp ')' ';' .  (24)
+
+	.  reduce 24
+
+
+state 96
+	statement : IF '(' exp ')' '{' . opt_statements '}'  (25)
+	statement : IF '(' exp ')' '{' . opt_statements '}' ELSE '{' opt_statements '}'  (26)
+	opt_statements : .  (20)
+
+	.  reduce 20
+
+	opt_statements  goto 100
+
+
+state 97
+	statement : READ '(' list_exp ')' ';' .  (23)
+
+	.  reduce 23
+
+
+state 98
+	statement : WHILE '(' exp ')' '{' . opt_statements '}'  (27)
+	opt_statements : .  (20)
+
+	.  reduce 20
+
+	opt_statements  goto 101
+
+
+state 99
+	exp : ID '(' opt_list_exp ')' .  (51)
+
+	.  reduce 51
+
+
+state 100
+	opt_statements : opt_statements . statement  (21)
+	statement : IF '(' exp ')' '{' opt_statements . '}'  (25)
+	statement : IF '(' exp ')' '{' opt_statements . '}' ELSE '{' opt_statements '}'  (26)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	RETURN  shift 11
+	ID  shift 12
+	WRITE  shift 13
+	IF  shift 14
+	READ  shift 15
+	WHILE  shift 16
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	'}'  shift 102
+	.  error
+
+	statement  goto 21
+	exp  goto 22
+
+
+state 101
+	opt_statements : opt_statements . statement  (21)
+	statement : WHILE '(' exp ')' '{' opt_statements . '}'  (27)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	RETURN  shift 11
+	ID  shift 12
+	WRITE  shift 13
+	IF  shift 14
+	READ  shift 15
+	WHILE  shift 16
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	'}'  shift 103
+	.  error
+
+	statement  goto 21
+	exp  goto 22
+
+
+state 102
+	statement : IF '(' exp ')' '{' opt_statements '}' .  (25)
+	statement : IF '(' exp ')' '{' opt_statements '}' . ELSE '{' opt_statements '}'  (26)
+
+	ELSE  shift 104
+	INT_CONSTANT  reduce 25
+	REAL_CONSTANT  reduce 25
+	RETURN  reduce 25
+	ID  reduce 25
+	WRITE  reduce 25
+	IF  reduce 25
+	READ  reduce 25
+	WHILE  reduce 25
+	CHAR_CONSTANT  reduce 25
+	'-'  reduce 25
+	'('  reduce 25
+	'}'  reduce 25
+
+
+state 103
+	statement : WHILE '(' exp ')' '{' opt_statements '}' .  (27)
+
+	.  reduce 27
+
+
+state 104
+	statement : IF '(' exp ')' '{' opt_statements '}' ELSE . '{' opt_statements '}'  (26)
+
+	'{'  shift 105
+	.  error
+
+
+state 105
+	statement : IF '(' exp ')' '{' opt_statements '}' ELSE '{' . opt_statements '}'  (26)
+	opt_statements : .  (20)
+
+	.  reduce 20
+
+	opt_statements  goto 106
+
+
+state 106
+	opt_statements : opt_statements . statement  (21)
+	statement : IF '(' exp ')' '{' opt_statements '}' ELSE '{' opt_statements . '}'  (26)
+
+	INT_CONSTANT  shift 9
+	REAL_CONSTANT  shift 10
+	RETURN  shift 11
+	ID  shift 12
+	WRITE  shift 13
+	IF  shift 14
+	READ  shift 15
+	WHILE  shift 16
+	CHAR_CONSTANT  shift 17
+	'-'  shift 18
+	'('  shift 19
+	'}'  shift 107
+	.  error
+
+	statement  goto 21
+	exp  goto 22
+
+
+state 107
+	statement : IF '(' exp ')' '{' opt_statements '}' ELSE '{' opt_statements '}' .  (26)
+
+	.  reduce 26
+
+
+Rules never reduced:
+	func : ID p_type '(' opt_list_param ')' '{' opt_list_var opt_statements '}'  (2)
+	func : ID VOID '(' opt_list_param ')' '{' opt_list_var opt_statements '}'  (3)
+	opt_list_func : opt_list_func func  (4)
+	opt_list_func :  (5)
+	param : p_type ID  (6)
+	list_param : list_param ',' param  (7)
+	list_param : param  (8)
+	opt_list_param : list_param  (9)
+	opt_list_param :  (10)
+	vector : vector '[' INT_CONSTANT ']'  (14)
+	vector : '[' INT_CONSTANT ']'  (15)
+	ident : ID  (16)
+	ident : vector ID  (17)
+	list_ident : list_ident ',' ident  (18)
+	list_ident : ident  (19)
+
+
+45 terminals, 16 nonterminals
+58 grammar rules, 108 states
