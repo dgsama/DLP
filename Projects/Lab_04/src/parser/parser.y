@@ -48,15 +48,43 @@ CHAR_CONSTANT
 
 %%
 // * Actions
-main:	VOID MAIN '(' ')' '{' opt_list_var opt_statements '}'
+program:	opt_def_glob_var main
+			;
 
-func:	ID p_type '(' opt_list_param ')' '{' opt_list_var opt_statements '}'
-		|ID VOID '(' opt_list_param ')' '{' opt_list_var opt_statements '}'
+glob_def:	var_def
+			|struct_def
+			|func_def
+			;
+
+opt_def_glob_var:	opt_def_glob_var glob_def
+					|/**EMPTY**/
+					;
+
+var_def:	p_type list_ident ';'
+			| array list_ident ';'
+			;
+			
+
+local_var_def:	var_def
+				| struct_def
+				;
+
+opt_list_local_var:	opt_list_local_var local_var_def
+					;
+
+opt_list_fields:	opt_list_fields type list_ident ';'
+					;
+
+struct_def:		STRUCT '{' opt_list_fields '}' list_ident ';'
+				;
+
+main:	VOID MAIN '(' ')' '{' opt_list_local_var opt_statements '}'
 		;
 
-opt_list_func:	opt_list_func func
-				|/**EMPTY**/
-				;
+func_def:	ID p_type '(' opt_list_param ')' '{' opt_list_local_var opt_statements '}'
+		|ID VOID '(' opt_list_param ')' '{' opt_list_local_var opt_statements '}'
+		;
+
 
 param:	p_type ID
 		;
@@ -74,31 +102,34 @@ p_type:	INT
 		|CHAR
 		;
 
-vector:	vector '[' INT_CONSTANT ']'
-		| '[' INT_CONSTANT ']'
+array:	type '[' INT_CONSTANT ']'
+		;
+		
+type:	p_type
+		|array
 		;
 
-ident: 	ID
-		|vector ID
-		;
-
-list_ident:		list_ident ',' ident
-				|ident
+list_ident:		list_ident ',' ID
+				|ID
 				;
 
 opt_statements:	/**EMPTY**/
 					|opt_statements statement
+				;
 
 statement:		RETURN '(' exp ')' ';' 
 				| READ '(' list_exp ')' ';'
 				| WRITE '(' list_exp ')' ';'
 				| IF '(' exp ')' '{' opt_statements '}'
 				| IF '(' exp ')' '{' opt_statements '}' ELSE '{' opt_statements '}'
-				| WHILE '(' exp ')' '{' opt_statements '}'
+				|while
 				| exp '=' exp ';'
 				| ID '(' opt_list_exp ')' ';'
 				;
-
+				
+while:	WHILE '(' exp ')' '{' opt_statements '}'
+		|WHILE '(' exp ')' statement
+		
 opt_list_exp:	/**EMPTY**/
 				|list_exp
 				;

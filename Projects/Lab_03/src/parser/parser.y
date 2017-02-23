@@ -48,15 +48,45 @@ CHAR_CONSTANT
 
 %%
 // * Actions
-main:	VOID MAIN '(' ')' '{' opt_list_var opt_statements '}'
+program:	opt_def_glob_var main
+			;
 
-func:	ID p_type '(' opt_list_param ')' '{' opt_list_var opt_statements '}'
-		|ID VOID '(' opt_list_param ')' '{' opt_list_var opt_statements '}'
+glob_def:	var_def
+			|struct_def
+			|func_def
+			;
+
+opt_def_glob_var:	opt_def_glob_var glob_def
+					|/**EMPTY**/
+					;
+
+var_def:	p_type list_ident ';'
+			| array list_ident ';'
+			;
+			
+
+local_var_def:	var_def
+				| struct_def
+				;
+
+opt_list_local_var:	opt_list_local_var local_var_def
+					|/**EMPTY**/
+					;
+
+opt_list_fields:	opt_list_fields type list_ident ';'
+					|/**EMPTY**/
+					;
+
+struct_def:		STRUCT '{' opt_list_fields '}' list_ident ';'
+				;
+
+main:	VOID MAIN '(' ')' '{' opt_list_local_var opt_statements '}'
 		;
 
-opt_list_func:	opt_list_func func
-				|/**EMPTY**/
-				;
+func_def:	p_type ID '(' opt_list_param ')' '{' opt_list_local_var opt_statements '}'
+		| VOID ID '(' opt_list_param ')' '{' opt_list_local_var opt_statements '}'
+		;
+
 
 param:	p_type ID
 		;
@@ -74,46 +104,50 @@ p_type:	INT
 		|CHAR
 		;
 
-vector:	vector '[' INT_CONSTANT ']'
-		| '[' INT_CONSTANT ']'
+array:	type '[' INT_CONSTANT ']'
+		;
+		
+type:	p_type
+		|array
 		;
 
-ident: 	ID
-		|vector ID
-		;
-
-list_ident:		list_ident ',' ident
-				|ident
+list_ident:		list_ident ',' ID
+				|ID
 				;
 
-opt_statements:	/**EMPTY**/
-					|opt_statements statement
+opt_statements:	opt_statements statement
+				|/**EMPTY**/
+				;
 
-statement:	RETURN '(' exp ')' ';' 
+statement:		RETURN exp ';' 
 				| READ '(' list_exp ')' ';'
-				| WRITE '(' list_exp ')' ';'
-				| IF '(' exp ')' '{' opt_statements '}'
-				| IF '(' exp ')' '{' opt_statements '}' ELSE '{' opt_statements '}'
-				| WHILE '(' exp ')' '{' opt_statements '}'
+				| WRITE list_exp ';'
+				| IF '(' exp ')' '{' opt_list_local_var opt_statements '}'
+				| IF '(' exp ')' '{' opt_list_local_var opt_statements '}' ELSE '{' opt_list_local_var opt_statements '}'
+				| while
 				| exp '=' exp ';'
 				| ID '(' opt_list_exp ')' ';'
 				;
-
+				
+while:	WHILE '(' exp ')' '{' opt_list_local_var opt_statements '}'
+		| WHILE '(' exp ')' statement
+		;
+		
 opt_list_exp:	/**EMPTY**/
 				|list_exp
 				;
 
-list_exp:	list_exp ',' exp
-			| exp
-			;
-
-exp:	exp '+' exp
-		| exp '*' exp
-		| exp '/' exp
-		|	exp '-' exp
-		| exp '%' exp
-		| exp EQ exp
-		| exp NOT_EQ exp
+list_exp:	list_exp ',' exp                      
+			| exp                                 
+			;                                     
+ 
+exp:	exp '+' exp                               
+		| exp '*' exp                             
+		| exp '/' exp                             
+		| exp '-' exp                             
+		| exp '%' exp                             
+		| exp EQ exp                              
+		| exp NOT_EQ exp                          
 		| exp '>' exp
 		| exp '<' exp
 		| exp L_EQ exp
@@ -127,8 +161,8 @@ exp:	exp '+' exp
 		| ID '(' opt_list_exp ')'
 		| '-' exp					%prec UNARY_MINUS
 		| '(' exp ')'
-		|	INT_CONSTANT
-		|	ID
+		| INT_CONSTANT
+		| ID
 		| CHAR_CONSTANT
 		| REAL_CONSTANT		  
 		;

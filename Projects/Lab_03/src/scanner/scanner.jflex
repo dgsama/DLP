@@ -115,21 +115,22 @@ return	{this.yylval = yytext();	return Parser.RETURN;}
 void	{this.yylval = yytext();	return Parser.VOID;}
 main	{this.yylval = yytext();	return Parser.MAIN;}
 
-// * Char constant
-{CHAR_CONSTANT}		{this.yylval = convertToChar(yytext());
-				return Parser.CHAR_CONSTANT;}
 
 // * OPERATORS
 {OPERATOR}		{this.yylval = yytext();
 					return (int)yytext().charAt(0);}
+					
+// * IDs
+{IDENTS}		{this.yylval = yytext();
+				return Parser.ID;}
+
+// * Char constant
+{CHAR_CONSTANT}		{this.yylval = convertToChar(yytext());
+				return Parser.CHAR_CONSTANT;}
 
 // * Separators
 {SEPARATORS}		{this.yylval = yytext();
 						return (int)yytext().charAt(0);}
-
-// * IDs
-{IDENTS}		{this.yylval = yytext();
-				return Parser.ID;}
 // * Real Constants
 {REAL_CONSTANT}		{this.yylval = new Double(yytext());
 				return Parser.REAL_CONSTANT;}
