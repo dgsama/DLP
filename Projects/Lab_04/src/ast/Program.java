@@ -2,12 +2,14 @@ package ast;
 
 import java.util.List;
 
-public class Program {
+import ast.definition.Definition;
+
+public class Program extends AbstractASTNode{
 
 	private List<Definition> definitions;
 
-	public Program(List<Definition> definitions) {
-		super();
+	public Program(int line, int column, List<Definition> definitions) {
+		super(line, column);
 		this.definitions = definitions;
 	}
 
@@ -15,13 +17,5 @@ public class Program {
 		return definitions;
 	}
 
-	public void setDefinitions(List<Definition> definitions) {
-		this.definitions = definitions;
-	}
-
-	@Override
-	public String toString() {
-		return "Program [definitions=" + definitions + "]";
-	}
 
 }

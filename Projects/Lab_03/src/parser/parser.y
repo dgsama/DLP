@@ -140,7 +140,8 @@ if_else:	IF '(' exp ')' '{' statements '}'	ELSE '{' statements '}'
 			|IF '(' exp ')' statement ELSE '{' statements '}'
 			|IF '(' exp ')' statement ELSE statement
 			|IF '(' exp ')' '{' statements '}' %prec LESSTHANELSE
-			IF '(' exp ')' statement %prec LESSTHANELSE
+			|IF '(' exp ')' statement %prec LESSTHANELSE
+			;
 
 opt_list_exp:	/**EMPTY**/
 				|list_exp

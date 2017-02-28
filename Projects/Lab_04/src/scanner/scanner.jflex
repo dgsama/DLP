@@ -78,7 +78,7 @@ COMMENT_MULTILINE = "/*" ~ "*/"
 OPERATOR = [+\-*%/\[\]\.<>=!\^\(\)]
 SEPARATORS = [{};,]
 EXPONENT = [eE](\-|"+")?{INT_CONSTANT}
-REAL_CONSTANT=({INT_CONSTANT}{EXPONENT}?\.)|(\.{INT_CONSTANT}{EXPONENT}?)|({INT_CONSTANT}\.{INT_CONSTANT}{EXPONENT}?)
+REAL_CONSTANT=({INT_CONSTANT}{EXPONENT}?(\.)?)|(\.{INT_CONSTANT}{EXPONENT}?)|({INT_CONSTANT}\.{INT_CONSTANT}{EXPONENT}?)
 CHAR_CONSTANT =\'(\\{ASCII}|.|\\n|\\t)\'
 BLANKS = (\t|\n|" "|\r)
 
@@ -131,13 +131,13 @@ main	{return Parser.MAIN;}
 // * Separators
 {SEPARATORS}		{this.yylval = yytext();
 						return (int)yytext().charAt(0);}
+						// * Integer constant
+{INT_CONSTANT}		{this.yylval = new Integer(yytext());
+         			  return Parser.INT_CONSTANT;}
+         			  
 // * Real Constants
 {REAL_CONSTANT}		{this.yylval = new Double(yytext());
 				return Parser.REAL_CONSTANT;}
-
-// * Integer constant
-{INT_CONSTANT}		{this.yylval = new Integer(yytext());
-         			  return Parser.INT_CONSTANT;}
 
 // * DO NOTHING
 {BLANKS}		{}

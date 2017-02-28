@@ -104,7 +104,7 @@ BLANKS = (\t|\n|" "|\r)
 
 read	{this.yylval = yytext();	return Parser.READ;}
 write	{this.yylval = yytext();	return Parser.WRITE;}
-While	{this.yylval = yytext();	return Parser.WHILE;}
+while	{this.yylval = yytext();	return Parser.WHILE;}
 if		{this.yylval = yytext();	return Parser.IF;}
 else	{this.yylval = yytext();	return Parser.ELSE;}
 int		{this.yylval = yytext();	return Parser.INT;}	
