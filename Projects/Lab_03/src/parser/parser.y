@@ -39,9 +39,12 @@ CHAR_CONSTANT
 %left L_EQ G_EQ '>' '<'
 %left '+' '-'
 %left '*' '/' '%'
+%nonassoc LESSTHANELSE
+%nonassoc ELSE
 %right UNARY_MINUS
 %nonassoc '[' ']'
 %left '.'
+%nonassoc '{' '}'
 %nonassoc '(' ')'
 
 
@@ -80,11 +83,11 @@ opt_list_fields:	opt_list_fields type list_ident ';'
 struct_def:		STRUCT '{' opt_list_fields '}' list_ident ';'
 				;
 
-main:	VOID MAIN '(' ')' '{' opt_list_local_var opt_statements '}'
+main:	VOID MAIN '(' ')' '{' opt_list_local_var statements '}'
 		;
 
-func_def:	p_type ID '(' opt_list_param ')' '{' opt_list_local_var opt_statements '}'
-		| VOID ID '(' opt_list_param ')' '{' opt_list_local_var opt_statements '}'
+func_def:	p_type ID '(' opt_list_param ')' '{' opt_list_local_var statements '}'
+		| VOID ID '(' opt_list_param ')' '{' opt_list_local_var statements '}'
 		;
 
 
@@ -115,24 +118,30 @@ list_ident:		list_ident ',' ID
 				|ID
 				;
 
-opt_statements:	opt_statements statement
+statements:	statements statement
 				|/**EMPTY**/
 				;
 
 statement:		RETURN exp ';' 
 				| READ '(' list_exp ')' ';'
 				| WRITE list_exp ';'
-				| IF '(' exp ')' '{' opt_list_local_var opt_statements '}'
-				| IF '(' exp ')' '{' opt_list_local_var opt_statements '}' ELSE '{' opt_list_local_var opt_statements '}'
+				| if_else
 				| while
 				| exp '=' exp ';'
 				| ID '(' opt_list_exp ')' ';'
 				;
 				
-while:	WHILE '(' exp ')' '{' opt_list_local_var opt_statements '}'
-		| WHILE '(' exp ')' statement
+while:	WHILE '(' exp ')' '{' statements '}'
+		|WHILE '(' exp ')' statement		
 		;
 		
+if_else:	IF '(' exp ')' '{' statements '}'	ELSE '{' statements '}'
+			|IF '(' exp ')' '{' statements '}'	ELSE statement
+			|IF '(' exp ')' statement ELSE '{' statements '}'
+			|IF '(' exp ')' statement ELSE statement
+			|IF '(' exp ')' '{' statements '}' %prec LESSTHANELSE
+			IF '(' exp ')' statement %prec LESSTHANELSE
+
 opt_list_exp:	/**EMPTY**/
 				|list_exp
 				;
@@ -161,6 +170,7 @@ exp:	exp '+' exp
 		| ID '(' opt_list_exp ')'
 		| '-' exp					%prec UNARY_MINUS
 		| '(' exp ')'
+		| '!' exp
 		| INT_CONSTANT
 		| ID
 		| CHAR_CONSTANT

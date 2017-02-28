@@ -91,45 +91,46 @@ BLANKS = (\t|\n|" "|\r)
 
 // * DOUBLE OPERATORS
 
-"**"	{this.yylval = yytext();	return Parser.POW;}
-"=="	{this.yylval = yytext();	return Parser.EQ;}
-"<="	{this.yylval = yytext();	return Parser.L_EQ;}
-">="	{this.yylval = yytext();	return Parser.G_EQ;}
-"!="	{this.yylval = yytext();	return Parser.NOT_EQ;}
-"&&"	{this.yylval = yytext();	return Parser.AND;}
-"||"	{this.yylval = yytext();	return Parser.OR;}
+"**"	{return Parser.POW;}
+"=="	{return Parser.EQ;}
+"<="	{return Parser.L_EQ;}
+">="	{return Parser.G_EQ;}
+"!="	{return Parser.NOT_EQ;}
+"&&"	{return Parser.AND;}
+"||"	{return Parser.OR;}
 
 
 // * KEYWORDS
 
-read	{this.yylval = yytext();	return Parser.READ;}
-write	{this.yylval = yytext();	return Parser.WRITE;}
-While	{this.yylval = yytext();	return Parser.WHILE;}
-if		{this.yylval = yytext();	return Parser.IF;}
-else	{this.yylval = yytext();	return Parser.ELSE;}
-int		{this.yylval = yytext();	return Parser.INT;}	
-double	{this.yylval = yytext();	return Parser.DOUBLE;}
-char	{this.yylval = yytext();	return Parser.CHAR;}
-struct	{this.yylval = yytext();	return Parser.STRUCT;}
-return	{this.yylval = yytext();	return Parser.RETURN;}
-void	{this.yylval = yytext();	return Parser.VOID;}
-main	{this.yylval = yytext();	return Parser.MAIN;}
+read	{return Parser.READ;}
+write	{return Parser.WRITE;}
+while	{return Parser.WHILE;}
+if		{return Parser.IF;}
+else	{return Parser.ELSE;}
+int		{return Parser.INT;}	
+double	{return Parser.DOUBLE;}
+char	{return Parser.CHAR;}
+struct	{return Parser.STRUCT;}
+return	{return Parser.RETURN;}
+void	{return Parser.VOID;}
+main	{return Parser.MAIN;}
+
+
+// * OPERATORS
+{OPERATOR}		{this.yylval = yytext();
+					return (int)yytext().charAt(0);}
+					
+// * IDs
+{IDENTS}		{this.yylval = yytext();
+				return Parser.ID;}
 
 // * Char constant
 {CHAR_CONSTANT}		{this.yylval = convertToChar(yytext());
 				return Parser.CHAR_CONSTANT;}
 
-// * OPERATORS
-{OPERATOR}		{this.yylval = yytext();
-					return (int)yytext().charAt(0);}
-
 // * Separators
 {SEPARATORS}		{this.yylval = yytext();
 						return (int)yytext().charAt(0);}
-
-// * IDs
-{IDENTS}		{this.yylval = yytext();
-				return Parser.ID;}
 // * Real Constants
 {REAL_CONSTANT}		{this.yylval = new Double(yytext());
 				return Parser.REAL_CONSTANT;}
