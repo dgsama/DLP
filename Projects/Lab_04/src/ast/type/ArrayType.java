@@ -14,6 +14,12 @@ public class ArrayType extends AbstractType {
 	public Type getTypeOf() {
 		return typeOf;
 	}
+	
+	
+
+	public void setTypeOf(Type typeOf) {
+		this.typeOf = typeOf;
+	}
 
 	public int getLength() {
 		return length;

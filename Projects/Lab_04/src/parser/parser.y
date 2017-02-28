@@ -2,8 +2,44 @@
 // * Java declarations
 //   This code is copied in the beginning of the generated Java file
 import scanner.Scanner;
+import java.util.ArrayList;
+import java.util.List;
+
 import ast.*;
-import java.util.*;
+import ast.definition.DefField;
+import ast.definition.DefFunc;
+import ast.definition.DefVar;
+import ast.definition.Definition;
+import ast.expression.ArrayAccess;
+import ast.expression.CallFunction;
+import ast.expression.Cast;
+import ast.expression.Expression;
+import ast.expression.LiteralChar;
+import ast.expression.LiteralInt;
+import ast.expression.LiteralReal;
+import ast.expression.StructAccess;
+import ast.expression.Variable;
+import ast.expression.binary.ArithmeticOperation;
+import ast.expression.binary.CompOperation;
+import ast.expression.binary.LogicOperation;
+import ast.expression.unary.UnaryMinus;
+import ast.expression.unary.UnaryNot;
+import ast.statement.Assigment;
+import ast.statement.CallFunc;
+import ast.statement.IfElse;
+import ast.statement.Read;
+import ast.statement.Return;
+import ast.statement.Statement;
+import ast.statement.While;
+import ast.statement.Write;
+import ast.type.ArrayType;
+import ast.type.CharType;
+import ast.type.FuncType;
+import ast.type.IntType;
+import ast.type.StructType;
+import ast.type.Type;
+import ast.type.VoidType;
+import ast.type.RealType;
 %}
 
 // * Yacc declarations
@@ -46,58 +82,55 @@ CHAR_CONSTANT
 %right UNARY_MINUS
 %nonassoc '[' ']'
 %left '.'
-%nonassoc '{' '}'
 %nonassoc '(' ')'
 
 
 
 %%
 // * Actions
-program:	opt_def_glob_var main			{ ((List<Definition>)$1).add((Definition)$2); this.root = new Program(lexico.getLine(), lexico.getColumn(), (List<Definition>)$1); }
+program:	opt_def_glob_var main			{ ((List<Definition>)$1).add((Definition)$2); this.root = new Program(scanner.getLine(), scanner.getColumn(), (List<Definition>)$1); }
 			;
 
-glob_def:	var_def
-			|struct_def
-			|func_def
+glob_def:	var_def				{ $$ = $1; }
+			|struct_def			{ $$ = $1; }
+			|func_def			{ $$ = $1; }
 			;
 
-opt_def_glob_var:	opt_def_glob_var glob_def
-					|/**EMPTY**/
+opt_def_glob_var:	opt_def_glob_var glob_def		{ $$ = $1; mergeDefs((List<Definition>)$$, $2); }
+					|/**EMPTY**/					{ $$ = new ArrayList<Definition>(); }
 					;
 
-var_def:	p_type list_ident ';'
-			| array list_ident ';'
+var_def:	p_type list_ident ';'		{ $$ = new ArrayList<Definition>(); addVarDefs((List<Definition>)$$, (Type)$1, (List<String>)$2, scanner.getLine()); }
+			| array list_ident ';'		{ $$ = new ArrayList<Definition>(); addVarDefs((List<Definition>)$$, (Type)$1, (List<String>)$2, scanner.getLine()); }
 			;
 			
 
-local_var_def:	var_def
-				| struct_def
+local_var_def:	var_def					{$$ = $1;}
+				| struct_def			{$$ = $1;}
 				;
 
-opt_list_local_var:	opt_list_local_var local_var_def
+opt_list_local_var:	opt_list_local_var local_var_def			{ $$ = $1; mergeDefs((List<Definition>)$$, $2); }
+					|/**EMPTY**/								{ $$ = new ArrayList<Definition>(); }
+					;
+
+opt_list_fields:	opt_list_fields type list_ident ';'			{ $$ = $1; addFieldDefs((List<Definition>)$$, (Type)$2, (List<String>)$3, scanner.getColumn()); }
 					|/**EMPTY**/
 					;
 
-opt_list_fields:	opt_list_fields type list_ident ';'
-					|/**EMPTY**/
-					;
-
-struct_def:		STRUCT '{' opt_list_fields '}' list_ident ';'						{ $$ = new ArrayList<Definition>(); addStructDefs((List<Definition>)$$, (List<Definition>)$3, (List<String>)$5, lexico.getLine()); }
+struct_def:		STRUCT '{' opt_list_fields '}' list_ident ';'						{ $$ = new ArrayList<Definition>(); addStructDefs((List<Definition>)$$, (List<Definition>)$3, (List<String>)$5, scanner.getLine()); }
 				;
 
-main:	VOID MAIN '(' ')' '{' opt_list_local_var statements '}'						{ $$ = new DefFunc(lexico.getLine(), lexico.getColumn(), new FuncType(lexico.getLine(), lexico.getColumn(), VoidType.getInstance()), "main", (List<Definition>)$6, (List<Statement>)$7); }
+main:	VOID MAIN '(' ')' '{' opt_list_local_var statements '}'						{ $$ = new DefFunc(scanner.getLine(), scanner.getColumn(),(Type) new FuncType(scanner.getLine(), scanner.getColumn(), (Type)VoidType.getInstance(), new ArrayList()), "main", (List<Definition>)$6, (List<Statement>)$7); }
 		;
 
-func_def:	p_type ID '(' opt_list_param ')' '{' opt_list_local_var statements '}'
-		| VOID ID '(' opt_list_param ')' '{' opt_list_local_var statements '}'
+func_def:	p_type ID '(' opt_list_param ')' '{' opt_list_local_var statements '}'  { $$ = new DefFunc(scanner.getLine(), scanner.getColumn(), (Type)new FuncType(scanner.getLine(), scanner.getColumn(), (Type)$1, (List<Definition>)$4), (String)$2, (List<Definition>)$7, (List<Statement>)$8); }
+		| VOID ID '(' opt_list_param ')' '{' opt_list_local_var statements '}'		{ $$ = new DefFunc(scanner.getLine(), scanner.getColumn(),(Type) new FuncType(scanner.getLine(), scanner.getColumn(), (Type)VoidType.getInstance(), (List<Definition>)$4), (String)$2, (List<Definition>)$7, (List<Statement>)$8); }
 		;
 
 
-param:	p_type ID									{ $$ = new ArrayList<Definition>(); ((List<Definition>)$$).add(new DefVar(lexico.getLine(), lexico.getColumn(), (Type)$1, (String)$2)); }
-		;
 
-list_param:	list_param ',' param					{ $$ = $1; DefVar local = $3; ((List<Definition>)$$).add(new DefVar(lexico.getLine(), lexico.getColumn(), (Type)local.getType(), (String)local.getIdent())); }
-			|param									{ $$ = $1;}
+list_param:	list_param ',' p_type ID					{ ((List<Definition>)$$).add(new DefVar(scanner.getLine(), scanner.getColumn(), (Type)$3, (String)$4)); $$ = $1; }
+			|p_type ID									{ $$ = new ArrayList<Definition>(); ((List<Definition>)$$).add(new DefVar(scanner.getLine(), scanner.getColumn(), (Type)$1, (String)$2)); }
 			;
 
 opt_list_param:	list_param							{ $$ = $1;}
@@ -105,11 +138,11 @@ opt_list_param:	list_param							{ $$ = $1;}
 				;
 
 p_type:	INT											{ $$ = IntType.getInstance(); }
-		|DOUBLE										{ $$ = Type.getInstance(); }
+		|DOUBLE										{ $$ = RealType.getInstance(); }
 		|CHAR										{ $$ = CharType.getInstance(); }
 		;
 
-array:	type '[' INT_CONSTANT ']'					{ $$ = getArrayDef((Type)$1, (Integer)$3, lexico.getLine()); }
+array:	type '[' INT_CONSTANT ']'					{ $$ = getArrayDef((Type)$1, (Integer)$3, scanner.getLine()); }
 		;
 		
 type:	p_type										{ $$ =$1;}
@@ -124,25 +157,25 @@ statements:	statements statement					{ $$ = $1; ((List<Statement>)$$).add((State
 				|/**EMPTY**/						{ $$ = new ArrayList<Statement>(); }
 				;
 
-statement:		RETURN exp ';' 						{ $$ = new Return(lexico.getLine(), lexico.getColumn(), (Expression)$2); }
-				| READ '(' list_exp ')' ';'			{ $$ = new Read(lexico.getLine(), lexico.getColumn(), (List<Expression>)$2); }
-				| WRITE list_exp ';'				{ $$ = new Write(lexico.getLine(), lexico.getColumn(), (List<Expression>)$2); }
+statement:		RETURN exp ';' 						{ $$ = new Return(scanner.getLine(), scanner.getColumn(), (Expression)$2); }
+				| READ '(' list_exp ')' ';'			{ $$ = new Read(scanner.getLine(), scanner.getColumn(), (List<Expression>)$2); }
+				| WRITE list_exp ';'				{ $$ = new Write(scanner.getLine(), scanner.getColumn(), (List<Expression>)$2); }
 				| if_else							{ $$ = $1;}
 				| while								{ $$ = $1;}		
-				| exp '=' exp ';'					{ $$ = new Assignment(lexico.getLine(), lexico.getColumn(), (Expression)$1, (Expression)$3); }
-				| ID '(' opt_list_exp ')' ';'		{ $$ = new CallFunc(lexico.getLine(), lexico.getColumn(), (String)$1, (List<Expression>)$3); }
+				| exp '=' exp ';'					{ $$ = new Assigment(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3); }
+				| ID '(' opt_list_exp ')' ';'		{ $$ = new CallFunc(scanner.getLine(), scanner.getColumn(), (String)$1, (List<Expression>)$3); }
 				;
 				
-while:	WHILE '(' exp ')' '{' statements '}'		{ $$ = new While(lexico.getLine(), lexico.getColumn(), (Expression)$3, (List<Statement>)$6); }
-		|WHILE '(' exp ')' statement				{ $$ = new While(lexico.getLine(), lexico.getColumn(), (Expression)$3, (Statement)$5); }
+while:	WHILE '(' exp ')' '{' statements '}'		{ $$ = new While(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$6); }
+		|WHILE '(' exp ')' statement				{ $$ = new While(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$5); }
 		;
 		
-if_else:	IF '(' exp ')' '{' statements '}'	ELSE '{' statements '}'   { $$ = new IfElse(lexico.getLine(), lexico.getColumn(), (Expression)$3, (List<Statement>)$6, (List<Statement>)$10); }
-			|IF '(' exp ')' '{' statements '}'	ELSE statement            { $$ = new IfElse(lexico.getLine(), lexico.getColumn(), (Expression)$3, (List<Statement>)$6, (Statement)$9); }
-			|IF '(' exp ')' statement ELSE '{' statements '}'             { $$ = new IfElse(lexico.getLine(), lexico.getColumn(), (Expression)$3, (Statement)$5, (List<Statement>)$8); }
-			|IF '(' exp ')' statement ELSE statement                      { $$ = new IfElse(lexico.getLine(), lexico.getColumn(), (Expression)$3, (Statement)$5, (Statement)$7); }
-			|IF '(' exp ')' '{' statements '}' %prec LESSTHANELSE         { $$ = new IfElse(lexico.getLine(), lexico.getColumn(), (Expression)$3, (List<Statement>)$6); }
-			|IF '(' exp ')' statement %prec LESSTHANELSE                  { $$ = new IfElse(lexico.getLine(), lexico.getColumn(), (Expression)$3, (Statement)$5); }
+if_else:	IF '(' exp ')' '{' statements '}'	ELSE '{' statements '}'   { $$ = new IfElse(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$6, (List<Statement>)$10); }
+			|IF '(' exp ')' '{' statements '}'	ELSE statement            { $$ = new IfElse(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$6, (List<Statement>)$9); }
+			|IF '(' exp ')' statement ELSE '{' statements '}'             { $$ = new IfElse(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$5, (List<Statement>)$8); }
+			|IF '(' exp ')' statement ELSE statement                      { $$ = new IfElse(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$5, (List<Statement>)$7); }
+			|IF '(' exp ')' '{' statements '}' %prec LESSTHANELSE         { $$ = new IfElse(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$6, new ArrayList()); }
+			|IF '(' exp ')' statement %prec LESSTHANELSE                  { $$ = new IfElse(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$5, new ArrayList()); }
 			;
 
 opt_list_exp:	list_exp		{ $$ = $1; }
@@ -153,31 +186,31 @@ list_exp:	list_exp ',' exp   { $$ = $1; ((List<Expression>)$$).add((Expression)$
 			| exp              { $$ = new ArrayList<Expression>(); ((List<Expression>)$$).add((Expression)$1); }                   
 			;                                     
  
-exp:	exp '+' exp                               		{ $$ = new ArithmeticOperation(lexico.getLine(), lexico.getColumn(), (Expression)$1, (Expression)$3, "+"); }
-		| exp '*' exp                             		{ $$ = new ArithmeticOperation(lexico.getLine(), lexico.getColumn(), (Expression)$1, (Expression)$3, "*"); }
-		| exp '/' exp                             		{ $$ = new ArithmeticOperation(lexico.getLine(), lexico.getColumn(), (Expression)$1, (Expression)$3, "/"); }
-		| exp '-' exp                             		{ $$ = new ArithmeticOperation(lexico.getLine(), lexico.getColumn(), (Expression)$1, (Expression)$3, "-"); }
-		| exp '%' exp                             		{ $$ = new ArithmeticOperation(lexico.getLine(), lexico.getColumn(), (Expression)$1, (Expression)$3, "%"); }
-		| exp EQ exp                              		{ $$ = new CompOperation(lexico.getLine(), lexico.getColumn(), (Expression)$1, (Expression)$3, "=="); }
-		| exp NOT_EQ exp                          		{ $$ = new CompOperation(lexico.getLine(), lexico.getColumn(), (Expression)$1, (Expression)$3, "!="); }
-		| exp '>' exp									{ $$ = new CompOperation(lexico.getLine(), lexico.getColumn(), (Expression)$1, (Expression)$3, ">"); }
-		| exp '<' exp									{ $$ = new CompOperation(lexico.getLine(), lexico.getColumn(), (Expression)$1, (Expression)$3, "<"); }
-		| exp L_EQ exp									{ $$ = new CompOperation(lexico.getLine(), lexico.getColumn(), (Expression)$1, (Expression)$3, "<="); }
-		| exp G_EQ exp									{ $$ = new CompOperation(lexico.getLine(), lexico.getColumn(), (Expression)$1, (Expression)$3, ">="); }
-		| exp AND exp									{ $$ = new LogicOperation(lexico.getLine(), lexico.getColumn(), (Expression)$1, (Expression)$3, "&&"); }
-		| exp OR exp									{ $$ = new LogicOperation(lexico.getLine(), lexico.getColumn(), (Expression)$1, (Expression)$3, "||"); }
+exp:	exp '+' exp                               		{ $$ = new ArithmeticOperation(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3, '+'); }
+		| exp '*' exp                             		{ $$ = new ArithmeticOperation(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3, '*'); }
+		| exp '/' exp                             		{ $$ = new ArithmeticOperation(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3, '/'); }
+		| exp '-' exp                             		{ $$ = new ArithmeticOperation(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3, '-'); }
+		| exp '%' exp                             		{ $$ = new ArithmeticOperation(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3, '%'); }
+		| exp EQ exp                              		{ $$ = new CompOperation(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3, "=="); }
+		| exp NOT_EQ exp                          		{ $$ = new CompOperation(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3, "!="); }
+		| exp '>' exp									{ $$ = new CompOperation(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3, ">"); }
+		| exp '<' exp									{ $$ = new CompOperation(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3, "<"); }
+		| exp L_EQ exp									{ $$ = new CompOperation(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3, "<="); }
+		| exp G_EQ exp									{ $$ = new CompOperation(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3, ">="); }
+		| exp AND exp									{ $$ = new LogicOperation(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3, "&&"); }
+		| exp OR exp									{ $$ = new LogicOperation(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3, "||"); }
 		| exp '!' exp
-		| '(' p_type ')' exp							{ $$ = new Cast(lexico.getLine(), lexico.getColumn(), (Type)$2, (Expression)$4); }
-		| exp '[' exp ']'								{ $$ = new ArrayAccess(lexico.getLine(), lexico.getColumn(), (Expression)$1, (Expression)$3); }
-		| exp '.' ID									{ $$ = new StructAccess(lexico.getLine(), lexico.getColumn(), (Expression)$1, (String)$3); }
-		| ID '(' opt_list_exp ')'						{ $$ = new CallFunction(lexico.getLine(), lexico.getColumn(), (String)$1, (List<Expression>)$3); }
-		| '-' exp					%prec UNARY_MINUS	{ $$ = new UnaryMinus(lexico.getLine(), lexico.getColumn(), $2); }
+		| '(' p_type ')' exp							{ $$ = new Cast(scanner.getLine(), scanner.getColumn(), (Type)$2, (Expression)$4); }
+		| exp '[' exp ']'								{ $$ = new ArrayAccess(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3); }
+		| exp '.' ID									{ $$ = new StructAccess(scanner.getLine(), scanner.getColumn(), (Expression)$1, (String)$3); }
+		| ID '(' opt_list_exp ')'						{ $$ = new CallFunction(scanner.getLine(), scanner.getColumn(), (String)$1, (List<Expression>)$3); }
+		| '-' exp					%prec UNARY_MINUS	{ $$ = new UnaryMinus(scanner.getLine(), scanner.getColumn(), (Expression)$2); }
 		| '(' exp ')'									{ $$ = $2; }
-		| '!' exp										{ $$ = new UnaryNot(lexico.getLine(), lexico.getColumn(), $2); }
-		| INT_CONSTANT									{ $$ = new LiteralInt(lexico.getLine(), lexico.getColumn(), (Integer)$1); }
-		| ID											{ $$ = new Variable(lexico.getLine(), lexico.getColumn(), (String)$1); }
-		| CHAR_CONSTANT									{ $$ = new LiteralChar(lexico.getLine(), lexico.getColumn(), (Character)$1); }
-		| REAL_CONSTANT		  							{ $$ = new LiteralReal(lexico.getLine(), lexico.getColumn(), (Double)$1); }
+		| '!' exp										{ $$ = new UnaryNot(scanner.getLine(), scanner.getColumn(), (Expression)$2); }
+		| INT_CONSTANT									{ $$ = new LiteralInt(scanner.getLine(), scanner.getColumn(), (Integer)$1); }
+		| ID											{ $$ = new Variable(scanner.getLine(), scanner.getColumn(), (String)$1); }
+		| CHAR_CONSTANT									{ $$ = new LiteralChar(scanner.getLine(), scanner.getColumn(), (Character)$1); }
+		| REAL_CONSTANT		  							{ $$ = new LiteralReal(scanner.getLine(), scanner.getColumn(), (Double)$1); }
 		;
 		
 %%
@@ -220,23 +253,53 @@ private ArrayType getArrayDef(Type type, int length, int line) {
 	if(type instanceof ArrayType) {
 		Type head = type;
 		Type prev = type;
-		Type actual = ((ArrayType)type).typeOf;
+		Type actual = ((ArrayType)type).getTypeOf();
 		while(actual instanceof ArrayType) {
 			prev = actual;
-			actual = ((ArrayType)actual).typeOf;
+			actual = ((ArrayType)actual).getTypeOf();
 		}
-		actual = (Type) new ArrayType(line, lexico.getColumn(), actual, length);
-		((ArrayType)prev).typeOf = actual;
+		actual = (Type) new ArrayType(line, scanner.getColumn(), actual, length);
+		((ArrayType)prev).setTypeOf(actual);
 		
 		return (ArrayType)head;
 	
 	} else {
-		return new ArrayType(line, lexico.getColumn(), type, length);
+		return new ArrayType(line, scanner.getColumn(), type, length);
 	}
 }
 
 private void addStructDefs(List<Definition> defsList, List<Definition> fields, List<String> idents, int line) {
 	for(String id : idents) {
-		defsList.add(new VariableDef(line, lexico.getColumn(), new StructType(lexico.getLine(), lexico.getColumn(), fields), id));
+		defsList.add(new DefVar(line, scanner.getColumn(), (Type)new StructType(scanner.getLine(), scanner.getColumn(), fields), id));
 	}
 }
+
+
+private void mergeDefs(List<Definition> defsA, Object defB) {
+	if(defB instanceof List) {
+		for(Definition def : (List<Definition>)defB) {
+			defsA.add(def);
+		}
+	}
+	else {
+		defsA.add((Definition)defB);
+	}
+}
+
+private void addVarDefs(List<Definition> defsList, Type type, List<String> idents, int line) {
+	for(String id : idents) {
+		defsList.add(new DefVar(line, scanner.getColumn(), type, id));
+	}
+}
+
+private void addFieldDefs(List<Definition> defsList, Type type, List<String> idents, int line) {
+	for(String s : idents) {
+		defsList.add(new DefField(line, scanner.getColumn(), type, s));
+	}
+}
+private ASTNode root;
+
+public ASTNode getRoot() {
+	return this.root;
+}
+

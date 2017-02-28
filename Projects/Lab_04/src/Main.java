@@ -25,7 +25,7 @@ public class Main {
 		Parser parser = new Parser(scanner);
 		parser.run();
 
-		IntrospectorModel modelo = new IntrospectorModel("Program", parser.getAST());
+		IntrospectorModel modelo = new IntrospectorModel("Program", parser.getRoot());
 		new IntrospectorTree("Introspector", modelo);
 	}
 }
