@@ -1,9 +1,9 @@
 /*
-	Control Evalución Continua
-	DLP 16/17
+	Control Test
+	PLD 16/17
 */
 
-// Variables globales
+// Global variables
 int integer;
 char character;
 double real;
@@ -11,7 +11,7 @@ double real;
 int MATRIXSIZE;
 int[10][10] matrix;
 
-// Funciones
+// Functions
 void setValue(int row, int columnn, int value){
 	if (row >= 0 && row < MATRIXSIZE && columnn >= 0 && columnn < MATRIXSIZE) {
 		matrix[row][column] = value;
@@ -26,7 +26,7 @@ int getValue(int row, int columnn) {
 	}
 }
 void fill(int value) {
-	int i,j;  // Declaracion múltiple de variables
+	int i,j;  // Multiple variable definition
 	i = 0;	
 	while (i < MATRIXSIZE) {
 		j = 0;
@@ -57,20 +57,20 @@ void show() {
 	write ']';	
 }
 
-// Registro
+// Record
 struct { 
 	int day, mounth, year;	
 } date;
 
-// Programa principal
-//void no_main (){ // Descomentar para probar
-void main() { //Comentar para probar
+// Main program
+//void no_main (){ // Uncomment to test
+void main() { // Uncomment to test
 	char[1][2][3] characters;
 	MATRIXSIZE = 10;
 	fill(1);
 	setValue(5,5,5);
 	integer = getValue(5,5);
-	if (integer == 5) { // Comentar { para probar
+	if (integer == 5) { // Uncomment { to test
 		write 'O','k','\n';
 	}
 	else {
@@ -85,7 +85,7 @@ void main() { //Comentar para probar
 	character = (char)date.day;
 	real = 4.5 + 4. * 3e+3 - 5.4E-3;
 	
-	//int error; // Descomentar para probar
+	//int error; // Uncomment to test
 }
 
-//void no_function(){} // Descomentar para probar
+// void no_function(){} // Uncomment to test

@@ -114,11 +114,11 @@ opt_list_local_var:	opt_list_local_var local_var_def			{ $$ = $1; mergeDefs((Lis
 					|/**EMPTY**/								{ $$ = new ArrayList<Definition>(); }
 					;
 
-opt_list_fields:	opt_list_fields type list_ident ';'			{ $$ = $1; addFieldDefs((List<Definition>)$$, (Type)$2, (List<String>)$3, scanner.getColumn()); }
-					|/**EMPTY**/
-					;
+//list_fields:		list_fields type list_ident ';'			{ $$ = $1; addFieldDefs((List<Definition>)$$, (Type)$2, (List<String>)$3, scanner.getColumn()); }
+//					|/**EMPTY**/
+//					;
 
-struct_def:		STRUCT '{' opt_list_fields '}' list_ident ';'						{ $$ = new ArrayList<Definition>(); addStructDefs((List<Definition>)$$, (List<Definition>)$3, (List<String>)$5, scanner.getLine()); }
+struct_def:		STRUCT '{' opt_list_local_var '}' list_ident ';'						{ $$ = new ArrayList<Definition>(); addStructDefs((List<Definition>)$$, (List<Definition>)$3, (List<String>)$5, scanner.getLine()); }
 				;
 
 main:	VOID MAIN '(' ')' '{' opt_list_local_var statements '}'						{ $$ = new DefFunc(scanner.getLine(), scanner.getColumn(),(Type) new MainType(scanner.getLine(), scanner.getColumn(), (Type)VoidType.getInstance()), "main", (List<Definition>)$6, (List<Statement>)$7); }
