@@ -40,6 +40,7 @@ import ast.type.StructType;
 import ast.type.Type;
 import ast.type.VoidType;
 import ast.type.RealType;
+import ast.type.MainType;
 %}
 
 // * Yacc declarations
@@ -120,7 +121,7 @@ opt_list_fields:	opt_list_fields type list_ident ';'			{ $$ = $1; addFieldDefs((
 struct_def:		STRUCT '{' opt_list_fields '}' list_ident ';'						{ $$ = new ArrayList<Definition>(); addStructDefs((List<Definition>)$$, (List<Definition>)$3, (List<String>)$5, scanner.getLine()); }
 				;
 
-main:	VOID MAIN '(' ')' '{' opt_list_local_var statements '}'						{ $$ = new DefFunc(scanner.getLine(), scanner.getColumn(),(Type) new FuncType(scanner.getLine(), scanner.getColumn(), (Type)VoidType.getInstance(), new ArrayList()), "main", (List<Definition>)$6, (List<Statement>)$7); }
+main:	VOID MAIN '(' ')' '{' opt_list_local_var statements '}'						{ $$ = new DefFunc(scanner.getLine(), scanner.getColumn(),(Type) new MainType(scanner.getLine(), scanner.getColumn(), (Type)VoidType.getInstance()), "main", (List<Definition>)$6, (List<Statement>)$7); }
 		;
 
 func_def:	p_type ID '(' opt_list_param ')' '{' opt_list_local_var statements '}'  { $$ = new DefFunc(scanner.getLine(), scanner.getColumn(), (Type)new FuncType(scanner.getLine(), scanner.getColumn(), (Type)$1, (List<Definition>)$4), (String)$2, (List<Definition>)$7, (List<Statement>)$8); }
@@ -130,7 +131,7 @@ func_def:	p_type ID '(' opt_list_param ')' '{' opt_list_local_var statements '}'
 
 
 list_param:	list_param ',' p_type ID					{ ((List<Definition>)$$).add(new DefVar(scanner.getLine(), scanner.getColumn(), (Type)$3, (String)$4)); $$ = $1; }
-			|p_type ID									{ $$ = new ArrayList<Definition>(); ((List<Definition>)$$).add(new DefVar(scanner.getLine(), scanner.getColumn(), (Type)$1, (String)$2)); }
+			|p_type ID									{ $$ = new ArrayList<Definition>();((List<Definition>)$$).add(new DefVar(scanner.getLine(), scanner.getColumn(), (Type)$1, (String)$2)); }
 			;
 
 opt_list_param:	list_param							{ $$ = $1;}
@@ -149,11 +150,11 @@ type:	p_type										{ $$ =$1;}
 		|array										{ $$ =$1;}
 		;
 
-list_ident:		list_ident ',' ID					{ $$ = $1; ((List<String>)$$).add((String)$3); }
+list_ident:		list_ident ',' ID					{ ((List<String>)$$).add((String)$3); $$ = $1;  }
 				|ID									{ $$ = new ArrayList<String>(); ((List<String>)$$).add((String)$1); }
 				;
 
-statements:	statements statement					{ $$ = $1; ((List<Statement>)$$).add((Statement)$2); }
+statements:	statements statement					{ ((List<Statement>)$$).add((Statement)$2); $$ = $1; }
 				|/**EMPTY**/						{ $$ = new ArrayList<Statement>(); }
 				;
 
@@ -199,7 +200,6 @@ exp:	exp '+' exp                               		{ $$ = new ArithmeticOperation(
 		| exp G_EQ exp									{ $$ = new CompOperation(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3, ">="); }
 		| exp AND exp									{ $$ = new LogicOperation(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3, "&&"); }
 		| exp OR exp									{ $$ = new LogicOperation(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3, "||"); }
-		| exp '!' exp
 		| '(' p_type ')' exp							{ $$ = new Cast(scanner.getLine(), scanner.getColumn(), (Type)$2, (Expression)$4); }
 		| exp '[' exp ']'								{ $$ = new ArrayAccess(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3); }
 		| exp '.' ID									{ $$ = new StructAccess(scanner.getLine(), scanner.getColumn(), (Expression)$1, (String)$3); }

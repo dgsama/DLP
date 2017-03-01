@@ -40,13 +40,13 @@ void main() {
   pair.character = '0';
   pair.integer = '0';
   while (pair.integer >= i) {
-    if (pair.integer == vector[0][0] || !pair.character || i%2==0)
-      write 't', 'r', 'u', 'e', '\n';
-    else 
-      write 'f', 'a', 'l', 's', 'e', '\n';
+    if (pair.integer == vector[0][0] || !pair.character || i%2==0){
+      write 't', 'r', 'u', 'e', '\n';}
+    else{
+    	write 'f', 'a', 'l', 's', 'e', '\n';}
     i=i+1;
   }
-  write f(i, (double)i); // * Invocation as an expression
+  //write f(i, (double)i); // * Invocation as an expression
   vector[9][(int)4.3]=5.6;
   f(1, 2.2); // * Invocation as a statement
 }

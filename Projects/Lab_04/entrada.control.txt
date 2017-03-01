@@ -12,12 +12,11 @@ int MATRIXSIZE;
 int[10][10] matrix;
 
 // Funciones
-void setValue(int row, int columnn, int value){	
+void setValue(int row, int columnn, int value){
 	if (row >= 0 && row < MATRIXSIZE && columnn >= 0 && columnn < MATRIXSIZE) {
-		//matrix[row][column] = value;
+		matrix[row][column] = value;
 	}
 }
-
 int getValue(int row, int columnn) {
 	if ((row < 0 || row >= MATRIXSIZE) || (columnn < 0 && columnn >= MATRIXSIZE)){
 		return -1;
@@ -64,7 +63,7 @@ struct {
 } date;
 
 // Programa principal
-// void no_main (){ // Descomentar para probar
+//void no_main (){ // Descomentar para probar
 void main() { //Comentar para probar
 	char[1][2][3] characters;
 	MATRIXSIZE = 10;
@@ -84,12 +83,9 @@ void main() { //Comentar para probar
 	date.year = 2016;
 	
 	character = (char)date.day;
-	real = 3e-3;
 	real = 4.5 + 4. * 3e+3 - 5.4E-3;
 	
 	//int error; // Descomentar para probar
 }
 
-// void no_function(){} // Descomentar para probar
-
-/* HOLAAA*/
+//void no_function(){} // Descomentar para probar
