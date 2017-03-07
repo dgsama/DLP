@@ -2,6 +2,9 @@
 
 package scanner;
 import parser.Parser;
+import ast.AbstractASTNode;
+import ast.error.Err;
+import ast.error.ErrorHandler;
 
 %%
 // ************  Options ********************
@@ -141,7 +144,7 @@ main	{return Parser.MAIN;}
 
 // * DO NOTHING
 {BLANKS}		{}
-.			{System.err.println("Error in line: ["+getLine()+"] column: ["+getColumn()+ "] --> "+yytext().toString() );}
+.			{ErrorHandler.getInstance().addError(new Err(new AbstractASTNode(getLine(),getColumn()),("Lexical error -> "+yytext().toString())));}
 
 
 

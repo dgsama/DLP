@@ -1,6 +1,7 @@
 import parser.Parser;
 import java.io.FileReader;
 import java.io.IOException;
+import ast.error.ErrorHandler;
 import scanner.Scanner;
 import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorTree;
@@ -22,9 +23,16 @@ public class Main {
 		}
 
 		Scanner scanner = new Scanner(fr);
+		if (!ErrorHandler.getInstance().anyError()) {
+			ErrorHandler.getInstance().showErrors();
+			return;
+		}
 		Parser parser = new Parser(scanner);
 		parser.run();
-
+		if (!ErrorHandler.getInstance().anyError()) {
+			ErrorHandler.getInstance().showErrors();
+			return;
+		}
 		IntrospectorModel modelo = new IntrospectorModel("Program", parser.getRoot());
 		new IntrospectorTree("Introspector", modelo);
 	}

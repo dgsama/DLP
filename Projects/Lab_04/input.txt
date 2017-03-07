@@ -1,4 +1,4 @@
-
+123wada
 // * Variable and function definitions
 int i, j, n;
 char c;
@@ -35,6 +35,7 @@ void main() {
     }
   i=i+1;
   }
+  
   
   i=0;
   pair.character = '0';

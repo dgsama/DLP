@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ast.*;
+import ast.error.Err;
+import ast.error.ErrorHandler;
 import ast.definition.DefField;
 import ast.definition.DefFunc;
 import ast.definition.DefVar;
@@ -239,8 +241,7 @@ private int yylex () {
 
 // * Syntax error handler
 public void yyerror (String error) {
-    System.err.println ("Syntax error in line " + scanner.getLine()+
-		" and column "+scanner.getColumn()+":\n\t"+error);
+ErrorHandler.getInstance().addError(new Err(new AbstractASTNode(scanner.getLine(),scanner.getColumn()), "Syntax error -> " + yylex()));
 }
 
 // * Constructor
