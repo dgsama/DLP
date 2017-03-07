@@ -114,11 +114,11 @@ opt_list_local_var:	opt_list_local_var local_var_def			{ $$ = $1; mergeDefs((Lis
 					|/**EMPTY**/								{ $$ = new ArrayList<Definition>(); }
 					;
 
-//list_fields:		list_fields type list_ident ';'			{ $$ = $1; addFieldDefs((List<Definition>)$$, (Type)$2, (List<String>)$3, scanner.getColumn()); }
-//					|/**EMPTY**/
-//					;
+opt_list_fields:	opt_list_fields type list_ident ';'			{ $$ = $1; addFieldDefs((List<Definition>)$$, (Type)$2, (List<String>)$3, scanner.getColumn()); }
+					|/**EMPTY**/								{ $$ = new ArrayList<Definition>(); }
+					;
 
-struct_def:		STRUCT '{' opt_list_local_var '}' list_ident ';'						{ $$ = new ArrayList<Definition>(); addStructDefs((List<Definition>)$$, (List<Definition>)$3, (List<String>)$5, scanner.getLine()); }
+struct_def:		STRUCT '{' opt_list_fields '}' list_ident ';'						{ $$ = new ArrayList<Definition>(); addStructDefs((List<Definition>)$$, (List<Definition>)$3, (List<String>)$5, scanner.getLine()); }
 				;
 
 main:	VOID MAIN '(' ')' '{' opt_list_local_var statements '}'						{ $$ = new DefFunc(scanner.getLine(), scanner.getColumn(),(Type) new MainType(scanner.getLine(), scanner.getColumn(), (Type)VoidType.getInstance()), "main", (List<Definition>)$6, (List<Statement>)$7); }
@@ -172,11 +172,11 @@ while:	WHILE '(' exp ')' '{' statements '}'		{ $$ = new While(scanner.getLine(),
 		;
 		
 if_else:	IF '(' exp ')' '{' statements '}'	ELSE '{' statements '}'   { $$ = new IfElse(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$6, (List<Statement>)$10); }
-			|IF '(' exp ')' '{' statements '}'	ELSE statement            { $$ = new IfElse(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$6, (List<Statement>)$9); }
-			|IF '(' exp ')' statement ELSE '{' statements '}'             { $$ = new IfElse(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$5, (List<Statement>)$8); }
-			|IF '(' exp ')' statement ELSE statement                      { $$ = new IfElse(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$5, (List<Statement>)$7); }
+			|IF '(' exp ')' '{' statements '}'	ELSE statement            { $$ = new IfElse(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$6, (Statement)$9); }
+			|IF '(' exp ')' statement ELSE '{' statements '}'             { $$ = new IfElse(scanner.getLine(), scanner.getColumn(), (Expression)$3, (Statement)$5, (List<Statement>)$8); }
+			|IF '(' exp ')' statement ELSE statement                      { $$ = new IfElse(scanner.getLine(), scanner.getColumn(), (Expression)$3, (Statement)$5, (Statement)$7); }
 			|IF '(' exp ')' '{' statements '}' %prec LESSTHANELSE         { $$ = new IfElse(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$6, new ArrayList()); }
-			|IF '(' exp ')' statement %prec LESSTHANELSE                  { $$ = new IfElse(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$5, new ArrayList()); }
+			|IF '(' exp ')' statement %prec LESSTHANELSE                  { $$ = new IfElse(scanner.getLine(), scanner.getColumn(), (Expression)$3, (Statement)$5, new ArrayList()); }
 			;
 
 opt_list_exp:	list_exp		{ $$ = $1; }
