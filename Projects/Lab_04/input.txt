@@ -1,4 +1,4 @@
-123wada
+
 // * Variable and function definitions
 int i, j, n;
 char c;

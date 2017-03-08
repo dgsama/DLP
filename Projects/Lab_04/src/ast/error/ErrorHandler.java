@@ -32,9 +32,12 @@ public class ErrorHandler {
 
 	public void showErrors() {
 		for (Err each : errors) {
-			System.out.println(each.getErrorMessage() + ", line:" + each.getLine() + ", column: "
-					+ each.getColumn());
+			System.err.println(each.getErrorMessage() + ", line:" + each.getLine() + ", column: " + each.getColumn());
 		}
+	}
+
+	public List<Err> getErrorsList() {
+		return errors;
 	}
 
 }

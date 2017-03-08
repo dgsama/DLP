@@ -1,0 +1,7 @@
+		Wed Mar 08 10:43:10 CET 2017
+
+  The errors are in the SYNTAX phase.
+  There are 2 in the errors list.
+
+	+1: Syntax error -> 264 (sdasdsa)in line [5] column [1]
+	+2: Syntax error -> 264 (sad)in line [6] column [1]

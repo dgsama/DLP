@@ -241,7 +241,7 @@ private int yylex () {
 
 // * Syntax error handler
 public void yyerror (String error) {
-ErrorHandler.getInstance().addError(new Err(new AbstractASTNode(scanner.getLine(),scanner.getColumn()), "Syntax error -> " + yylex()));
+ErrorHandler.getInstance().addError(new Err(new AbstractASTNode(scanner.getLine(),scanner.getColumn()), "Syntax error -> " + yylex()+ " ("+scanner.yytext()+")"));
 }
 
 // * Constructor

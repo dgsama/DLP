@@ -89,8 +89,8 @@ BLANKS = (\t|\n|" "|\r)
 // ************  Lexical Rules ********************
 // * COMMENTS
 
-{COMMENT}		{System.out.println("Comment");}
-{COMMENT_MULTILINE}	{System.out.println("Multiline comment");}
+{COMMENT}		{}
+{COMMENT_MULTILINE}	{}
 
 // * DOUBLE OPERATORS
 

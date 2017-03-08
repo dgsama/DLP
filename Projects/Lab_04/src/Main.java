@@ -5,6 +5,7 @@ import ast.error.ErrorHandler;
 import scanner.Scanner;
 import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorTree;
+import io.ErrorFileManager;
 
 public class Main {
 
@@ -31,6 +32,8 @@ public class Main {
 		parser.run();
 		if (!ErrorHandler.getInstance().anyError()) {
 			ErrorHandler.getInstance().showErrors();
+			ErrorFileManager.getInstance().setPhase("SYNTAX");
+			ErrorFileManager.getInstance().createErrorLog();
 			return;
 		}
 		IntrospectorModel modelo = new IntrospectorModel("Program", parser.getRoot());

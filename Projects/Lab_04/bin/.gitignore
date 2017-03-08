@@ -1,4 +1,5 @@
-/Main.class
 /ast/
 /parser/
 /scanner/
+/Main.class
+/io/
