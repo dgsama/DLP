@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ast.expression.Expression;
+import visitor.Visitor;
 
 public class IfElse extends AbstractStatement {
 
@@ -66,6 +67,11 @@ public class IfElse extends AbstractStatement {
 
 	public void setElseStatements(List<Statement> elseStatements) {
 		this.elseStatements = elseStatements;
+	}
+
+	@Override
+	public Object accept(Visitor visitor, Object param) {
+		return visitor.visit(this, param);
 	}
 
 	@Override

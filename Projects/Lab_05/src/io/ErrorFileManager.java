@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import ast.error.Err;
-import ast.error.ErrorHandler;
+import error.Err;
+import error.ErrorHandler;
 
 public class ErrorFileManager {
 

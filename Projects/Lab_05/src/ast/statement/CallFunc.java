@@ -3,6 +3,7 @@ package ast.statement;
 import java.util.List;
 
 import ast.expression.Expression;
+import visitor.Visitor;
 
 public class CallFunc extends AbstractStatement {
 
@@ -29,6 +30,11 @@ public class CallFunc extends AbstractStatement {
 
 	public void setParameters(List<Expression> parameters) {
 		this.parameters = parameters;
+	}
+
+	@Override
+	public Object accept(Visitor visitor, Object param) {
+		return visitor.visit(this, param);
 	}
 
 	@Override

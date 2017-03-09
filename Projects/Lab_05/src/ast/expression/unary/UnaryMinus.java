@@ -2,6 +2,7 @@ package ast.expression.unary;
 
 import ast.expression.AbstractExp;
 import ast.expression.Expression;
+import visitor.Visitor;
 
 public class UnaryMinus extends AbstractExp {
 
@@ -19,6 +20,11 @@ public class UnaryMinus extends AbstractExp {
 
 	public Expression getExpression() {
 		return expression;
+	}
+
+	@Override
+	public Object accept(Visitor visitor, Object param) {
+		return visitor.visit(this, param);
 	}
 
 	@Override

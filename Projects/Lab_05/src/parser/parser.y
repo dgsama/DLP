@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ast.*;
-import ast.error.Err;
-import ast.error.ErrorHandler;
+import error.Err;
+import error.ErrorHandler;
 import ast.definition.DefField;
 import ast.definition.DefFunc;
 import ast.definition.DefVar;
@@ -71,6 +71,8 @@ INT
 L_EQ
 MAIN
 CHAR_CONSTANT
+INC
+DEC
 %token 
 
 //Lower precedence
@@ -79,6 +81,7 @@ CHAR_CONSTANT
 %left EQ NOT_EQ
 %left L_EQ G_EQ '>' '<'
 %left '+' '-'
+%left INC DEC
 %left '*' '/' '%'
 %nonassoc LESSTHANELSE
 %nonassoc ELSE
@@ -167,6 +170,8 @@ statement:		RETURN exp ';' 						{ $$ = new Return(scanner.getLine(), scanner.ge
 				| while								{ $$ = $1;}		
 				| exp '=' exp ';'					{ $$ = new Assigment(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3); }
 				| ID '(' opt_list_exp ')' ';'		{ $$ = new CallFunc(scanner.getLine(), scanner.getColumn(), (String)$1, (List<Expression>)$3); }
+				| exp INC ';' 							{ $$ = new Assigment(scanner.getLine(), scanner.getColumn(), (Expression)$1,(Expression) new ArithmeticOperation(scanner.getLine(), scanner.getColumn(),(Expression)$1,new LiteralInt(scanner.getLine(),scanner.getColumn(),1),'+'));}
+				| exp DEC ';'                         { $$ = new Assigment(scanner.getLine(), scanner.getColumn(), (Expression)$1,(Expression) new ArithmeticOperation(scanner.getLine(), scanner.getColumn(),(Expression)$1,new LiteralInt(scanner.getLine(),scanner.getColumn(),1),'-'));}
 				;
 				
 while:	WHILE '(' exp ')' '{' statements '}'		{ $$ = new While(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$6); }
@@ -241,7 +246,8 @@ private int yylex () {
 
 // * Syntax error handler
 public void yyerror (String error) {
-ErrorHandler.getInstance().addError(new Err(new AbstractASTNode(scanner.getLine(),scanner.getColumn()), "Syntax error -> " + yylex()+ " ("+scanner.yytext()+")"));
+ErrorHandler.getInstance().addError(new Err(scanner.getLine(), scanner.getColumn(),
+				"Syntax error -> " + yylex() + " (" + scanner.yytext() + ")"));
 }
 
 // * Constructor

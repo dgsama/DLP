@@ -3,6 +3,7 @@ package ast.statement;
 import java.util.List;
 
 import ast.expression.Expression;
+import visitor.Visitor;
 
 public class Write extends AbstractStatement {
 
@@ -19,6 +20,11 @@ public class Write extends AbstractStatement {
 
 	public void setExpressions(List<Expression> expressions) {
 		this.expressions = expressions;
+	}
+
+	@Override
+	public Object accept(Visitor visitor, Object param) {
+		return visitor.visit(this, param);
 	}
 
 	@Override

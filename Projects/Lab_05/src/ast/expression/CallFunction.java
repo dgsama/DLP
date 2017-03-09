@@ -2,6 +2,8 @@ package ast.expression;
 
 import java.util.List;
 
+import visitor.Visitor;
+
 public class CallFunction extends AbstractExp {
 
 	private String name;
@@ -27,6 +29,11 @@ public class CallFunction extends AbstractExp {
 
 	public void setParameters(List<Expression> parameters) {
 		this.parameters = parameters;
+	}
+
+	@Override
+	public Object accept(Visitor visitor, Object param) {
+		return visitor.visit(this, param);
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package ast.type;
 import java.util.List;
 
 import ast.definition.Definition;
+import visitor.Visitor;
 
 public class FuncType extends AbstractType {
 
@@ -21,6 +22,11 @@ public class FuncType extends AbstractType {
 
 	public List<Definition> getParameters() {
 		return parameters;
+	}
+
+	@Override
+	public Object accept(Visitor visitor, Object param) {
+		return visitor.visit(this, param);
 	}
 
 	@Override

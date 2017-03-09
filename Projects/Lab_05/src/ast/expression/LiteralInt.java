@@ -1,5 +1,7 @@
 package ast.expression;
 
+import visitor.Visitor;
+
 public class LiteralInt extends AbstractExp {
 
 	private int value;
@@ -11,6 +13,11 @@ public class LiteralInt extends AbstractExp {
 
 	public int getValue() {
 		return value;
+	}
+
+	@Override
+	public Object accept(Visitor visitor, Object param) {
+		return visitor.visit(this, param);
 	}
 
 	@Override

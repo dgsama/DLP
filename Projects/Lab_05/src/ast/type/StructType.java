@@ -3,6 +3,7 @@ package ast.type;
 import java.util.List;
 
 import ast.definition.Definition;
+import visitor.Visitor;
 
 public class StructType extends AbstractType {
 
@@ -15,6 +16,11 @@ public class StructType extends AbstractType {
 
 	public List<Definition> getFieldsDefinitions() {
 		return fieldsDefinitions;
+	}
+
+	@Override
+	public Object accept(Visitor visitor, Object param) {
+		return visitor.visit(this, param);
 	}
 
 	@Override

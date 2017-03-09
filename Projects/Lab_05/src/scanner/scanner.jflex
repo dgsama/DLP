@@ -3,8 +3,8 @@
 package scanner;
 import parser.Parser;
 import ast.AbstractASTNode;
-import ast.error.Err;
-import ast.error.ErrorHandler;
+import error.Err;
+import error.ErrorHandler;
 
 %%
 // ************  Options ********************
@@ -101,6 +101,9 @@ BLANKS = (\t|\n|" "|\r)
 "!="	{return Parser.NOT_EQ;}
 "&&"	{return Parser.AND;}
 "||"	{return Parser.OR;}
+"++"	{return Parser.INC;}
+"--"	{return Parser.DEC;}
+
 
 
 // * KEYWORDS
@@ -144,7 +147,7 @@ main	{return Parser.MAIN;}
 
 // * DO NOTHING
 {BLANKS}		{}
-.			{ErrorHandler.getInstance().addError(new Err(new AbstractASTNode(getLine(),getColumn()),("Lexical error -> "+yytext().toString())));}
+.			{ErrorHandler.getInstance().addError(new Err(getLine(), getColumn(),("Lexical error -> " + yytext().toString())));}
 
 
 

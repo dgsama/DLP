@@ -1,5 +1,7 @@
 package ast.expression;
 
+import visitor.Visitor;
+
 public class ArrayAccess extends AbstractExp {
 
 	private Expression name;
@@ -25,6 +27,11 @@ public class ArrayAccess extends AbstractExp {
 
 	public void setIndex(Expression index) {
 		this.index = index;
+	}
+
+	@Override
+	public Object accept(Visitor visitor, Object param) {
+		return visitor.visit(this, param);
 	}
 
 	@Override

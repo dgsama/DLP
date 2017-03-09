@@ -15,6 +15,13 @@ int f(int n, double r) {
   return (int)c1;
 }
 
+int r(){
+  int s;
+  s=0;
+  s++;
+  return i;
+}
+
 
 // * Main function
 void main() {

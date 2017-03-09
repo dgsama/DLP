@@ -1,5 +1,7 @@
 package ast.expression;
 
+import visitor.Visitor;
+
 public class LiteralChar extends AbstractExp {
 
 	private char value;
@@ -11,6 +13,11 @@ public class LiteralChar extends AbstractExp {
 
 	public char getValue() {
 		return value;
+	}
+
+	@Override
+	public Object accept(Visitor visitor, Object param) {
+		return visitor.visit(this, param);
 	}
 
 	@Override

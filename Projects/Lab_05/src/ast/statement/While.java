@@ -3,6 +3,7 @@ package ast.statement;
 import java.util.List;
 
 import ast.expression.Expression;
+import visitor.Visitor;
 
 public class While extends AbstractStatement {
 
@@ -29,6 +30,11 @@ public class While extends AbstractStatement {
 
 	public void setStatements(List<Statement> statements) {
 		this.statements = statements;
+	}
+
+	@Override
+	public Object accept(Visitor visitor, Object param) {
+		return visitor.visit(this, param);
 	}
 
 	@Override

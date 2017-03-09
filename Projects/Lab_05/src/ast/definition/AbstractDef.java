@@ -3,7 +3,7 @@ package ast.definition;
 import ast.AbstractASTNode;
 import ast.type.Type;
 
-public class AbstractDef extends AbstractASTNode implements Definition {
+public abstract class AbstractDef extends AbstractASTNode implements Definition {
 
 	private Type type;
 	private String name;
@@ -28,7 +28,5 @@ public class AbstractDef extends AbstractASTNode implements Definition {
 	public String toString() {
 		return "AbstractDef [type=" + type + ", name=" + name + "]";
 	}
-
-	
 
 }

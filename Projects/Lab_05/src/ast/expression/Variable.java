@@ -1,5 +1,7 @@
 package ast.expression;
 
+import visitor.Visitor;
+
 public class Variable extends AbstractExp {
 
 	private String name;
@@ -11,6 +13,11 @@ public class Variable extends AbstractExp {
 
 	public String getName() {
 		return name;
+	}
+
+	@Override
+	public Object accept(Visitor visitor, Object param) {
+		return visitor.visit(this, param);
 	}
 
 	@Override

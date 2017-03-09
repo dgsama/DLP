@@ -1,5 +1,7 @@
 package ast.statement;
 
-public interface Statement {
+import ast.ASTNode;
+
+public interface Statement extends ASTNode{
 
 }

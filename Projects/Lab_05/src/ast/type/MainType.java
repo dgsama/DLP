@@ -1,6 +1,8 @@
 package ast.type;
 
-public class MainType extends AbstractType{
+import visitor.Visitor;
+
+public class MainType extends AbstractType {
 
 	private Type typeOf;
 
@@ -14,11 +16,13 @@ public class MainType extends AbstractType{
 	}
 
 	@Override
+	public Object accept(Visitor visitor, Object param) {
+		return visitor.visit(this, param);
+	}
+
+	@Override
 	public String toString() {
 		return "MainType [typeOf=" + typeOf + "]";
 	}
-	
-	
-	
-	
+
 }

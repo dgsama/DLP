@@ -1,4 +1,4 @@
-package ast.error;
+package error;
 
 import java.io.PrintStream;
 import java.util.ArrayList;

@@ -1,5 +1,7 @@
 package ast.type;
 
+import visitor.Visitor;
+
 public class ArrayType extends AbstractType {
 
 	private Type typeOf;
@@ -14,8 +16,6 @@ public class ArrayType extends AbstractType {
 	public Type getTypeOf() {
 		return typeOf;
 	}
-	
-	
 
 	public void setTypeOf(Type typeOf) {
 		this.typeOf = typeOf;
@@ -23,6 +23,11 @@ public class ArrayType extends AbstractType {
 
 	public int getLength() {
 		return length;
+	}
+
+	@Override
+	public Object accept(Visitor visitor, Object param) {
+		return visitor.visit(this, param);
 	}
 
 	@Override
