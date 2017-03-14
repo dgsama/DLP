@@ -5,6 +5,7 @@ import ast.definition.DefField;
 import ast.definition.DefFunc;
 import ast.definition.DefStruct;
 import ast.definition.DefVar;
+import ast.definition.Definition;
 import ast.expression.ArrayAccess;
 import ast.expression.CallFunction;
 import ast.expression.Cast;
@@ -172,37 +173,44 @@ public class AbstractVisitor implements Visitor {
 
 	@Override
 	public Object visit(Read read, Object param) {
-		// TODO Auto-generated method stub
+		for (Expression each : read.getExpressions()) {
+			each.accept(this, param);
+		}
 		return null;
 	}
 
 	@Override
 	public Object visit(Return ret, Object param) {
-		// TODO Auto-generated method stub
+		ret.getExpression().accept(this, param);
 		return null;
 	}
 
 	@Override
 	public Object visit(While w, Object param) {
-		// TODO Auto-generated method stub
+		w.getCondition().accept(this, param);
+		for (Statement each : w.getStatements()) {
+			each.accept(this, param);
+		}
 		return null;
 	}
 
 	@Override
 	public Object visit(Write write, Object param) {
-		// TODO Auto-generated method stub
+		for (Expression each : write.getExpressions()) {
+			each.accept(this, param);
+		}
 		return null;
 	}
 
 	@Override
 	public Object visit(ArrayType aT, Object param) {
-		// TODO Auto-generated method stub
+		aT.getTypeOf().accept(this, param);
 		return null;
 	}
 
 	@Override
 	public Object visit(CharType cT, Object param) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
@@ -214,7 +222,10 @@ public class AbstractVisitor implements Visitor {
 
 	@Override
 	public Object visit(FuncType fT, Object param) {
-		// TODO Auto-generated method stub
+		fT.getRetType().accept(this, param);
+		for (Definition each : fT.getParameters()) {
+			each.accept(this, param);
+		}
 		return null;
 	}
 
@@ -238,19 +249,23 @@ public class AbstractVisitor implements Visitor {
 
 	@Override
 	public Object visit(StructType sT, Object param) {
-		// TODO Auto-generated method stub
+
+		for (Definition each : sT.getFieldsDefinitions()) {
+			each.accept(this, param);
+		}
 		return null;
 	}
 
 	@Override
 	public Object visit(Program program, Object param) {
-		// TODO Auto-generated method stub
+		for (Definition each : program.getDefinitions()) {
+			each.accept(this, param);
+		}
 		return null;
 	}
 
 	@Override
 	public Object visit(VoidType vT, Object param) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
