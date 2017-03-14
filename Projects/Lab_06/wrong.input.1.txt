@@ -1,0 +1,11 @@
+/*
+	Error Handler
+	PLD 16/17
+*/
+
+int i, i; // Error: duplicate variable
+
+// Main program
+void main() {
+	i = 0;
+}

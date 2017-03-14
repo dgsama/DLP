@@ -1,0 +1,15 @@
+/*
+	Error Handler
+	PLD 16/17
+*/
+
+struct { 
+	int key;	
+	int value;	
+	double key; // Error: duplicate field
+} tuple;
+
+// Main program
+void main() {
+	tuple.key = 0;
+}
