@@ -1,10 +1,12 @@
 package ast.expression;
 
-import visitor.Visitor;
+import ast.definition.Definition;
+import semantic.Visitor;
 
 public class Variable extends AbstractExp {
 
 	private String name;
+	private Definition definition;
 
 	public Variable(int line, int column, String name) {
 		super(line, column);
@@ -18,6 +20,14 @@ public class Variable extends AbstractExp {
 	@Override
 	public Object accept(Visitor visitor, Object param) {
 		return visitor.visit(this, param);
+	}
+
+	public Definition getDefinition() {
+		return definition;
+	}
+
+	public void setDefinition(Definition definition) {
+		this.definition = definition;
 	}
 
 	@Override

@@ -4,7 +4,7 @@ import java.util.List;
 
 import ast.statement.Statement;
 import ast.type.Type;
-import visitor.Visitor;
+import semantic.Visitor;
 
 public class DefFunc extends AbstractDef {
 

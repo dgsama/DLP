@@ -1,8 +1,7 @@
-/src/
 /ast/
 /error/
 /io/
 /parser/
 /scanner/
-/visitor/
-/Main.class
+/semantic/
+/symboltable/

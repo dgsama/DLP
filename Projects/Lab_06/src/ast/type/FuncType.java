@@ -3,7 +3,7 @@ package ast.type;
 import java.util.List;
 
 import ast.definition.Definition;
-import visitor.Visitor;
+import semantic.Visitor;
 
 public class FuncType extends AbstractType {
 

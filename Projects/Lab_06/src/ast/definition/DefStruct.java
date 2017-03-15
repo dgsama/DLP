@@ -1,7 +1,7 @@
 package ast.definition;
 
 import ast.type.Type;
-import visitor.Visitor;
+import semantic.Visitor;
 
 public class DefStruct extends AbstractDef {
 

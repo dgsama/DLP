@@ -1,30 +1,26 @@
 package ast.type;
 
-import visitor.Visitor;
+import error.Err;
+import error.ErrorHandler;
+import semantic.Visitor;
 
 public class ErrorType extends AbstractType {
 
-	public static ErrorType instance = null;
+	public String errorMessage;
 
-	public ErrorType(int line, int column) {
+	public ErrorType(int line, int column, String errorMessage) {
 		super(line, column);
+		this.errorMessage = errorMessage;
+		ErrorHandler.getInstance().addError(new Err(this));
 	}
 
-	public static ErrorType getInstance() {
-		if (instance == null) {
-			instance = new ErrorType(0, 0);
-		}
-		return instance;
+	public String getErrorMessage() {
+		return errorMessage;
 	}
 
 	@Override
 	public Object accept(Visitor visitor, Object param) {
 		return visitor.visit(this, param);
-	}
-
-	@Override
-	public String toString() {
-		return "";
 	}
 
 }

@@ -1,5 +1,7 @@
 package error;
 
+import ast.type.ErrorType;
+
 public class Err {
 
 	private int line;
@@ -11,6 +13,12 @@ public class Err {
 		this.line = line;
 		this.column = column;
 		this.errorMessage = errorMessage;
+	}
+
+	public Err(ErrorType errorType) {
+		this.line = errorType.getLine();
+		this.column = errorType.getColumn();
+		this.errorMessage = errorType.getErrorMessage();
 	}
 
 	public int getLine() {

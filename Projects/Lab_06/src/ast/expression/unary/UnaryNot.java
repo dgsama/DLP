@@ -2,7 +2,7 @@ package ast.expression.unary;
 
 import ast.expression.AbstractExp;
 import ast.expression.Expression;
-import visitor.Visitor;
+import semantic.Visitor;
 
 public class UnaryNot extends AbstractExp {
 

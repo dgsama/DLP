@@ -3,7 +3,7 @@ package ast;
 import java.util.List;
 
 import ast.definition.Definition;
-import visitor.Visitor;
+import semantic.Visitor;
 
 public class Program extends AbstractASTNode {
 
@@ -22,4 +22,5 @@ public class Program extends AbstractASTNode {
 	public Object accept(Visitor visitor, Object param) {
 		return visitor.visit(this, param);
 	}
+
 }

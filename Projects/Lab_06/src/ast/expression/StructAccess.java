@@ -1,6 +1,6 @@
 package ast.expression;
 
-import visitor.Visitor;
+import semantic.Visitor;
 
 public class StructAccess extends AbstractExp {
 

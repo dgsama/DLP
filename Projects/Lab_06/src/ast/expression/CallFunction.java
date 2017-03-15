@@ -2,7 +2,7 @@ package ast.expression;
 
 import java.util.List;
 
-import visitor.Visitor;
+import semantic.Visitor;
 
 public class CallFunction extends AbstractExp {
 

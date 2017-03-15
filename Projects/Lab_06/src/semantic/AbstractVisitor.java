@@ -1,4 +1,4 @@
-package visitor;
+package semantic;
 
 import ast.Program;
 import ast.definition.DefField;
@@ -38,7 +38,7 @@ import ast.type.RealType;
 import ast.type.StructType;
 import ast.type.VoidType;
 
-public class AbstractVisitor implements Visitor {
+public abstract class AbstractVisitor implements Visitor {
 
 	@Override
 	public Object visit(ArithmeticOperation exp, Object param) {
@@ -129,6 +129,9 @@ public class AbstractVisitor implements Visitor {
 	@Override
 	public Object visit(DefFunc dF, Object param) {
 		dF.getType().accept(this, param);
+		for (Statement each : dF.getStatements()) {
+			each.accept(this, param);
+		}
 		return null;
 	}
 

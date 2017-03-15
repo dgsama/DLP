@@ -2,7 +2,7 @@ package ast.expression.binary;
 
 import ast.expression.AbstractExp;
 import ast.expression.Expression;
-import visitor.Visitor;
+import semantic.Visitor;
 
 public class CompOperation extends AbstractExp {
 

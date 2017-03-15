@@ -7,6 +7,7 @@ public abstract class AbstractDef extends AbstractASTNode implements Definition 
 
 	private Type type;
 	private String name;
+	private int scope;
 
 	public AbstractDef(int line, int column, Type type, String name) {
 		super(line, column);
@@ -15,12 +16,22 @@ public abstract class AbstractDef extends AbstractASTNode implements Definition 
 	}
 
 	@Override
+	public int getScope() {
+		return scope;
+	}
+
+	@Override
+	public void setScope(int scope) {
+		this.scope = scope;
+	}
+
+	@Override
 	public Type getType() {
 		return type;
 	}
 
 	@Override
-	public String getIdent() {
+	public String getId() {
 		return name;
 	}
 
