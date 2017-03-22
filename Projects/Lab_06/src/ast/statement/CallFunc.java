@@ -2,6 +2,7 @@ package ast.statement;
 
 import java.util.List;
 
+import ast.definition.Definition;
 import ast.expression.Expression;
 import semantic.Visitor;
 
@@ -9,6 +10,7 @@ public class CallFunc extends AbstractStatement {
 
 	private String name;
 	private List<Expression> parameters;
+	private Definition definition;
 
 	public CallFunc(int line, int column, String name, List<Expression> parameters) {
 		super(line, column);
@@ -30,6 +32,14 @@ public class CallFunc extends AbstractStatement {
 
 	public void setParameters(List<Expression> parameters) {
 		this.parameters = parameters;
+	}
+
+	public Definition getDefinition() {
+		return definition;
+	}
+
+	public void setDefinition(Definition definition) {
+		this.definition = definition;
 	}
 
 	@Override

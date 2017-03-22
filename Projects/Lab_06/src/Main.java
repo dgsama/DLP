@@ -4,8 +4,11 @@ import java.io.IOException;
 import error.ErrorHandler;
 import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorTree;
+import io.ErrorFileManager;
 import parser.Parser;
 import scanner.Scanner;
+import semantic.IdentificationVisitor;
+import semantic.LValueVisitor;
 
 public class Main {
 	public static void main(String args[]) throws IOException {
@@ -25,12 +28,34 @@ public class Main {
 		Scanner scanner = new Scanner(fr);
 		Parser parser = new Parser(scanner);
 		parser.run();
+		if(checkErrors("SYNTAX")){
+			return;
+		}
 
+		parser.getRoot().accept(new LValueVisitor(), null);
+		if(checkErrors("SEMANTIC")){
+			return;
+		}
+		parser.getRoot().accept(new IdentificationVisitor(), null);
+		if(checkErrors("SEMANTIC")){
+			return;
+		}
+
+		IntrospectorModel model = new IntrospectorModel("Program", parser.getRoot());
+		new IntrospectorTree("Introspector", model);
+
+	}
+
+	private static boolean checkErrors(String phase) throws IOException {
 		if (!ErrorHandler.getInstance().anyError()) {
 			ErrorHandler.getInstance().showErrors(System.err);
-		} else {
-			IntrospectorModel model = new IntrospectorModel("Program", parser.getRoot());
-			new IntrospectorTree("Introspector", model);
+			ErrorFileManager.getInstance().setPhase(phase);
+			ErrorFileManager.getInstance().createErrorLog();
+			return true;
+			
+		}else{
+			ErrorHandler.getInstance().getErrorsList().clear();
+			return false;
 		}
 	}
 

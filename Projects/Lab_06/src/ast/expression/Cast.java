@@ -32,4 +32,6 @@ public class Cast extends AbstractExp {
 		return "Cast [dinamicType=" + dinamicType + ", expression=" + expression + "]";
 	}
 
+	
+
 }

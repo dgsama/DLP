@@ -31,4 +31,6 @@ public class StructAccess extends AbstractExp {
 		return "StructAccess [name=" + name + ", field=" + field + "]";
 	}
 
+	
+
 }

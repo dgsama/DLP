@@ -8,6 +8,7 @@ import semantic.Visitor;
 public class StructType extends AbstractType {
 
 	private List<Definition> fieldsDefinitions;
+	private Definition definition;
 
 	public StructType(int line, int column, List<Definition> fieldsDefinitions) {
 		super(line, column);
@@ -16,6 +17,14 @@ public class StructType extends AbstractType {
 
 	public List<Definition> getFieldsDefinitions() {
 		return fieldsDefinitions;
+	}
+
+	public Definition getDefinition() {
+		return definition;
+	}
+
+	public void setDefinition(Definition definition) {
+		this.definition = definition;
 	}
 
 	@Override

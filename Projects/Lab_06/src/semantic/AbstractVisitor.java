@@ -3,7 +3,6 @@ package semantic;
 import ast.Program;
 import ast.definition.DefField;
 import ast.definition.DefFunc;
-import ast.definition.DefStruct;
 import ast.definition.DefVar;
 import ast.definition.Definition;
 import ast.expression.ArrayAccess;
@@ -129,15 +128,12 @@ public abstract class AbstractVisitor implements Visitor {
 	@Override
 	public Object visit(DefFunc dF, Object param) {
 		dF.getType().accept(this, param);
+		for (Definition each : dF.getDefinitions()) {
+			each.accept(this, param);
+		}
 		for (Statement each : dF.getStatements()) {
 			each.accept(this, param);
 		}
-		return null;
-	}
-
-	@Override
-	public Object visit(DefStruct dS, Object param) {
-		dS.getType().accept(this, param);
 		return null;
 	}
 

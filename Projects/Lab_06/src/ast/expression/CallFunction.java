@@ -2,17 +2,27 @@ package ast.expression;
 
 import java.util.List;
 
+import ast.definition.Definition;
 import semantic.Visitor;
 
 public class CallFunction extends AbstractExp {
 
 	private String name;
 	private List<Expression> parameters;
+	private Definition definition;
 
 	public CallFunction(int line, int column, String name, List<Expression> parameters) {
 		super(line, column);
 		this.name = name;
 		this.parameters = parameters;
+	}
+
+	public Definition getDefinition() {
+		return definition;
+	}
+	
+	public void setDefinition(Definition definition) {
+		this.definition = definition;
 	}
 
 	public String getName() {
@@ -40,5 +50,7 @@ public class CallFunction extends AbstractExp {
 	public String toString() {
 		return "CallFunction [name=" + name + ", parameters=" + parameters + "]";
 	}
+
+	
 
 }

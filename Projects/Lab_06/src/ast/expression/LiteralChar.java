@@ -25,4 +25,6 @@ public class LiteralChar extends AbstractExp {
 		return "LiteralChar [value=" + value + "]";
 	}
 
+	
+
 }

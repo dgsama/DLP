@@ -40,8 +40,6 @@ public interface Visitor {
 
 	Object visit(DefFunc dF, Object param);
 
-	Object visit(DefStruct dS, Object param);
-
 	Object visit(DefVar dV, Object param);
 
 	Object visit(Assigment assig, Object param);
