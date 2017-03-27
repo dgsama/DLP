@@ -8,7 +8,6 @@ public class IntType extends AbstractType {
 
 	public IntType(int line, int column) {
 		super(line, column);
-		// TODO Auto-generated constructor stub
 	}
 
 	public static IntType getInstance() {
@@ -16,6 +15,16 @@ public class IntType extends AbstractType {
 			instance = new IntType(0, 0);
 		}
 		return instance;
+	}
+
+	@Override
+	public boolean isLogical() {
+		return true;
+	}
+
+	@Override
+	public Type arithmetic() {
+		return getInstance();
 	}
 
 	@Override

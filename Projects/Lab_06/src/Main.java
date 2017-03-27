@@ -18,42 +18,41 @@ public class Main {
 		}
 
 		FileReader fr = null;
-		try {
-			fr = new FileReader(args[0]);
-		} catch (IOException io) {
-			System.err.println("The file " + args[0] + " could not be opened.");
-			return;
-		}
+		String[] files = { "wrong.input.txt", "wrong.input.1.txt", "wrong.input.2.txt", "wrong.input.3.txt",
+				"wrong.input.4.txt", "wrong.input.5.txt" };
+		for (int i = 0; i < files.length; i++) {
+			System.out.println("\n\n\t File: " + files[i] + "\n");
+			try {
+				fr = new FileReader(files[i]);
+			} catch (IOException io) {
+				System.err.println("The file " + args[0] + " could not be opened.");
+			}
 
-		Scanner scanner = new Scanner(fr);
-		Parser parser = new Parser(scanner);
-		parser.run();
-		if(checkErrors("SYNTAX")){
-			return;
+			Scanner scanner = new Scanner(fr);
+			Parser parser = new Parser(scanner);
+			parser.run();
+			if (!checkErrors("SYNTAX", files[i])) {
+				parser.getRoot().accept(new LValueVisitor(), null);
+				if (!checkErrors("SEMANTIC", files[i])) {
+					parser.getRoot().accept(new IdentificationVisitor(), null);
+					if (!checkErrors("SEMANTIC", files[i])) {
+						IntrospectorModel model = new IntrospectorModel("Program", parser.getRoot());
+						new IntrospectorTree("Introspector", model);
+					}
+				}
+			}
 		}
-
-		parser.getRoot().accept(new LValueVisitor(), null);
-		if(checkErrors("SEMANTIC")){
-			return;
-		}
-		parser.getRoot().accept(new IdentificationVisitor(), null);
-		if(checkErrors("SEMANTIC")){
-			return;
-		}
-
-		IntrospectorModel model = new IntrospectorModel("Program", parser.getRoot());
-		new IntrospectorTree("Introspector", model);
-
 	}
 
-	private static boolean checkErrors(String phase) throws IOException {
+	private static boolean checkErrors(String phase, String file) throws IOException {
 		if (!ErrorHandler.getInstance().anyError()) {
 			ErrorHandler.getInstance().showErrors(System.err);
 			ErrorFileManager.getInstance().setPhase(phase);
+			ErrorFileManager.getInstance().setFile(file);
 			ErrorFileManager.getInstance().createErrorLog();
 			return true;
-			
-		}else{
+
+		} else {
 			ErrorHandler.getInstance().getErrorsList().clear();
 			return false;
 		}

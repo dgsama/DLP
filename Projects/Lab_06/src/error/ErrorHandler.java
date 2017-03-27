@@ -27,6 +27,14 @@ public class ErrorHandler {
 
 	public void addError(Err eT) {
 		if (eT != null) {
+
+			for (Err each : errors) {
+				if (each.getLine() == eT.getLine() && each.getColumn() == eT.getColumn()
+						&& each.getErrorMessage().toLowerCase().equals(eT.getErrorMessage().toLowerCase())) {
+					return;
+				}
+			}
+
 			errors.add(eT);
 		}
 	}

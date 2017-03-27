@@ -26,6 +26,14 @@ public class ArrayType extends AbstractType {
 	}
 
 	@Override
+	public Type squareBrackets(Type type) {
+		if (type.promotesTo(IntType.getInstance()) == null) {
+			return null;
+		}
+		return this.typeOf;
+	}
+
+	@Override
 	public Object accept(Visitor visitor, Object param) {
 		return visitor.visit(this, param);
 	}

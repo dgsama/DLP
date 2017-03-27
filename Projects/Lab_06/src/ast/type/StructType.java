@@ -28,6 +28,16 @@ public class StructType extends AbstractType {
 	}
 
 	@Override
+	public Type dot(String fieldName) {
+		for (Definition var : fieldsDefinitions) {
+			if (fieldName.equals(var.getId())) {
+				return var.getType();
+			}
+		}
+		return null;
+	}
+
+	@Override
 	public Object accept(Visitor visitor, Object param) {
 		return visitor.visit(this, param);
 	}

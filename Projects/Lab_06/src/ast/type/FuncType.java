@@ -25,6 +25,20 @@ public class FuncType extends AbstractType {
 	}
 
 	@Override
+	public Type parentesis(List<Type> types) {
+		if (parameters.size() != types.size()) {
+			return null;
+		}
+		for (int i = 0; i < types.size(); i++) {
+			if (null == types.get(i).promotesTo(this.parameters.get(i).getType())) {
+				return null;
+			}
+		}
+
+		return this.retType;
+	}
+
+	@Override
 	public Object accept(Visitor visitor, Object param) {
 		return visitor.visit(this, param);
 	}

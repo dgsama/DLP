@@ -22,7 +22,7 @@ public interface Visitor {
 
 	Object visit(ArrayAccess arrayAccess, Object param);
 
-	Object visit(CallFunction cF, Object param);
+	Object visit(InvocationExp cF, Object param);
 
 	Object visit(Cast cast, Object param);
 
@@ -42,9 +42,9 @@ public interface Visitor {
 
 	Object visit(DefVar dV, Object param);
 
-	Object visit(Assigment assig, Object param);
+	Object visit(Assignment assig, Object param);
 
-	Object visit(CallFunc cF, Object param);
+	Object visit(InvocationSt cF, Object param);
 
 	Object visit(IfElse ifElse, Object param);
 

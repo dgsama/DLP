@@ -1,7 +1,7 @@
 package semantic;
 
 import ast.expression.ArrayAccess;
-import ast.expression.CallFunction;
+import ast.expression.InvocationExp;
 import ast.expression.Cast;
 import ast.expression.Expression;
 import ast.expression.LiteralChar;
@@ -14,11 +14,9 @@ import ast.expression.binary.CompOperation;
 import ast.expression.binary.LogicOperation;
 import ast.expression.unary.UnaryMinus;
 import ast.expression.unary.UnaryNot;
-import ast.statement.Assigment;
+import ast.statement.Assignment;
 import ast.statement.Read;
 import ast.type.ErrorType;
-import error.Err;
-import error.ErrorHandler;
 
 public class LValueVisitor extends AbstractVisitor {
 
@@ -35,7 +33,7 @@ public class LValueVisitor extends AbstractVisitor {
 	}
 
 	@Override
-	public Object visit(CallFunction exp, Object param) {
+	public Object visit(InvocationExp exp, Object param) {
 		exp.setLValue(false);
 		return super.visit(exp, param);
 	}
@@ -101,10 +99,10 @@ public class LValueVisitor extends AbstractVisitor {
 	}
 
 	@Override
-	public Object visit(Assigment assig, Object param) {
+	public Object visit(Assignment assig, Object param) {
+		super.visit(assig, param);
 		if (!assig.getLeftExpression().islValue()) {
-			ErrorHandler.getInstance().addError(new Err(new ErrorType(assig.getLine(), assig.getColumn(),
-					"The left part of the assigment can't be there")));
+			new ErrorType(assig.getLine(), assig.getColumn(), "The left part of the assignment can't be there");
 		}
 		return null;
 	}
@@ -112,9 +110,9 @@ public class LValueVisitor extends AbstractVisitor {
 	@Override
 	public Object visit(Read read, Object param) {
 		for (Expression exp : read.getExpressions()) {
+			exp.accept(this, param);
 			if (!exp.islValue()) {
-				ErrorHandler.getInstance().addError(
-						new Err(new ErrorType(exp.getLine(), exp.getColumn(), "This variable can't store a value")));
+				new ErrorType(exp.getLine(), exp.getColumn(), "This variable can't store a value");
 			}
 		}
 		return null;

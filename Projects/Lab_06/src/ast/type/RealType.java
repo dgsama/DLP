@@ -16,6 +16,10 @@ public class RealType extends AbstractType {
 		}
 		return instance;
 	}
+	@Override
+	public Type arithmetic() {
+		return getInstance();
+	}
 
 	@Override
 	public Object accept(Visitor visitor, Object param) {

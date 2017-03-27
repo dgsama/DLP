@@ -6,7 +6,7 @@ import ast.definition.DefFunc;
 import ast.definition.DefVar;
 import ast.definition.Definition;
 import ast.expression.ArrayAccess;
-import ast.expression.CallFunction;
+import ast.expression.InvocationExp;
 import ast.expression.Cast;
 import ast.expression.Expression;
 import ast.expression.LiteralChar;
@@ -19,8 +19,8 @@ import ast.expression.binary.CompOperation;
 import ast.expression.binary.LogicOperation;
 import ast.expression.unary.UnaryMinus;
 import ast.expression.unary.UnaryNot;
-import ast.statement.Assigment;
-import ast.statement.CallFunc;
+import ast.statement.Assignment;
+import ast.statement.InvocationSt;
 import ast.statement.IfElse;
 import ast.statement.Read;
 import ast.statement.Return;
@@ -80,7 +80,7 @@ public abstract class AbstractVisitor implements Visitor {
 	}
 
 	@Override
-	public Object visit(CallFunction exp, Object param) {
+	public Object visit(InvocationExp exp, Object param) {
 		for (Expression each : exp.getParameters()) {
 			each.accept(this, param);
 		}
@@ -144,14 +144,14 @@ public abstract class AbstractVisitor implements Visitor {
 	}
 
 	@Override
-	public Object visit(Assigment assig, Object param) {
+	public Object visit(Assignment assig, Object param) {
 		assig.getLeftExpression().accept(this, param);
 		assig.getRightExpression().accept(this, param);
 		return null;
 	}
 
 	@Override
-	public Object visit(CallFunc cF, Object param) {
+	public Object visit(InvocationSt cF, Object param) {
 		for (Expression each : cF.getParameters()) {
 			each.accept(this, param);
 		}
@@ -209,7 +209,6 @@ public abstract class AbstractVisitor implements Visitor {
 
 	@Override
 	public Object visit(CharType cT, Object param) {
-
 		return null;
 	}
 

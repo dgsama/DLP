@@ -1,5 +1,6 @@
 package ast.statement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ast.expression.Expression;
@@ -14,6 +15,13 @@ public class While extends AbstractStatement {
 		super(line, column);
 		this.condition = condition;
 		this.statements = statements;
+	}
+
+	public While(int line, int column, Expression condition, Statement statement) {
+		super(line, column);
+		this.condition = condition;
+		this.statements = new ArrayList<>();
+		statements.add(statement);
 	}
 
 	public Expression getCondition() {

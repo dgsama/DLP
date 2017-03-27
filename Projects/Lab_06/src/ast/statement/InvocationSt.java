@@ -6,13 +6,13 @@ import ast.definition.Definition;
 import ast.expression.Expression;
 import semantic.Visitor;
 
-public class CallFunc extends AbstractStatement {
+public class InvocationSt extends AbstractStatement {
 
 	private String name;
 	private List<Expression> parameters;
 	private Definition definition;
 
-	public CallFunc(int line, int column, String name, List<Expression> parameters) {
+	public InvocationSt(int line, int column, String name, List<Expression> parameters) {
 		super(line, column);
 		this.name = name;
 		this.parameters = parameters;

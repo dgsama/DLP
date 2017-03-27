@@ -13,7 +13,7 @@ import ast.definition.DefFunc;
 import ast.definition.DefVar;
 import ast.definition.Definition;
 import ast.expression.ArrayAccess;
-import ast.expression.CallFunction;
+import ast.expression.InvocationExp;
 import ast.expression.Cast;
 import ast.expression.Expression;
 import ast.expression.LiteralChar;
@@ -26,8 +26,8 @@ import ast.expression.binary.CompOperation;
 import ast.expression.binary.LogicOperation;
 import ast.expression.unary.UnaryMinus;
 import ast.expression.unary.UnaryNot;
-import ast.statement.Assigment;
-import ast.statement.CallFunc;
+import ast.statement.Assignment;
+import ast.statement.InvocationSt;
 import ast.statement.IfElse;
 import ast.statement.Read;
 import ast.statement.Return;
@@ -44,6 +44,7 @@ import ast.type.VoidType;
 import ast.type.RealType;
 import ast.type.MainType;
 %}
+
 
 // * Yacc declarations
 //   Token definition
@@ -164,18 +165,18 @@ statements:	statements statement					{ ((List<Statement>)$$).add((Statement)$2);
 				;
 
 statement:		RETURN exp ';' 						{ $$ = new Return(scanner.getLine(), scanner.getColumn(), (Expression)$2); }
-				| READ '(' list_exp ')' ';'			{ $$ = new Read(scanner.getLine(), scanner.getColumn(), (List<Expression>)$2); }
+				| READ list_exp ';'					{ $$ = new Read(scanner.getLine(), scanner.getColumn(), (List<Expression>)$2); }
 				| WRITE list_exp ';'				{ $$ = new Write(scanner.getLine(), scanner.getColumn(), (List<Expression>)$2); }
 				| if_else							{ $$ = $1;}
 				| while								{ $$ = $1;}		
-				| exp '=' exp ';'					{ $$ = new Assigment(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3); }
-				| ID '(' opt_list_exp ')' ';'		{ $$ = new CallFunc(scanner.getLine(), scanner.getColumn(), (String)$1, (List<Expression>)$3); }
-				| exp INC ';' 							{ $$ = new Assigment(scanner.getLine(), scanner.getColumn(), (Expression)$1,(Expression) new ArithmeticOperation(scanner.getLine(), scanner.getColumn(),(Expression)$1,new LiteralInt(scanner.getLine(),scanner.getColumn(),1),'+'));}
-				| exp DEC ';'                         { $$ = new Assigment(scanner.getLine(), scanner.getColumn(), (Expression)$1,(Expression) new ArithmeticOperation(scanner.getLine(), scanner.getColumn(),(Expression)$1,new LiteralInt(scanner.getLine(),scanner.getColumn(),1),'-'));}
+				| exp '=' exp ';'					{ $$ = new Assignment(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3); }
+				| ID '(' opt_list_exp ')' ';'		{ $$ = new InvocationSt(scanner.getLine(), scanner.getColumn(), (String)$1, (List<Expression>)$3); }
+				| exp INC ';' 						{ $$ = new Assignment(scanner.getLine(), scanner.getColumn(), (Expression)$1,(Expression) new ArithmeticOperation(scanner.getLine(), scanner.getColumn(),(Expression)$1,new LiteralInt(scanner.getLine(),scanner.getColumn(),1),'+'));}
+				| exp DEC ';'                       { $$ = new Assignment(scanner.getLine(), scanner.getColumn(), (Expression)$1,(Expression) new ArithmeticOperation(scanner.getLine(), scanner.getColumn(),(Expression)$1,new LiteralInt(scanner.getLine(),scanner.getColumn(),1),'-'));}
 				;
 				
 while:	WHILE '(' exp ')' '{' statements '}'		{ $$ = new While(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$6); }
-		|WHILE '(' exp ')' statement				{ $$ = new While(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$5); }
+		|WHILE '(' exp ')' statement				{ $$ = new While(scanner.getLine(), scanner.getColumn(), (Expression)$3, (Statement)$5); }
 		;
 		
 if_else:	IF '(' exp ')' '{' statements '}'	ELSE '{' statements '}'   { $$ = new IfElse(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$6, (List<Statement>)$10); }
@@ -210,7 +211,7 @@ exp:	exp '+' exp                               		{ $$ = new ArithmeticOperation(
 		| '(' p_type ')' exp							{ $$ = new Cast(scanner.getLine(), scanner.getColumn(), (Type)$2, (Expression)$4); }
 		| exp '[' exp ']'								{ $$ = new ArrayAccess(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3); }
 		| exp '.' ID									{ $$ = new StructAccess(scanner.getLine(), scanner.getColumn(), (Expression)$1, (String)$3); }
-		| ID '(' opt_list_exp ')'						{ $$ = new CallFunction(scanner.getLine(), scanner.getColumn(), (String)$1, (List<Expression>)$3); }
+		| ID '(' opt_list_exp ')'						{ $$ = new InvocationExp(scanner.getLine(), scanner.getColumn(), (String)$1, (List<Expression>)$3); }
 		| '-' exp					%prec UNARY_MINUS	{ $$ = new UnaryMinus(scanner.getLine(), scanner.getColumn(), (Expression)$2); }
 		| '(' exp ')'									{ $$ = $2; }
 		| '!' exp										{ $$ = new UnaryNot(scanner.getLine(), scanner.getColumn(), (Expression)$2); }

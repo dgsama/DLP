@@ -6,6 +6,8 @@ import ast.AbstractASTNode;
 import error.Err;
 import error.ErrorHandler;
 
+@SuppressWarnings("unused")
+
 %%
 // ************  Options ********************
 
