@@ -1,0 +1,20 @@
+
+	int ->2
+	real->4
+	char->1
+
+OFFSET
+Global variables, Fields
+	suma de las previas
+
+Local variables, parameters
+	se parte de un numero, resta de las previas
+	
+	ej:
+	
+	partes de 10
+	
+	int a offset = 8
+	char b offset = 6
+	real c offset = 2
+	

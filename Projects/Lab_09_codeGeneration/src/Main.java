@@ -9,17 +9,15 @@ import parser.Parser;
 import scanner.Scanner;
 import semantic.IdentificationVisitor;
 import semantic.LValueVisitor;
+import semantic.TypeVisitor;
 
 public class Main {
 	public static void main(String args[]) throws IOException {
-		if (args.length < 1) {
-			System.err.println("Pass me the name of the input file.");
-			return;
-		}
 
 		FileReader fr = null;
-		String[] files = { "wrong.input.txt", "wrong.input.1.txt", "wrong.input.2.txt", "wrong.input.3.txt",
-				"wrong.input.4.txt", "wrong.input.5.txt" };
+		String[] files = getFiles();
+		if (files.length <= 0)
+			System.err.println("Pass me any file, ¡gandul!");
 		for (int i = 0; i < files.length; i++) {
 			System.out.println("\n\n\t File: " + files[i] + "\n");
 			try {
@@ -30,18 +28,33 @@ public class Main {
 
 			Scanner scanner = new Scanner(fr);
 			Parser parser = new Parser(scanner);
+
+			/** SYNTATIC PHASE **/
 			parser.run();
-			if (!checkErrors("SYNTAX", files[i])) {
-				parser.getRoot().accept(new LValueVisitor(), null);
-				if (!checkErrors("SEMANTIC", files[i])) {
-					parser.getRoot().accept(new IdentificationVisitor(), null);
-					if (!checkErrors("SEMANTIC", files[i])) {
-						IntrospectorModel model = new IntrospectorModel("Program", parser.getRoot());
-						new IntrospectorTree("Introspector", model);
-					}
-				}
-			}
+			if (checkErrors("SYNTACTIC", files[i]))
+				continue;
+			/** SEMANTIC PHASE **/
+			parser.getRoot().accept(new LValueVisitor(), null);
+			if (checkErrors("SEMANTIC (LValue)", files[i]))
+				continue;
+			parser.getRoot().accept(new IdentificationVisitor(), null);
+			if (checkErrors("SEMANTIC (Identification)", files[i]))
+				continue;
+			// parser.getRoot().accept(new TypeVisitor(), null);
+			// if (checkErrors("SEMANTIC (Type checking)", files[i]))
+			// return;
+
+			IntrospectorModel model = new IntrospectorModel("Program", parser.getRoot());
+			new IntrospectorTree("Introspector", model);
+
 		}
+	}
+
+	private static String[] getFiles() {
+		String[] files = { "SemanticErrorFiles/wrong.input.txt", "SemanticErrorFiles/wrong.input.1.txt",
+				"SemanticErrorFiles/wrong.input.2.txt", "SemanticErrorFiles/wrong.input.3.txt",
+				"SemanticErrorFiles/wrong.input.4.txt", "SemanticErrorFiles/wrong.input.5.txt" };
+		return files;
 	}
 
 	private static boolean checkErrors(String phase, String file) throws IOException {

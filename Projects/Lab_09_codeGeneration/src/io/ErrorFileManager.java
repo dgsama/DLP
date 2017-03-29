@@ -27,7 +27,8 @@ public class ErrorFileManager {
 
 	public void createErrorLog() throws IOException {
 		List<Err> errors = ErrorHandler.getInstance().getErrorsList();
-		FileWriter fW = new FileWriter("errorFiles/errors_" + file.toString() + ".log");
+		String aux = parseName();
+		FileWriter fW = new FileWriter("errorFiles/errors_" + aux + ".log");
 
 		fW.write("\t\t" + new Date().toString() + "\n\n");
 
@@ -42,6 +43,14 @@ public class ErrorFileManager {
 		}
 
 		fW.close();
+	}
+
+	private String parseName() {
+		String[] name = file.split("/");
+		if (name.length == 1)
+			return name[0];
+		else
+			return name[1];
 	}
 
 	public void setFile(String file) {
