@@ -1,0 +1,8 @@
+		Thu Apr 06 16:46:31 CEST 2017
+
+  The errors are in the SEMANTIC (Identification) phase.
+  There are 3 in the errors list.
+
+	+ 1: The variable a already exists in this scope.in line [5] column [11]
+	+ 2: The variable b already exists in this scope.in line [9] column [22]
+	+ 3: The function g already exists in the program.in line [14] column [1]

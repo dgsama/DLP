@@ -11,11 +11,6 @@ public abstract class AbstractType extends AbstractASTNode implements Type {
 	}
 
 	@Override
-	public boolean isLogical() {
-		return false;
-	}
-
-	@Override
 	public Type arithmetic(Type type) {
 		return null;
 	}
@@ -58,6 +53,16 @@ public abstract class AbstractType extends AbstractASTNode implements Type {
 	@Override
 	public Type logical() {
 		return null;
+	}
+
+	@Override
+	public Type parentesisCast(Type type) {
+		return null;
+	}
+
+	@Override
+	public boolean isPrimitive() {
+		return false;
 	}
 
 }

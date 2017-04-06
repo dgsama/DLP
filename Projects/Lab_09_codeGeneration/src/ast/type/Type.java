@@ -5,7 +5,6 @@ import java.util.List;
 import ast.ASTNode;
 
 public interface Type extends ASTNode {
-	boolean isLogical();
 
 	Type arithmetic(Type type);
 
@@ -24,5 +23,9 @@ public interface Type extends ASTNode {
 	Type dot(String fieldName);
 
 	Type squareBrackets(Type type);
+
+	Type parentesisCast(Type type);
+
+	boolean isPrimitive();
 
 }

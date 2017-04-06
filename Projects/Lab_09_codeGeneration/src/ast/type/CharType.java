@@ -18,11 +18,6 @@ public class CharType extends AbstractType {
 	}
 
 	@Override
-	public boolean isLogical() {
-		return true;
-	}
-
-	@Override
 	public Type arithmetic() {
 		return getInstance();
 	}
@@ -30,6 +25,11 @@ public class CharType extends AbstractType {
 	@Override
 	public Object accept(Visitor visitor, Object param) {
 		return visitor.visit(this, param);
+	}
+
+	@Override
+	public boolean isPrimitive() {
+		return true;
 	}
 
 }

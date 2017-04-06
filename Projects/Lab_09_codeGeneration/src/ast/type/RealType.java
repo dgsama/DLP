@@ -26,4 +26,9 @@ public class RealType extends AbstractType {
 	public Object accept(Visitor visitor, Object param) {
 		return visitor.visit(this, param);
 	}
+
+	@Override
+	public boolean isPrimitive() {
+		return true;
+	}
 }

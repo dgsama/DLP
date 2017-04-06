@@ -1,7 +1,8 @@
 /Main.class
 /ast/
+/codeGeneration/
 /error/
 /io/
-/parser/
 /scanner/
 /semantic/
+/parser/

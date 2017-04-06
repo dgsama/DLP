@@ -40,9 +40,9 @@ public class Main {
 			parser.getRoot().accept(new IdentificationVisitor(), null);
 			if (checkErrors("SEMANTIC (Identification)", files[i]))
 				continue;
-			// parser.getRoot().accept(new TypeVisitor(), null);
-			// if (checkErrors("SEMANTIC (Type checking)", files[i]))
-			// return;
+			parser.getRoot().accept(new TypeVisitor(), null);
+			if (checkErrors("SEMANTIC (Type checking)", files[i]))
+				continue;
 
 			IntrospectorModel model = new IntrospectorModel("Program", parser.getRoot());
 			new IntrospectorTree("Introspector", model);
@@ -63,6 +63,7 @@ public class Main {
 			ErrorFileManager.getInstance().setPhase(phase);
 			ErrorFileManager.getInstance().setFile(file);
 			ErrorFileManager.getInstance().createErrorLog();
+			ErrorHandler.getInstance().getErrorsList().clear();
 			return true;
 
 		} else {

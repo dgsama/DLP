@@ -1,0 +1,7 @@
+		Thu Apr 06 16:46:30 CEST 2017
+
+  The errors are in the SEMANTIC (LValue) phase.
+  There are 2 in the errors list.
+
+	+ 1: The left part of the assignment can't be therein line [8] column [12]
+	+ 2: This variable can't store a valuein line [9] column [17]
