@@ -18,8 +18,21 @@ public class IntType extends AbstractType {
 	}
 
 	@Override
+	public Type arithmetic(Type type) {
+	}
+
+	@Override
 	public Type arithmetic() {
 		return getInstance();
+	}
+
+	@Override
+	public boolean isPrimitive() {
+		return true;
+	}
+
+	@Override
+	public Type promotesTo(Type type) {
 	}
 
 	@Override
@@ -27,8 +40,4 @@ public class IntType extends AbstractType {
 		return visitor.visit(this, param);
 	}
 
-	@Override
-	public boolean isPrimitive() {
-		return true;
-	}
 }

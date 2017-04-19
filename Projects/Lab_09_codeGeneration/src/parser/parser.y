@@ -26,6 +26,7 @@ import ast.expression.binary.CompOperation;
 import ast.expression.binary.LogicOperation;
 import ast.expression.unary.UnaryMinus;
 import ast.expression.unary.UnaryNot;
+import ast.expression.AsignExp;
 import ast.statement.Assignment;
 import ast.statement.InvocationSt;
 import ast.statement.IfElse;
@@ -67,6 +68,7 @@ READ
 AND
 NOT_EQ
 WHILE
+FOR
 G_EQ
 INT
 L_EQ
@@ -168,7 +170,8 @@ statement:		RETURN exp ';' 						{ $$ = new Return(scanner.getLine(), scanner.ge
 				| READ list_exp ';'					{ $$ = new Read(scanner.getLine(), scanner.getColumn(), (List<Expression>)$2); }
 				| WRITE list_exp ';'				{ $$ = new Write(scanner.getLine(), scanner.getColumn(), (List<Expression>)$2); }
 				| if_else							{ $$ = $1;}
-				| while								{ $$ = $1;}		
+				| while								{ $$ = $1;}	
+				| for 								{ $$ = $1;}	
 				| exp '=' exp ';'					{ $$ = new Assignment(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3); }
 				| ID '(' opt_list_exp ')' ';'		{ $$ = new InvocationSt(scanner.getLine(), scanner.getColumn(), (String)$1, (List<Expression>)$3); }
 				| exp INC ';' 						{ $$ = new Assignment(scanner.getLine(), scanner.getColumn(), (Expression)$1,(Expression) new ArithmeticOperation(scanner.getLine(), scanner.getColumn(),(Expression)$1,new LiteralInt(scanner.getLine(),scanner.getColumn(),1),'+'));}
@@ -178,6 +181,10 @@ statement:		RETURN exp ';' 						{ $$ = new Return(scanner.getLine(), scanner.ge
 while:	WHILE '(' exp ')' '{' statements '}'		{ $$ = new While(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$6); }
 		|WHILE '(' exp ')' statement				{ $$ = new While(scanner.getLine(), scanner.getColumn(), (Expression)$3, (Statement)$5); }
 		;
+
+for: 	FOR '(' ')' '{' statements '}'
+		|FOR '(' ')' statement 
+
 		
 if_else:	IF '(' exp ')' '{' statements '}'	ELSE '{' statements '}'   { $$ = new IfElse(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$6, (List<Statement>)$10); }
 			|IF '(' exp ')' '{' statements '}'	ELSE statement            { $$ = new IfElse(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$6, (Statement)$9); }
@@ -219,6 +226,7 @@ exp:	exp '+' exp                               		{ $$ = new ArithmeticOperation(
 		| ID											{ $$ = new Variable(scanner.getLine(), scanner.getColumn(), (String)$1); }
 		| CHAR_CONSTANT									{ $$ = new LiteralChar(scanner.getLine(), scanner.getColumn(), (Character)$1); }
 		| REAL_CONSTANT		  							{ $$ = new LiteralReal(scanner.getLine(), scanner.getColumn(), (Double)$1); }
+		| exp '=' exp 									{ $$ = new AssignExp(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3);}
 		;
 		
 %%

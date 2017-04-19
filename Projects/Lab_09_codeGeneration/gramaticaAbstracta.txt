@@ -1,0 +1,7 @@
+Categories(interfaces)
+nombres de ellas.
+
+
+Nodes (clases)
+
+nombre:tipo -> atributos

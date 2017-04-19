@@ -76,4 +76,6 @@ public interface Visitor {
 
 	Object visit(VoidType vT, Object param);
 
+	Object visit(AssignExp exp, Object param);
+
 }

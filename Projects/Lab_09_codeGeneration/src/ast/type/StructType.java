@@ -46,5 +46,6 @@ public class StructType extends AbstractType {
 	public String toString() {
 		return "StructType [fieldsDefinitions=" + fieldsDefinitions + "]";
 	}
+	
 
 }

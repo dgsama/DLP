@@ -1,6 +1,7 @@
 package semantic;
 
 import ast.expression.ArrayAccess;
+import ast.expression.AssignExp;
 import ast.expression.InvocationExp;
 import ast.expression.Cast;
 import ast.expression.Expression;
@@ -104,6 +105,7 @@ public class LValueVisitor extends AbstractVisitor {
 		if (!assig.getLeftExpression().islValue()) {
 			new ErrorType(assig.getLine(), assig.getColumn(), "The left part of the assignment can't be there");
 		}
+
 		return null;
 	}
 
@@ -117,4 +119,16 @@ public class LValueVisitor extends AbstractVisitor {
 		}
 		return null;
 	}
+
+	/** AMPLIACIONES **/
+	@Override
+	public Object visit(AssignExp exp, Object param) {
+		super.visit(exp, param);
+		if (!exp.getLeft().islValue()) {
+			new ErrorType(exp.getLine(), exp.getColumn(), "The left part of the assignment can't be there");
+		}
+		exp.setLValue(true);
+		return null;
+	}
+
 }

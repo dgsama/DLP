@@ -6,6 +6,7 @@ import ast.definition.DefFunc;
 import ast.definition.DefVar;
 import ast.definition.Definition;
 import ast.expression.ArrayAccess;
+import ast.expression.AssignExp;
 import ast.expression.InvocationExp;
 import ast.expression.Cast;
 import ast.expression.Expression;
@@ -260,6 +261,14 @@ public abstract class AbstractVisitor implements Visitor {
 
 	@Override
 	public Object visit(VoidType vT, Object param) {
+		return null;
+	}
+
+	/** AMPLIACIONES **/
+	@Override
+	public Object visit(AssignExp exp, Object param) {
+		exp.getLeft().accept(this, param);
+		exp.getRight().accept(this, param);
 		return null;
 	}
 

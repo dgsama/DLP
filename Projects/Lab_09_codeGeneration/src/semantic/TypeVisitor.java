@@ -5,6 +5,7 @@ import java.util.List;
 
 import ast.definition.DefFunc;
 import ast.expression.ArrayAccess;
+import ast.expression.AssignExp;
 import ast.expression.Cast;
 import ast.expression.Expression;
 import ast.expression.InvocationExp;
@@ -265,6 +266,18 @@ public class TypeVisitor extends AbstractVisitor {
 			if (!each.getType().isPrimitive()) {
 				new Err(each.getLine(), each.getColumn(), "This expression can't be called here.");
 			}
+		}
+		return false;
+	}
+
+	/** AMPLIACIONES **/
+
+	@Override
+	public Object visit(AssignExp exp, Object param) {
+		super.visit(exp, param);
+		if (exp.getRight().getType().promotesTo(exp.getLeft().getType()) == null) {
+			exp.getLeft().setType(
+					new ErrorType(exp.getLeft().getLine(), exp.getLeft().getColumn(), "The assigment is not posible"));
 		}
 		return false;
 	}
