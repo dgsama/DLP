@@ -8,10 +8,10 @@ public class ArithmeticOperation extends AbstractExp {
 
 	private Expression leftExpression;
 	private Expression rightExpression;
-	private char operator;
+	private String operator;
 
 	public ArithmeticOperation(int line, int column, Expression leftExpression, Expression rightExpression,
-			char operator) {
+			String operator) {
 		super(line, column);
 		this.leftExpression = leftExpression;
 		this.rightExpression = rightExpression;
@@ -26,7 +26,7 @@ public class ArithmeticOperation extends AbstractExp {
 		return rightExpression;
 	}
 
-	public char getOperator() {
+	public String getOperator() {
 		return operator;
 	}
 

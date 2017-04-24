@@ -18,11 +18,6 @@ public class RealType extends AbstractType {
 	}
 
 	@Override
-	public Type arithmetic() {
-		return getInstance();
-	}
-
-	@Override
 	public Object accept(Visitor visitor, Object param) {
 		return visitor.visit(this, param);
 	}
@@ -30,5 +25,41 @@ public class RealType extends AbstractType {
 	@Override
 	public boolean isPrimitive() {
 		return true;
+	}
+
+	@Override
+	public Type arithmetic(Type type) {
+		if (type instanceof RealType || type instanceof CharType || type instanceof IntType) {
+			return this;
+		}
+		if (type instanceof ErrorType) {
+			return type;
+		}
+		return null;
+	}
+
+	@Override
+	public Type arithmetic() {
+		return this;
+	}
+
+	@Override
+	public Type comparison(Type type) {
+		return type;
+	}
+
+	@Override
+	public Type parentesisCast(Type type) {
+		return type;
+	}
+
+	@Override
+	public Type promotesTo(Type type) {
+		if (type instanceof IntType || type instanceof CharType || type instanceof RealType) {
+			return this;
+		} else if (type instanceof ErrorType) {
+			return type;
+		}
+		return null;
 	}
 }

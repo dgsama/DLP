@@ -33,7 +33,6 @@ import ast.type.CharType;
 import ast.type.ErrorType;
 import ast.type.FuncType;
 import ast.type.IntType;
-import ast.type.MainType;
 import ast.type.RealType;
 import ast.type.StructType;
 import ast.type.VoidType;
@@ -229,11 +228,6 @@ public abstract class AbstractVisitor implements Visitor {
 
 	@Override
 	public Object visit(IntType iT, Object param) {
-		return null;
-	}
-
-	@Override
-	public Object visit(MainType mT, Object param) {
 		return null;
 	}
 

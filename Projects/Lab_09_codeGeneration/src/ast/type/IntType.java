@@ -18,21 +18,53 @@ public class IntType extends AbstractType {
 	}
 
 	@Override
-	public Type arithmetic(Type type) {
-	}
-
-	@Override
-	public Type arithmetic() {
-		return getInstance();
-	}
-
-	@Override
 	public boolean isPrimitive() {
 		return true;
 	}
 
 	@Override
+	public Type arithmetic(Type rightExprType) {
+		if (rightExprType instanceof CharType || rightExprType instanceof IntType) {
+			return this;
+		} else if (rightExprType instanceof RealType || rightExprType instanceof ErrorType) {
+			return rightExprType;
+		}
+		return null;
+	}
+
+	@Override
+	public Type parentesisCast(Type type) {
+		return type;
+	}
+
+	@Override
 	public Type promotesTo(Type type) {
+		if (type instanceof CharType || type instanceof IntType) {
+			return this;
+		}else if(type instanceof ErrorType){
+			return type;
+		}
+		return null;
+	}
+
+	@Override
+	public Type comparison(Type type) {
+		return type;
+	}
+
+	@Override
+	public Type logical(Type type) {
+		return type;
+	}
+
+	@Override
+	public Type arithmetic() {
+		return this;
+	}
+
+	@Override
+	public Type logical() {
+		return this;
 	}
 
 	@Override

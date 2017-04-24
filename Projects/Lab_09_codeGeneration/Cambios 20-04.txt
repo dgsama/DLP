@@ -1,0 +1,8 @@
+Metodos de la interfaz tipo implementados en:
+
+	-clase IntType
+	-clase RealType
+	-clase CharType
+	-clase funcType
+	-clase ArrayType
+	-clase structType

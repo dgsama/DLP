@@ -1,0 +1,49 @@
+Categories(interfaces)
+nombres de ellas.
+
+
+Nodes (clases)
+
+nombre:tipo -> atributos
+
+CATEGORIES
+Definition, Expression, Statement, Type
+
+NODES
+
+Program: -> definitions = Definition*
+
+DefField: Definition -> 
+DefFunc: Definition -> definitions = Definition*, statements = Statement*;
+DefVar: Defintion ->
+
+ArithmeticOperation: Expression -> leftExpression = Expression, operator = String, RightExpression = Expression;
+ComOperation: Expression ->  leftExpression = Expression, operator = String, RightExpression = Expression;
+LogicOperation: Expression ->  leftExpression = Expression, operator = String, RightExpression = Expression;
+UnaryMinus: Expression -> operator = Char, expression = Expression;
+UnaryNot: Expression -> operator = Char, expression = Expression;
+ArrayAccess: Expression -> index = Expression, name = String;
+Cast: Expression -> dinamicType = Type, expression = Expression;
+InvocationExp: Expression -> definition = Definition, name = String , parameters = Expression*;
+LiteralChar: Expression -> value = Char;
+LiteralInt: Expression -> value = Int;
+LiteralReal: Expression -> value = Double;
+StructAccess: Expression -> field = String, name = Expression;
+Variable: Expression -> definition = Definition, name = String;
+
+Assignment: Statement ->
+IfElse: Statement ->
+InvocationSt: Statement ->
+Read: Statement ->
+Return: Statement ->
+While: Statement ->
+Write: Statement ->
+
+ArrayType: Type ->
+CharType: Type ->
+FuncType: Type ->
+IntType: Type ->
+MainType: Type ->
+RealType: Type ->
+StructType: Type ->
+VoidType: Type ->

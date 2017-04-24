@@ -31,7 +31,6 @@ import ast.type.CharType;
 import ast.type.ErrorType;
 import ast.type.FuncType;
 import ast.type.IntType;
-import ast.type.MainType;
 import ast.type.RealType;
 import ast.type.Type;
 import ast.type.VoidType;

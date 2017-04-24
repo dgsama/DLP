@@ -6,7 +6,7 @@ import ast.ASTNode;
 
 public interface Type extends ASTNode {
 
-	Type arithmetic(Type type);
+	Type arithmetic(Type rightExprType);
 
 	Type arithmetic();
 
@@ -18,11 +18,11 @@ public interface Type extends ASTNode {
 
 	Type promotesTo(Type type);
 
-	Type parentesis(List<Type> types);
+	Type parentesis(List<Type> types);  //funcType, mainType
 
-	Type dot(String fieldName);
+	Type dot(String fieldName);			//structType
 
-	Type squareBrackets(Type type);
+	Type squareBrackets(Type type);		//arrayType
 
 	Type parentesisCast(Type type);
 

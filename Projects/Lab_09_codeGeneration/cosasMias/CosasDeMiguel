@@ -19,5 +19,14 @@ Local variables, parameters
 	real c offset = 2
 	
 	
+	
+	
+Programa ejemplo para conversion de tipos
+
+char c;
+
+void f(int i){
+c=i*2.0;
+}
 
 

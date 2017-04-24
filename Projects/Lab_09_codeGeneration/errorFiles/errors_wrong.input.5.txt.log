@@ -1,12 +1,7 @@
-		Thu Apr 06 16:46:31 CEST 2017
+		Thu Apr 20 15:54:23 CEST 2017
 
   The errors are in the SEMANTIC (Type checking) phase.
-  There are 7 in the errors list.
+  There are 2 in the errors list.
 
 	+ 1: The access to this array is not posible.in line [6] column [6]
-	+ 2: The assigment is not posiblein line [6] column [6]
-	+ 3: The access to this array is not posible.in line [7] column [6]
-	+ 4: The assigment is not posiblein line [7] column [6]
-	+ 5: The access to this array is not posible.in line [8] column [6]
-	+ 6: The access to this array is not posible.in line [8] column [9]
-	+ 7: The assigment is not posiblein line [8] column [9]
+	+ 2: The access to this array is not posible.in line [8] column [9]

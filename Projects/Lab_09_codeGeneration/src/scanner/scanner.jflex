@@ -113,7 +113,6 @@ BLANKS = (\t|\n|" "|\r)
 read	{return Parser.READ;}
 write	{return Parser.WRITE;}
 while	{return Parser.WHILE;}
-for     {return Parser.FOR;}
 if		{return Parser.IF;}
 else	{return Parser.ELSE;}
 int		{return Parser.INT;}	

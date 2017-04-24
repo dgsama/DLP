@@ -66,8 +66,6 @@ public interface Visitor {
 
 	Object visit(IntType iT, Object param);
 
-	Object visit(MainType mT, Object param);
-
 	Object visit(RealType rT, Object param);
 
 	Object visit(StructType sT, Object param);
