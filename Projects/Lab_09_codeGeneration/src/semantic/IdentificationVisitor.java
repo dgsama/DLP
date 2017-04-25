@@ -53,7 +53,10 @@ public class IdentificationVisitor extends AbstractVisitor {
 			new ErrorType(def.getLine(), def.getColumn(),
 					"The variable " + def.getId() + " already exists in this scope.");
 		}
-		// super.visit(def, param);
+			sT.set();
+			super.visit(def, param);
+			sT.reset();
+		
 		return null;
 	}
 
@@ -110,11 +113,7 @@ public class IdentificationVisitor extends AbstractVisitor {
 
 	@Override
 	public Object visit(StructType structT, Object param) {
-		for (Definition each : structT.getFieldsDefinitions()) {
-			if (each.getId().equals(param.toString())) {
-				return each;
-			}
-		}
+		super.visit(structT, param);
 		return null;
 	}
 

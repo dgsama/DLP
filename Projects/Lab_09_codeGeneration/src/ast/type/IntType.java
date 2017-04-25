@@ -39,9 +39,9 @@ public class IntType extends AbstractType {
 
 	@Override
 	public Type promotesTo(Type type) {
-		if (type instanceof CharType || type instanceof IntType) {
+		if (type instanceof IntType) {
 			return this;
-		}else if(type instanceof ErrorType){
+		} else if (type instanceof RealType || type instanceof ErrorType) {
 			return type;
 		}
 		return null;

@@ -1,6 +1,8 @@
-		Thu Apr 20 15:54:23 CEST 2017
+		Tue Apr 25 16:59:24 CEST 2017
 
   The errors are in the SEMANTIC (Identification) phase.
-  There are 1 in the errors list.
+  There are 3 in the errors list.
 
-	+ 1: The field doesn´t existsin line [8] column [13]
+	+ 1: The field day already exists in this struct.in line [13] column [13]
+	+ 2: The variable date already exists in this scope.in line [7] column [12]
+	+ 3: The field doesn´t existsin line [12] column [13]
