@@ -1,8 +1,0 @@
-		Thu Mar 30 17:08:28 CEST 2017
-
-  The errors are in the SYNTACTIC phase.
-  There are 3 in the errors list.
-
-	+ 1: The variable integer already exists in this scope.in line [3] column [21]
-	+ 2: The variable i is not declared.in line [7] column [18]
-	+ 3: The function f is not declared.in line [8] column [6]

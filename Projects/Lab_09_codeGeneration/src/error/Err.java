@@ -2,12 +2,26 @@ package error;
 
 import ast.type.ErrorType;
 
+/**
+ * This class is an intermediate class to have the possibility of check if there
+ * are any errors in the syntactic phase.
+ * 
+ * @author UO237464
+ *
+ */
 public class Err {
 
 	private int line;
 	private int column;
 	private String errorMessage;
 
+	/**
+	 * Constructor for syntactic errors.
+	 * 
+	 * @param line
+	 * @param column
+	 * @param errorMessage
+	 */
 	public Err(int line, int column, String errorMessage) {
 		super();
 		this.line = line;
@@ -15,6 +29,12 @@ public class Err {
 		this.errorMessage = errorMessage;
 	}
 
+	/**
+	 * Constructor for other errors, receives an ErrorType an them it parse the
+	 * object.
+	 * 
+	 * @param errorType
+	 */
 	public Err(ErrorType errorType) {
 		this.line = errorType.getLine();
 		this.column = errorType.getColumn();

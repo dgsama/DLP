@@ -12,12 +12,30 @@ import semantic.LValueVisitor;
 import semantic.TypeVisitor;
 
 public class Main {
+
+	/**
+	 * Create a list with all the names of the files that we wont to prove. The
+	 * use of this is oriented to pass to the compiler wrong files. If you want
+	 * to pass right files (in theory) pass one by one to avoid performance
+	 * problems.
+	 * 
+	 * @return list: files name
+	 */
+	private static String[] getFiles() {
+		// String[] files = { "semantic/1.txt", "semantic/2.txt",
+		// "semantic/3.txt", "semantic/4.txt", "semantic/5.txt","semantic/6.txt"
+		// };
+		String[] files = { "semantic/3.txt" };
+		return files;
+	}
+
 	public static void main(String args[]) throws IOException {
 
 		FileReader fr = null;
 		String[] files = getFiles();
 		if (files.length <= 0)
-			System.err.println("Pass me any file, ¡gandul!");
+			System.err.println("Please, pass me any file.");
+
 		for (int i = 0; i < files.length; i++) {
 			System.out.println("\n\n\t File: " + files[i] + "\n");
 			try {
@@ -33,6 +51,11 @@ public class Main {
 			parser.run();
 			if (checkErrors("SYNTACTIC", files[i]))
 				continue;
+
+			System.out.print("\nNo errors in the ");
+			System.out.print("SYNTACTIC");
+			System.out.print(" phase\n");
+
 			/** SEMANTIC PHASE **/
 			parser.getRoot().accept(new LValueVisitor(), null);
 			if (checkErrors("SEMANTIC (LValue)", files[i]))
@@ -44,24 +67,27 @@ public class Main {
 			if (checkErrors("SEMANTIC (Type checking)", files[i]))
 				continue;
 
+			System.out.print("\nNo errors in the");
+			System.err.print(" SEMANTIC");
+			System.out.print(" phase\n");
+
 			IntrospectorModel model = new IntrospectorModel("Program", parser.getRoot());
 			new IntrospectorTree("Introspector", model);
 
 		}
 	}
 
-	private static String[] getFiles() {
-		String[] files = { "SemanticErrorFiles/wrong.input.2.txt"/*
-																	 * ,
-																	 * "SemanticErrorFiles/wrong.input.1.txt",
-																	 * "SemanticErrorFiles/wrong.input.2.txt",
-																	 * "SemanticErrorFiles/wrong.input.3.txt",
-																	 * "SemanticErrorFiles/wrong.input.4.txt",
-																	 * "SemanticErrorFiles/wrong.input.5.txt"
-																	 */ };
-		return files;
-	}
-
+	/**
+	 * Check if there are any errors in this phase to stop or continue the
+	 * execution. If there are any errors they are shown in the console and a
+	 * log file is created for every file. In every call the last task is clear
+	 * the errorList to avoid conflicts.
+	 * 
+	 * @param phase
+	 * @param file
+	 * @return boolean: true = errors, false = not errors
+	 * @throws IOException
+	 */
 	private static boolean checkErrors(String phase, String file) throws IOException {
 		if (!ErrorHandler.getInstance().anyError()) {
 			ErrorHandler.getInstance().showErrors(System.err);

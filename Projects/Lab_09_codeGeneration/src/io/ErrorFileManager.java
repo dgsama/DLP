@@ -8,6 +8,14 @@ import java.util.List;
 import error.Err;
 import error.ErrorHandler;
 
+/**
+ * Class to manage the log files created with the errors of an executed file.
+ * Implements Singleton pattern to better performance (only one object of the
+ * class in an execution)
+ * 
+ * @author UO237464
+ *
+ */
 public class ErrorFileManager {
 
 	private String phase;
@@ -25,6 +33,12 @@ public class ErrorFileManager {
 		this.phase = phase;
 	}
 
+	/**
+	 * Create a log file with a 'pretty' structure to show the errors better
+	 * than in the console.
+	 * 
+	 * @throws IOException
+	 */
 	public void createErrorLog() throws IOException {
 		List<Err> errors = ErrorHandler.getInstance().getErrorsList();
 		String aux = parseName();
@@ -38,13 +52,19 @@ public class ErrorFileManager {
 		int i = 0;
 		for (Err each : errors) {
 			i++;
-			fW.write("\t+ " + i + ": " + each.getErrorMessage() + "in line [" + each.getLine() + "] column ["
+			fW.write("\t+ " + i + ": " + each.getErrorMessage() + " in line [" + each.getLine() + "] column ["
 					+ each.getColumn() + "]\n");
 		}
 
 		fW.close();
 	}
 
+	/**
+	 * Quit the path of the file returning only the name and the extension of
+	 * it.
+	 * 
+	 * @return String: file name.
+	 */
 	private String parseName() {
 		String[] name = file.split("/");
 		if (name.length == 1)

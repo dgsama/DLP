@@ -1,0 +1,6 @@
+		Wed Apr 26 10:08:46 CEST 2017
+
+  The errors are in the SEMANTIC (Identification) phase.
+  There are 1 in the errors list.
+
+	+ 1: The variable date already exists in this scope. in line [7] column [12]
