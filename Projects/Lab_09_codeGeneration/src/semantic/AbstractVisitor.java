@@ -6,10 +6,9 @@ import ast.definition.DefFunc;
 import ast.definition.DefVar;
 import ast.definition.Definition;
 import ast.expression.ArrayAccess;
-import ast.expression.AssignExp;
-import ast.expression.InvocationExp;
 import ast.expression.Cast;
 import ast.expression.Expression;
+import ast.expression.InvocationExp;
 import ast.expression.LiteralChar;
 import ast.expression.LiteralInt;
 import ast.expression.LiteralReal;
@@ -21,8 +20,8 @@ import ast.expression.binary.LogicOperation;
 import ast.expression.unary.UnaryMinus;
 import ast.expression.unary.UnaryNot;
 import ast.statement.Assignment;
-import ast.statement.InvocationSt;
 import ast.statement.IfElse;
+import ast.statement.InvocationSt;
 import ast.statement.Read;
 import ast.statement.Return;
 import ast.statement.Statement;
@@ -255,14 +254,6 @@ public abstract class AbstractVisitor implements Visitor {
 
 	@Override
 	public Object visit(VoidType vT, Object param) {
-		return null;
-	}
-
-	/** AMPLIACIONES **/
-	@Override
-	public Object visit(AssignExp exp, Object param) {
-		exp.getLeft().accept(this, param);
-		exp.getRight().accept(this, param);
 		return null;
 	}
 

@@ -51,9 +51,14 @@ public class Main {
 	}
 
 	private static String[] getFiles() {
-		String[] files = { "SemanticErrorFiles/wrong.input.2.txt"/*, "SemanticErrorFiles/wrong.input.1.txt",
-				"SemanticErrorFiles/wrong.input.2.txt", "SemanticErrorFiles/wrong.input.3.txt",
-				"SemanticErrorFiles/wrong.input.4.txt", "SemanticErrorFiles/wrong.input.5.txt" */};
+		String[] files = { "SemanticErrorFiles/wrong.input.2.txt"/*
+																	 * ,
+																	 * "SemanticErrorFiles/wrong.input.1.txt",
+																	 * "SemanticErrorFiles/wrong.input.2.txt",
+																	 * "SemanticErrorFiles/wrong.input.3.txt",
+																	 * "SemanticErrorFiles/wrong.input.4.txt",
+																	 * "SemanticErrorFiles/wrong.input.5.txt"
+																	 */ };
 		return files;
 	}
 

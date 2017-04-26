@@ -42,7 +42,5 @@ public class ArrayType extends AbstractType {
 	public String toString() {
 		return "ArrayType [typeOf=" + typeOf + ", length=" + length + "]";
 	}
-	
-	
 
 }

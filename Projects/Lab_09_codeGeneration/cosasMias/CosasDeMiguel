@@ -30,3 +30,20 @@ c=i*2.0;
 }
 
 
+
+
+examen mayo
+
+a>>b>>c -> a>b && b>c. Segundo ejercicio lo mismo pero con cortocircuito si la primera falla no se evalua la siguiente.
+
+examen junio
+
+Switch de enteros.
+operador ternario.
+
+examen febrero
+
+landa expresions mas menos
+array.apply(i -> i+1)
+			(i -> 4)
+			(i -> f(i))

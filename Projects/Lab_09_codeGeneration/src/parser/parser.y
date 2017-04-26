@@ -26,7 +26,6 @@ import ast.expression.binary.CompOperation;
 import ast.expression.binary.LogicOperation;
 import ast.expression.unary.UnaryMinus;
 import ast.expression.unary.UnaryNot;
-import ast.expression.AssignExp;
 import ast.statement.Assignment;
 import ast.statement.InvocationSt;
 import ast.statement.IfElse;
@@ -120,7 +119,7 @@ opt_list_local_var:	opt_list_local_var local_var_def			{ $$ = $1; mergeDefs((Lis
 					|/**EMPTY**/								{ $$ = new ArrayList<Definition>(); }
 					;
 
-opt_list_fields:	opt_list_fields type list_ident ';'			{ $$ = $1; addFieldDefs((List<Definition>)$$, (Type)$2, (List<String>)$3, scanner.getColumn()); }
+opt_list_fields:	opt_list_fields type list_ident ';'			{ $$ = $1; addFieldDefs((List<Definition>)$$, (Type)$2, (List<String>)$3, scanner.getLine()); }
 					|/**EMPTY**/								{ $$ = new ArrayList<Definition>(); }
 					;
 
@@ -171,8 +170,6 @@ statement:		RETURN exp ';' 						{ $$ = new Return(scanner.getLine(), scanner.ge
 				| while								{ $$ = $1;}	
 				| exp '=' exp ';'					{ $$ = new Assignment(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3); }
 				| ID '(' opt_list_exp ')' ';'		{ $$ = new InvocationSt(scanner.getLine(), scanner.getColumn(), (String)$1, (List<Expression>)$3); }
-				| exp INC ';' 						{ $$ = new Assignment(scanner.getLine(), scanner.getColumn(), (Expression)$1,(Expression) new ArithmeticOperation(scanner.getLine(), scanner.getColumn(),(Expression)$1,new LiteralInt(scanner.getLine(),scanner.getColumn(),1),"+"));}
-				| exp DEC ';'                       { $$ = new Assignment(scanner.getLine(), scanner.getColumn(), (Expression)$1,(Expression) new ArithmeticOperation(scanner.getLine(), scanner.getColumn(),(Expression)$1,new LiteralInt(scanner.getLine(),scanner.getColumn(),1),"-"));}
 				;
 				
 while:	WHILE '(' exp ')' '{' statements '}'		{ $$ = new While(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$6); }
@@ -219,7 +216,6 @@ exp:	exp '+' exp                               		{ $$ = new ArithmeticOperation(
 		| ID											{ $$ = new Variable(scanner.getLine(), scanner.getColumn(), (String)$1); }
 		| CHAR_CONSTANT									{ $$ = new LiteralChar(scanner.getLine(), scanner.getColumn(), (Character)$1); }
 		| REAL_CONSTANT		  							{ $$ = new LiteralReal(scanner.getLine(), scanner.getColumn(), (Double)$1); }
-		| exp '=' exp 									{ $$ = new AssignExp(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3);}
 		;
 		
 %%
@@ -279,7 +275,7 @@ private ArrayType getArrayDef(Type type, int length, int line) {
 
 private void addStructDefs(List<Definition> defsList, List<Definition> fields, List<String> idents, int line) {
 	for(String id : idents) {
-		defsList.add(new DefVar(line, scanner.getColumn(), (Type)new StructType(scanner.getLine(), scanner.getColumn(), fields), id));
+		defsList.add(new DefVar(line, scanner.getColumn(), (Type)new StructType(scanner.getLine(), scanner.getColumn(), fields, id), id));
 	}
 }
 

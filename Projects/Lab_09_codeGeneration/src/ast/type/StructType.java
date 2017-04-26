@@ -9,10 +9,16 @@ public class StructType extends AbstractType {
 
 	private List<Definition> fieldsDefinitions;
 	private Definition definition;
+	private String ID;
 
-	public StructType(int line, int column, List<Definition> fieldsDefinitions) {
+	public StructType(int line, int column, List<Definition> fieldsDefinitions, String ID) {
 		super(line, column);
 		this.fieldsDefinitions = fieldsDefinitions;
+		this.ID = ID;
+	}
+
+	public String getID() {
+		return ID;
 	}
 
 	public List<Definition> getFieldsDefinitions() {
@@ -46,6 +52,5 @@ public class StructType extends AbstractType {
 	public String toString() {
 		return "StructType [fieldsDefinitions=" + fieldsDefinitions + "]";
 	}
-	
 
 }

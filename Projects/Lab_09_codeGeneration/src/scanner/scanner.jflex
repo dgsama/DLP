@@ -25,7 +25,7 @@ import error.ErrorHandler;
 // * To get the line number
 public int getLine() { 
 	// * JFlex starts in zero
-	return this.yyline+1;
+	return yyline+1;
 }
 
 // * To get the column number
@@ -103,8 +103,6 @@ BLANKS = (\t|\n|" "|\r)
 "!="	{return Parser.NOT_EQ;}
 "&&"	{return Parser.AND;}
 "||"	{return Parser.OR;}
-"++"	{return Parser.INC;}
-"--"	{return Parser.DEC;}
 
 
 

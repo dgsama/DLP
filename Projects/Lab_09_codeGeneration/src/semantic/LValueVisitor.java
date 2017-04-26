@@ -1,10 +1,9 @@
 package semantic;
 
 import ast.expression.ArrayAccess;
-import ast.expression.AssignExp;
-import ast.expression.InvocationExp;
 import ast.expression.Cast;
 import ast.expression.Expression;
+import ast.expression.InvocationExp;
 import ast.expression.LiteralChar;
 import ast.expression.LiteralInt;
 import ast.expression.LiteralReal;
@@ -117,17 +116,6 @@ public class LValueVisitor extends AbstractVisitor {
 				new ErrorType(exp.getLine(), exp.getColumn(), "This variable can't store a value");
 			}
 		}
-		return null;
-	}
-
-	/** AMPLIACIONES **/
-	@Override
-	public Object visit(AssignExp exp, Object param) {
-		super.visit(exp, param);
-		if (!exp.getLeft().islValue()) {
-			new ErrorType(exp.getLine(), exp.getColumn(), "The left part of the assignment can't be there");
-		}
-		exp.setLValue(true);
 		return null;
 	}
 

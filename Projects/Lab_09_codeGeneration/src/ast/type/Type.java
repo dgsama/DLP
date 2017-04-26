@@ -18,11 +18,11 @@ public interface Type extends ASTNode {
 
 	Type promotesTo(Type type);
 
-	Type parentesis(List<Type> types);  //funcType, mainType
+	Type parentesis(List<Type> types); // funcType, mainType
 
-	Type dot(String fieldName);			//structType
+	Type dot(String fieldName); // structType
 
-	Type squareBrackets(Type type);		//arrayType
+	Type squareBrackets(Type type); // arrayType
 
 	Type parentesisCast(Type type);
 
