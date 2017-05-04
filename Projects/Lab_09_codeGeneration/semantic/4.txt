@@ -7,7 +7,7 @@ struct  {
 } a;
 
 void main() {
-  f();
+  f();			//ERROR
   write i && f; // * Error 1
   write a >= 3; // * Error 2
   while (f)     // * Error 3

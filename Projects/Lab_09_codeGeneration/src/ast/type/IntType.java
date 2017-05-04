@@ -54,7 +54,10 @@ public class IntType extends AbstractType {
 
 	@Override
 	public Type logical(Type type) {
-		return type;
+		if (type instanceof IntType) {
+			return type;
+		}
+		return null;
 	}
 
 	@Override

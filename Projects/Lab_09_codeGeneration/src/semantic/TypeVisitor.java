@@ -165,7 +165,7 @@ public class TypeVisitor extends AbstractVisitor {
 		w.getCondition().accept(this, param);
 		w.getCondition().setType(w.getCondition().getType().logical());
 		if (w.getCondition().getType() == null) {
-			ErrorType err = new ErrorType(w.getLine(), w.getColumn(), "The type of the condition is invalid");
+			ErrorType err = new ErrorType(w.getLine(), w.getColumn(), "The type of the condition is invalid(while)");
 			w.getCondition().setType(err);
 		}
 		return false;
@@ -180,7 +180,8 @@ public class TypeVisitor extends AbstractVisitor {
 		ifElse.getCondition().accept(this, param);
 		ifElse.getCondition().setType(ifElse.getCondition().getType().logical());
 		if (ifElse.getCondition().getType() == null) {
-			ErrorType err = new ErrorType(ifElse.getLine(), ifElse.getColumn(), "The type of the condition is invalid");
+			ErrorType err = new ErrorType(ifElse.getLine(), ifElse.getColumn(),
+					"The type of the condition is invalid (if)");
 			ifElse.getCondition().setType(err);
 		}
 		for (Statement each : ifElse.getIfStatements()) {

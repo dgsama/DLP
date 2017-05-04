@@ -30,7 +30,7 @@ public class IdentificationVisitor extends AbstractVisitor {
 			new ErrorType(def.getLine(), def.getColumn(),
 					"The field " + def.getId() + " already exists in this struct.");
 		}
-		super.visit(def, param);
+		def.getType().accept(this, param);
 		return null;
 	}
 
@@ -53,9 +53,7 @@ public class IdentificationVisitor extends AbstractVisitor {
 			new ErrorType(def.getLine(), def.getColumn(),
 					"The variable " + def.getId() + " already exists in this scope.");
 		}
-		sT.set();
-		super.visit(def, param);
-		sT.reset();
+		def.getType().accept(this, param);
 
 		return null;
 	}
@@ -113,32 +111,26 @@ public class IdentificationVisitor extends AbstractVisitor {
 
 	@Override
 	public Object visit(StructType structT, Object param) {
-		if (structT.getDefinition() != null) {
-			return structT.getDefinition();
-		} else {
-			Definition def = sT.find(structT.getID());
-			if (def != null) {
-				structT.setDefinition(def);
-			} else {
-				new ErrorType(structT.getLine(), structT.getColumn(), "This struct doesn't exist.");
-			}
+		sT.set();
+		for (Definition each : structT.getFieldsDefinitions()) {
+			each.accept(this, param);
 		}
+		sT.reset();
 		return null;
 	}
 
 	@Override
 	public Object visit(StructAccess exp, Object param) {
 		Definition aux = (Definition) exp.getName().accept(this, param);
-		Definition object = null;
 		if (aux != null) {
-			object = (Definition) aux.getType().accept(this, exp.getField());
-			if (object == null) {
-				new ErrorType(exp.getLine(), exp.getColumn(), "The field doesn´t exists");
+			for (Definition defCampo : ((StructType) aux.getType()).getFieldsDefinitions()) {
+				if (defCampo.getId().equals(exp.getField())) {
+					return defCampo;
+				}
 			}
-		} else {
-			new ErrorType(exp.getLine(), exp.getColumn(), "The struct doesn´t exists");
+			new ErrorType(exp.getLine(), exp.getColumn(), "The field doesn´t exists");
 		}
-		return object;
+		return null;
 	}
 
 }

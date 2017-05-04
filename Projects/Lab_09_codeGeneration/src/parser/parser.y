@@ -108,6 +108,7 @@ opt_def_glob_var:	opt_def_glob_var glob_def		{ $$ = $1; mergeDefs((List<Definiti
 
 var_def:	p_type list_ident ';'		{ $$ = new ArrayList<Definition>(); addVarDefs((List<Definition>)$$, (Type)$1, (List<String>)$2, scanner.getLine()); }
 			| array list_ident ';'		{ $$ = new ArrayList<Definition>(); addVarDefs((List<Definition>)$$, (Type)$1, (List<String>)$2, scanner.getLine()); }
+			| struct_def ';'			{ $$ = $1;}
 			;
 			
 
@@ -123,7 +124,8 @@ opt_list_fields:	opt_list_fields type list_ident ';'			{ $$ = $1; addFieldDefs((
 					|/**EMPTY**/								{ $$ = new ArrayList<Definition>(); }
 					;
 
-struct_def:		STRUCT '{' opt_list_fields '}' list_ident ';'						{ $$ = new ArrayList<Definition>(); addStructDefs((List<Definition>)$$, (List<Definition>)$3, (List<String>)$5, scanner.getLine()); }
+
+struct_def:		STRUCT '{' opt_list_fields '}' list_ident';'						{ $$ = new ArrayList<Definition>(); addStructDefs((List<Definition>)$$, (List<Definition>)$3, (List<String>)$5, scanner.getLine()); }
 				;
 
 main:	VOID MAIN '(' ')' '{' opt_list_local_var statements '}'						{ $$ = new DefFunc(scanner.getLine(), scanner.getColumn(),(Type) new FuncType(scanner.getLine(), scanner.getColumn(), (Type)VoidType.getInstance(), (List<Definition>) new ArrayList()), "main", (List<Definition>)$6, (List<Statement>)$7); }
@@ -153,6 +155,7 @@ array:	type '[' INT_CONSTANT ']'					{ $$ = getArrayDef((Type)$1, (Integer)$3, s
 		
 type:	p_type										{ $$ =$1;}
 		|array										{ $$ =$1;}
+		|struct_def									{ $$ =$1;}
 		;
 
 list_ident:		list_ident ',' ID					{ ((List<String>)$$).add((String)$3); $$ = $1;  }

@@ -22,10 +22,7 @@ public class Main {
 	 * @return list: files name
 	 */
 	private static String[] getFiles() {
-		// String[] files = { "semantic/1.txt", "semantic/2.txt",
-		// "semantic/3.txt", "semantic/4.txt", "semantic/5.txt","semantic/6.txt"
-		// };
-		String[] files = { "semantic/3.txt" };
+		String[] files = { "mayo/big-input.txt" };
 		return files;
 	}
 
@@ -52,9 +49,7 @@ public class Main {
 			if (checkErrors("SYNTACTIC", files[i]))
 				continue;
 
-			System.out.print("\nNo errors in the ");
-			System.out.print("SYNTACTIC");
-			System.out.print(" phase\n");
+			System.out.print("\nNo errors in the SYNTACTIC phase\n");
 
 			/** SEMANTIC PHASE **/
 			parser.getRoot().accept(new LValueVisitor(), null);
@@ -67,9 +62,7 @@ public class Main {
 			if (checkErrors("SEMANTIC (Type checking)", files[i]))
 				continue;
 
-			System.out.print("\nNo errors in the");
-			System.err.print(" SEMANTIC");
-			System.out.print(" phase\n");
+			System.out.print("\nNo errors in the SEMANTIC phase\n");
 
 			IntrospectorModel model = new IntrospectorModel("Program", parser.getRoot());
 			new IntrospectorTree("Introspector", model);

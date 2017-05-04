@@ -48,7 +48,7 @@ public class CharType extends AbstractType {
 
 	@Override
 	public Type logical() {
-		return this;
+		return IntType.getInstance();
 	}
 
 	@Override

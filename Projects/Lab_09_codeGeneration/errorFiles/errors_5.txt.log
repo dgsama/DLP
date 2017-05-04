@@ -1,8 +1,11 @@
-		Wed Apr 26 10:08:46 CEST 2017
+		Thu May 04 13:55:22 CEST 2017
 
-  The errors are in the SEMANTIC (Identification) phase.
-  There are 3 in the errors list.
+  The errors are in the SEMANTIC (Type checking) phase.
+  There are 6 in the errors list.
 
-	+ 1: The variable a already exists in this scope. in line [5] column [11]
-	+ 2: The variable b already exists in this scope. in line [9] column [22]
-	+ 3: The function g already exists in the program. in line [14] column [1]
+	+ 1: The return type is not valid for this function in line [6] column [14]
+	+ 2: The return type is not valid for this function in line [10] column [11]
+	+ 3: The invocation is not valid in line [17] column [6]
+	+ 4: The invocation is not valid in line [18] column [9]
+	+ 5: The invocation is not valid in line [19] column [7]
+	+ 6: The assigment is not posible in line [19] column [4]
