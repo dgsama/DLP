@@ -12,13 +12,13 @@ int MATRIXSIZE;
 int[10][10] matrix;
 
 // Functions
-void setValue(int row, int columnn, int value){
-	if (row >= 0 && row < MATRIXSIZE && columnn >= 0 && columnn < MATRIXSIZE) {
+void setValue(int row, int column, int value){
+	if (row >= 0 && row < MATRIXSIZE && column >= 0 && column < MATRIXSIZE) {
 		matrix[row][column] = value;
 	}
 }
-int getValue(int row, int columnn) {
-	if ((row < 0 || row >= MATRIXSIZE) || (columnn < 0 && columnn >= MATRIXSIZE)){
+int getValue(int row, int column) {
+	if ((row < 0 || row >= MATRIXSIZE) || (column < 0 && column >= MATRIXSIZE)){
 		return -1;
 	}
 	else{	

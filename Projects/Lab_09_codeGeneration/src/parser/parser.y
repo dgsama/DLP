@@ -98,7 +98,6 @@ program:	opt_def_glob_var main			{ ((List<Definition>)$1).add((Definition)$2); t
 			;
 
 glob_def:	var_def				{ $$ = $1; }
-			|struct_def			{ $$ = $1; }
 			|func_def			{ $$ = $1; }
 			;
 
@@ -108,12 +107,11 @@ opt_def_glob_var:	opt_def_glob_var glob_def		{ $$ = $1; mergeDefs((List<Definiti
 
 var_def:	p_type list_ident ';'		{ $$ = new ArrayList<Definition>(); addVarDefs((List<Definition>)$$, (Type)$1, (List<String>)$2, scanner.getLine()); }
 			| array list_ident ';'		{ $$ = new ArrayList<Definition>(); addVarDefs((List<Definition>)$$, (Type)$1, (List<String>)$2, scanner.getLine()); }
-			| struct_def ';'			{ $$ = $1;}
+			| struct_type list_ident';'	{ $$ = new ArrayList<Definition>(); addVarDefs((List<Definition>)$$, (StructType)$1, (List<String>)$2, scanner.getLine());}
 			;
 			
 
 local_var_def:	var_def					{$$ = $1;}
-				| struct_def			{$$ = $1;}
 				;
 
 opt_list_local_var:	opt_list_local_var local_var_def			{ $$ = $1; mergeDefs((List<Definition>)$$, $2); }
@@ -125,15 +123,15 @@ opt_list_fields:	opt_list_fields type list_ident ';'			{ $$ = $1; addFieldDefs((
 					;
 
 
-struct_def:		STRUCT '{' opt_list_fields '}' list_ident';'						{ $$ = new ArrayList<Definition>(); addStructDefs((List<Definition>)$$, (List<Definition>)$3, (List<String>)$5, scanner.getLine()); }
+struct_type:	STRUCT '{' opt_list_fields '}'					{ $$ = new StructType(scanner.getLine(), scanner.getColumn(), (List<Definition>)$3);}
 				;
 
 main:	VOID MAIN '(' ')' '{' opt_list_local_var statements '}'						{ $$ = new DefFunc(scanner.getLine(), scanner.getColumn(),(Type) new FuncType(scanner.getLine(), scanner.getColumn(), (Type)VoidType.getInstance(), (List<Definition>) new ArrayList()), "main", (List<Definition>)$6, (List<Statement>)$7); }
 		;
 
 func_def:	p_type ID '(' opt_list_param ')' '{' opt_list_local_var statements '}'  { $$ = new DefFunc(scanner.getLine(), scanner.getColumn(), (Type)new FuncType(scanner.getLine(), scanner.getColumn(), (Type)$1, (List<Definition>)$4), (String)$2, (List<Definition>)$7, (List<Statement>)$8); }
-		| VOID ID '(' opt_list_param ')' '{' opt_list_local_var statements '}'		{ $$ = new DefFunc(scanner.getLine(), scanner.getColumn(),(Type) new FuncType(scanner.getLine(), scanner.getColumn(), (Type)VoidType.getInstance(), (List<Definition>)$4), (String)$2, (List<Definition>)$7, (List<Statement>)$8); }
-		;
+			| VOID ID '(' opt_list_param ')' '{' opt_list_local_var statements '}'		{ $$ = new DefFunc(scanner.getLine(), scanner.getColumn(),(Type) new FuncType(scanner.getLine(), scanner.getColumn(), (Type)VoidType.getInstance(), (List<Definition>)$4), (String)$2, (List<Definition>)$7, (List<Statement>)$8); }
+			;
 
 
 
@@ -155,7 +153,7 @@ array:	type '[' INT_CONSTANT ']'					{ $$ = getArrayDef((Type)$1, (Integer)$3, s
 		
 type:	p_type										{ $$ =$1;}
 		|array										{ $$ =$1;}
-		|struct_def									{ $$ =$1;}
+		|struct_type								{ $$ =$1;}
 		;
 
 list_ident:		list_ident ',' ID					{ ((List<String>)$$).add((String)$3); $$ = $1;  }
@@ -276,12 +274,17 @@ private ArrayType getArrayDef(Type type, int length, int line) {
 	}
 }
 
-private void addStructDefs(List<Definition> defsList, List<Definition> fields, List<String> idents, int line) {
+private void addVarDefs(List<Definition> defsList, Type type, List<String> idents, int line) {
 	for(String id : idents) {
-		defsList.add(new DefVar(line, scanner.getColumn(), (Type)new StructType(scanner.getLine(), scanner.getColumn(), fields, id), id));
+		defsList.add(new DefVar(line, scanner.getColumn(), type, id));
 	}
 }
 
+private void addVarDefs(List<Definition> defsList, StructType type, List<String> idents, int line) {
+	for(String id : idents) {
+		defsList.add(new DefVar(line, scanner.getColumn(), new StructType(type.getLine(), type.getColumn(), type.getFieldsDefinitions(), id), id));
+	}
+}
 
 private void mergeDefs(List<Definition> defsA, Object defB) {
 	if(defB instanceof List) {
@@ -294,11 +297,6 @@ private void mergeDefs(List<Definition> defsA, Object defB) {
 	}
 }
 
-private void addVarDefs(List<Definition> defsList, Type type, List<String> idents, int line) {
-	for(String id : idents) {
-		defsList.add(new DefVar(line, scanner.getColumn(), type, id));
-	}
-}
 
 private void addFieldDefs(List<Definition> defsList, Type type, List<String> idents, int line) {
 	for(String s : idents) {

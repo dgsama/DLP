@@ -15,14 +15,14 @@ void main() {
 	struct { int day, month, year; } myDate;
 	int[10] v;
 	double r;
-	char c;
+	char c, d, e, f;
 
 	i = 1;	
 	r = 12.3 - 34.12E-3 * 2. + .34 - 3e3;
 	c = '\126';
 	d = '\39';
-	e = '\255'
-	f = '\0'
+	e = '\255';
+	f = '\0';
 
 	b = v[2];
 	if (1 && 2 || !0) {

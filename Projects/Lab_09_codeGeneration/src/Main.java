@@ -22,7 +22,7 @@ public class Main {
 	 * @return list: files name
 	 */
 	private static String[] getFiles() {
-		String[] files = { "mayo/big-input.txt" };
+		String[] files = { "input/input3.txt" };
 		return files;
 	}
 

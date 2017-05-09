@@ -11,6 +11,11 @@ public class StructType extends AbstractType {
 	private Definition definition;
 	private String ID;
 
+	public StructType(int line, int column, List<Definition> fieldsDefinitions) {
+		super(line, column);
+		this.fieldsDefinitions = fieldsDefinitions;
+	}
+
 	public StructType(int line, int column, List<Definition> fieldsDefinitions, String ID) {
 		super(line, column);
 		this.fieldsDefinitions = fieldsDefinitions;

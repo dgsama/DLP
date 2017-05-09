@@ -1,0 +1,7 @@
+		Tue May 09 11:49:29 CEST 2017
+
+  The errors are in the SEMANTIC (Identification) phase.
+  There are 2 in the errors list.
+
+	+ 1: The variable d is not declared. in line [23] column [4]
+	+ 2: The variable e is not declared. in line [24] column [4]
