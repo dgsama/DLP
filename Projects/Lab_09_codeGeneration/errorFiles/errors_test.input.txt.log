@@ -1,7 +1,7 @@
-		Tue May 09 11:50:16 CEST 2017
+		Tue May 09 17:24:36 CEST 2017
 
-  The errors are in the SEMANTIC (Identification) phase.
+  The errors are in the SEMANTIC (Type checking) phase.
   There are 2 in the errors list.
 
-	+ 1: The variable column is not declared. in line [17] column [21]
-	+ 2: The variable column is not declared. in line [25] column [28]
+	+ 1: The access to this field of the struct is not posible. in line [85] column [25]
+	+ 2: The assigment is not posible in line [85] column [12]

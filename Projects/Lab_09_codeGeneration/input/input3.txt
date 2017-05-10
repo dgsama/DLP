@@ -12,7 +12,7 @@ int f(int a) {
 // Main function
 void main() {
 	int i,b;	
-	struct { int day, month, year; } myDate;
+	struct { int day, month, year; struct {int day;} calendar; } myDate;
 	int[10] v;
 	double r;
 	char c, d, e, f;

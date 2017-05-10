@@ -116,14 +116,14 @@ public class IdentificationVisitor extends AbstractVisitor {
 			each.accept(this, param);
 		}
 		sT.reset();
-		return null;
+		return structT;
 	}
 
 	@Override
 	public Object visit(StructAccess exp, Object param) {
-		Definition aux = (Definition) exp.getName().accept(this, param);
+		StructType aux = (StructType) ((Definition) exp.getName().accept(this, param)).getType().accept(this, param);
 		if (aux != null) {
-			for (Definition defCampo : ((StructType) aux.getType()).getFieldsDefinitions()) {
+			for (Definition defCampo : aux.getFieldsDefinitions()) {
 				if (defCampo.getId().equals(exp.getField())) {
 					return defCampo;
 				}

@@ -85,6 +85,7 @@ DEC
 %left '*' '/' '%'
 %nonassoc LESSTHANELSE
 %nonassoc ELSE
+%nonassoc CAST
 %right UNARY_MINUS
 %nonassoc '[' ']'
 %left '.'
@@ -206,7 +207,7 @@ exp:	exp '+' exp                               		{ $$ = new ArithmeticOperation(
 		| exp G_EQ exp									{ $$ = new CompOperation(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3, ">="); }
 		| exp AND exp									{ $$ = new LogicOperation(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3, "&&"); }
 		| exp OR exp									{ $$ = new LogicOperation(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3, "||"); }
-		| '(' p_type ')' exp							{ $$ = new Cast(scanner.getLine(), scanner.getColumn(), (Type)$2, (Expression)$4); }
+		| '(' p_type ')' exp	%prec CAST				{ $$ = new Cast(scanner.getLine(), scanner.getColumn(), (Type)$2, (Expression)$4); }
 		| exp '[' exp ']'								{ $$ = new ArrayAccess(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3); }
 		| exp '.' ID									{ $$ = new StructAccess(scanner.getLine(), scanner.getColumn(), (Expression)$1, (String)$3); }
 		| ID '(' opt_list_exp ')'						{ $$ = new InvocationExp(scanner.getLine(), scanner.getColumn(), (String)$1, (List<Expression>)$3); }

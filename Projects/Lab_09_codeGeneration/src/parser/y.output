@@ -2420,7 +2420,26 @@ state 145
 	exp : exp . '[' exp ']'  (66)
 	exp : exp . '.' ID  (67)
 
-	.  reduce 65
+	'['  shift 110
+	'.'  shift 111
+	EQ  reduce 65
+	OR  reduce 65
+	AND  reduce 65
+	NOT_EQ  reduce 65
+	G_EQ  reduce 65
+	L_EQ  reduce 65
+	'='  reduce 65
+	'>'  reduce 65
+	'<'  reduce 65
+	'+'  reduce 65
+	'-'  reduce 65
+	'*'  reduce 65
+	'/'  reduce 65
+	'%'  reduce 65
+	']'  reduce 65
+	')'  reduce 65
+	';'  reduce 65
+	','  reduce 65
 
 
 state 146
@@ -2715,5 +2734,5 @@ state 167
 	.  reduce 42
 
 
-47 terminals, 24 nonterminals
+48 terminals, 24 nonterminals
 76 grammar rules, 168 states

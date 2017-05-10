@@ -116,7 +116,7 @@ public class TypeVisitor extends AbstractVisitor {
 	@Override
 	public Object visit(Cast exp, Object param) {
 		super.visit(exp, param);
-		exp.setType(exp.getType().parentesisCast(exp.getDinamicType()));
+		exp.setType(exp.getDinamicType());
 		if (exp.getType() == null) {
 			exp.setType(new ErrorType(exp.getLine(), exp.getColumn(), "It is not posible to cast this."));
 		}
@@ -190,7 +190,7 @@ public class TypeVisitor extends AbstractVisitor {
 				break;
 			}
 		}
-		for (Statement each : ifElse.getIfStatements()) {
+		for (Statement each : ifElse.getElseStatements()) {
 			if ((boolean) each.accept(this, param) == true) {
 				returnElse = true;
 				break;
