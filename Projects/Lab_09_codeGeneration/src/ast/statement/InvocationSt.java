@@ -4,7 +4,7 @@ import java.util.List;
 
 import ast.definition.Definition;
 import ast.expression.Expression;
-import semantic.Visitor;
+import visitor.Visitor;
 
 public class InvocationSt extends AbstractStatement {
 

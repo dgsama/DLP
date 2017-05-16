@@ -8,6 +8,7 @@ public abstract class AbstractDef extends AbstractASTNode implements Definition 
 	private Type type;
 	private String name;
 	private int scope;
+	private int offset;
 
 	public AbstractDef(int line, int column, Type type, String name) {
 		super(line, column);
@@ -33,6 +34,14 @@ public abstract class AbstractDef extends AbstractASTNode implements Definition 
 	@Override
 	public String getId() {
 		return name;
+	}
+
+	public int getOffset() {
+		return offset;
+	}
+
+	public void setOffset(int offset) {
+		this.offset = offset;
 	}
 
 	@Override

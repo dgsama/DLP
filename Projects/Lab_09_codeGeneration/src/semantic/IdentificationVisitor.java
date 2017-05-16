@@ -14,6 +14,7 @@ import ast.type.ArrayType;
 import ast.type.ErrorType;
 import ast.type.StructType;
 import semantic.symbolTable.SymbolTable;
+import visitor.AbstractVisitor;
 
 public class IdentificationVisitor extends AbstractVisitor {
 

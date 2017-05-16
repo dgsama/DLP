@@ -34,6 +34,7 @@ import ast.type.RealType;
 import ast.type.Type;
 import ast.type.VoidType;
 import error.Err;
+import visitor.AbstractVisitor;
 
 public class TypeVisitor extends AbstractVisitor {
 

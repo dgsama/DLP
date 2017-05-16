@@ -1,4 +1,4 @@
-package semantic;
+package visitor;
 
 import ast.Program;
 import ast.definition.DefField;

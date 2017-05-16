@@ -3,7 +3,7 @@ package ast.type;
 import java.util.List;
 
 import ast.definition.Definition;
-import semantic.Visitor;
+import visitor.Visitor;
 
 public class StructType extends AbstractType {
 

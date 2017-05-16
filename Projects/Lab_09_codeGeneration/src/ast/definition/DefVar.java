@@ -1,7 +1,7 @@
 package ast.definition;
 
 import ast.type.Type;
-import semantic.Visitor;
+import visitor.Visitor;
 
 public class DefVar extends AbstractDef {
 

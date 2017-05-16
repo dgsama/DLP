@@ -3,7 +3,7 @@ package ast.statement;
 import java.util.List;
 
 import ast.expression.Expression;
-import semantic.Visitor;
+import visitor.Visitor;
 
 public class Write extends AbstractStatement {
 

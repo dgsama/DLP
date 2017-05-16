@@ -1,6 +1,6 @@
 package ast.type;
 
-import semantic.Visitor;
+import visitor.Visitor;
 
 public class IntType extends AbstractType {
 

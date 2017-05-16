@@ -17,6 +17,7 @@ import ast.expression.unary.UnaryNot;
 import ast.statement.Assignment;
 import ast.statement.Read;
 import ast.type.ErrorType;
+import visitor.AbstractVisitor;
 
 public class LValueVisitor extends AbstractVisitor {
 

@@ -1,6 +1,6 @@
 package ast.expression;
 
-import semantic.Visitor;
+import visitor.Visitor;
 
 public class ArrayAccess extends AbstractExp {
 
