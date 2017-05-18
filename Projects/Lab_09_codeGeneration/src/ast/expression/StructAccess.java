@@ -28,7 +28,7 @@ public class StructAccess extends AbstractExp {
 
 	@Override
 	public String toString() {
-		return "StructAccess [name=" + name + ", field=" + field + "]";
+		return name.toString() + "." + field;
 	}
 
 }

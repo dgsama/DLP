@@ -23,4 +23,13 @@ public class Program extends AbstractASTNode {
 		return visitor.visit(this, param);
 	}
 
+	@Override
+	public String toString() {
+		String out = "";
+		for (Definition each : definitions) {
+			out += each.toString() + "\n";
+		}
+		return out;
+	}
+
 }

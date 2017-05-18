@@ -26,7 +26,7 @@ public class Return extends AbstractStatement {
 
 	@Override
 	public String toString() {
-		return "Return [expression=" + expression + "]";
+		return "return" + expression.toString();
 	}
 
 }

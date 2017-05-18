@@ -29,7 +29,14 @@ public class Write extends AbstractStatement {
 
 	@Override
 	public String toString() {
-		return "Write [expressions=" + expressions + "]";
+		String out = "WRITE ";
+
+		for (Expression each : expressions) {
+			out += each.toString() + ", ";
+		}
+		out = out.substring(0, out.length() - 1);
+		out += ";";
+		return out;
 	}
 
 }

@@ -29,7 +29,7 @@ public class UnaryMinus extends AbstractExp {
 
 	@Override
 	public String toString() {
-		return "UnaryMinus [expression=" + expression + "]";
+		return "-" + expression.toString();
 	}
 
 }

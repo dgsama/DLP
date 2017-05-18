@@ -1,4 +1,10 @@
-/codeGeneration/
-/visitor/
 /ast/
+/codeGeneration/
+/error/
+/io/
+/parser/
+/scanner/
 /semantic/
+/visitor/
+/generator/
+/codGeneration/

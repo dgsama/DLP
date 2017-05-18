@@ -22,7 +22,7 @@ public class LiteralInt extends AbstractExp {
 
 	@Override
 	public String toString() {
-		return "LiteralInt [value=" + value + "]";
+		return "" + value;
 	}
 
 }

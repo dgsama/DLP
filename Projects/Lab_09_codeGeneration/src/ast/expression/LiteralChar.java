@@ -22,7 +22,7 @@ public class LiteralChar extends AbstractExp {
 
 	@Override
 	public String toString() {
-		return "LiteralChar [value=" + value + "]";
+		return "" + value;
 	}
 
 }

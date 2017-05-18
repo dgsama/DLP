@@ -22,7 +22,7 @@ public class LiteralReal extends AbstractExp {
 
 	@Override
 	public String toString() {
-		return "LiteralReal [value=" + value + "]";
+		return "" + value;
 	}
 
 }

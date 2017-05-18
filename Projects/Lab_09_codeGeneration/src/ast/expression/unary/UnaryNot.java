@@ -29,7 +29,7 @@ public class UnaryNot extends AbstractExp {
 
 	@Override
 	public String toString() {
-		return "UnaryNot [expression=" + expression + "]";
+		return "!" + expression.toString();
 	}
 
 }

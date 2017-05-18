@@ -36,7 +36,7 @@ public class ArrayAccess extends AbstractExp {
 
 	@Override
 	public String toString() {
-		return "ArrayAccess [name=" + name + ", index=" + index + "]";
+		return name.toString() + "[" + index.toString() + "]";
 	}
 
 }

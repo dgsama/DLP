@@ -61,7 +61,7 @@ public class IntType extends AbstractType {
 	public Type logical(Type type) {
 		if (type instanceof IntType || type instanceof CharType) {
 			return this;
-		} else if ( type instanceof ErrorType) {
+		} else if (type instanceof ErrorType) {
 			return type;
 		}
 		return null;

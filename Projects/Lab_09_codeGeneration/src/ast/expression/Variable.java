@@ -32,7 +32,7 @@ public class Variable extends AbstractExp {
 
 	@Override
 	public String toString() {
-		return "Variable [name=" + name + "]";
+		return name;
 	}
 
 }

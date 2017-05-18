@@ -1,7 +1,8 @@
+/Main.class
 /ast/
 /error/
 /io/
-/parser/
-/scanner/
 /semantic/
 /symboltable/
+/parser/
+/scanner/

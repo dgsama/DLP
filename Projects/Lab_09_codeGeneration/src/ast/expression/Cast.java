@@ -29,7 +29,7 @@ public class Cast extends AbstractExp {
 
 	@Override
 	public String toString() {
-		return "Cast [dinamicType=" + dinamicType + ", expression=" + expression + "]";
+		return "(" + dinamicType + ") " + expression.toString();
 	}
 
 }

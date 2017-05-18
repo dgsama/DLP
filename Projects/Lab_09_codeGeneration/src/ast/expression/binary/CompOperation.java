@@ -36,8 +36,7 @@ public class CompOperation extends AbstractExp {
 
 	@Override
 	public String toString() {
-		return "CompOperation [leftExpression=" + leftExpression + ", rightExpression=" + rightExpression
-				+ ", operator=" + operator + "]";
+		return leftExpression.toString() + operator + rightExpression.toString();
 	}
 
 }

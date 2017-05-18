@@ -37,8 +37,7 @@ public class LogicOperation extends AbstractExp {
 
 	@Override
 	public String toString() {
-		return "LogicOperation [leftExpression=" + leftExpression + ", rightExpression=" + rightExpression
-				+ ", operator=" + operator + "]";
+		return leftExpression.toString() + operator + rightExpression.toString();
 	}
 
 }

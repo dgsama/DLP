@@ -37,7 +37,7 @@ public class Assignment extends AbstractStatement {
 
 	@Override
 	public String toString() {
-		return "Assigment [leftExpression=" + leftExpression + ", rightExpression=" + rightExpression + "]";
+		return leftExpression.toString() + "=" + rightExpression.toString() + ";";
 	}
 
 }

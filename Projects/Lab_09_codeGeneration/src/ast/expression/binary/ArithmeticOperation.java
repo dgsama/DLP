@@ -37,8 +37,7 @@ public class ArithmeticOperation extends AbstractExp {
 
 	@Override
 	public String toString() {
-		return "ArithmeticOperation [leftExpression=" + leftExpression + ", rightExpression=" + rightExpression
-				+ ", operator=" + operator + "]";
+		return leftExpression.toString() + operator + rightExpression.toString();
 	}
 
 }

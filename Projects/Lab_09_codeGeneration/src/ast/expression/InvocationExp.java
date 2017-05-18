@@ -48,7 +48,13 @@ public class InvocationExp extends AbstractExp {
 
 	@Override
 	public String toString() {
-		return "CallFunction [name=" + name + ", parameters=" + parameters + "]";
+		String output = name + "(";
+		for (Expression each : parameters) {
+			output += each.toString() + ",";
+		}
+		output = output.substring(0, output.length() - 1);
+		output += ")";
+		return output;
 	}
 
 }
