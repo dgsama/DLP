@@ -82,4 +82,9 @@ public class IntType extends AbstractType {
 		return visitor.visit(this, param);
 	}
 
+	@Override
+	public String toString() {
+		return "INT";
+	}
+
 }

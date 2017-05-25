@@ -49,7 +49,15 @@ public class InvocationSt extends AbstractStatement {
 
 	@Override
 	public String toString() {
-		return "CallFunc [name=" + name + ", parameters=" + parameters + "]";
+		String out = "";
+		out += name + "(";
+		for (Expression exp : getParameters()) {
+			out += exp.toString() + ",";
+		}
+
+		out = out.substring(0, out.length() - 1);
+		out += ");";
+		return out;
 	}
 
 }

@@ -3,6 +3,7 @@ package ast.type;
 import java.util.List;
 
 import ast.definition.Definition;
+import ast.expression.Expression;
 import visitor.Visitor;
 
 public class FuncType extends AbstractType {
@@ -43,9 +44,5 @@ public class FuncType extends AbstractType {
 		return visitor.visit(this, param);
 	}
 
-	@Override
-	public String toString() {
-		return "FuncType [retType=" + retType + ", parameters=" + parameters + "]";
-	}
 
 }

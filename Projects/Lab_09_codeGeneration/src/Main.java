@@ -1,6 +1,7 @@
 import java.io.FileReader;
 import java.io.IOException;
 
+import codeGeneration.OffsetVisitor;
 import error.ErrorHandler;
 import introspector.model.IntrospectorModel;
 import introspector.view.IntrospectorTree;
@@ -22,7 +23,7 @@ public class Main {
 	 * @return list: files name
 	 */
 	private static String[] getFiles() {
-		String[] files = { "mayo/big-input.txt" };
+		String[] files = { "input/input.txt" };
 		return files;
 	}
 
@@ -63,6 +64,8 @@ public class Main {
 				continue;
 
 			System.out.print("\nNo errors in the SEMANTIC phase\n");
+
+			parser.getRoot().accept(new OffsetVisitor(), null);
 
 			IntrospectorModel model = new IntrospectorModel("Program", parser.getRoot());
 			new IntrospectorTree("Introspector", model);

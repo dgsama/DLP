@@ -37,6 +37,9 @@ import visitor.AbstractVisitor;
 
 public class OffsetVisitor extends AbstractVisitor {
 
+	public OffsetVisitor() {
+	}
+
 	@Override
 	public Object visit(ArrayType aT, Object param) {
 		return (int) aT.getTypeOf().accept(this, param) * aT.getLength();
@@ -66,14 +69,21 @@ public class OffsetVisitor extends AbstractVisitor {
 	public Object visit(StructType sT, Object param) {
 		int total = 0;
 		for (Definition each : sT.getFieldsDefinitions()) {
-			total = (int) each.getType().accept(this, param);
+			each.setOffset(total + (int) param);
+			total += (int) each.getType().accept(this, each.getOffset());
 		}
 		return total;
 	}
 
 	@Override
-	public Object visit(DefField dF, Object param) {
+	public Object visit(VoidType vT, Object param) {
+		return 0;
+	}
 
+	@Override
+	public Object visit(DefField dF, Object param) {
+		dF.getType().accept(this, param);
+		return null;
 	}
 
 	@Override
@@ -82,13 +92,13 @@ public class OffsetVisitor extends AbstractVisitor {
 		int paramOffset = 4;
 
 		Definition parameter;
-		for (int i = (dF.getParams().size()); i >= 0; i--) {
+		for (int i = (dF.getParams().size() - 1); i >= 0; i--) {
 			parameter = dF.getParams().get(i);
 			parameter.setOffset(paramOffset);
 			paramOffset += (int) parameter.getType().accept(this, param);
 		}
 		for (Definition each : dF.getDefinitions()) {
-			localOffset += (int) each.getType().accept(this, param);
+			localOffset -= (int) each.getType().accept(this, param);
 			each.setOffset(localOffset);
 		}
 		return null;
@@ -96,7 +106,8 @@ public class OffsetVisitor extends AbstractVisitor {
 
 	@Override
 	public Object visit(DefVar dV, Object param) {
-
+		dV.getType().accept(this, param);
+		return null;
 	}
 
 	@Override
@@ -104,8 +115,8 @@ public class OffsetVisitor extends AbstractVisitor {
 		int offset = 0;
 		for (Definition each : program.getDefinitions()) {
 			each.setOffset(offset);
-			each.accept(this, param);
-			offset += (int) each.getType().accept(this, param);
+			each.accept(this, offset);
+			offset += (int) each.getType().accept(this, offset);
 		}
 
 		return null;
@@ -213,11 +224,6 @@ public class OffsetVisitor extends AbstractVisitor {
 
 	@Override
 	public Object visit(ErrorType err, Object param) {
-		return null;
-	}
-
-	@Override
-	public Object visit(VoidType vT, Object param) {
 		return null;
 	}
 

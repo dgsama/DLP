@@ -23,6 +23,10 @@ public class DefFunc extends AbstractDef {
 		return ((FuncType) this.getType()).getParameters();
 	}
 
+	public Type getRetType() {
+		return ((FuncType) this.getType()).getRetType();
+	}
+
 	public List<Definition> getDefinitions() {
 		return definitions;
 	}
@@ -38,7 +42,21 @@ public class DefFunc extends AbstractDef {
 
 	@Override
 	public String toString() {
-		return "DefFunc [definitions=" + definitions + ", statements=" + statements + "]";
+		String out = getRetType() + " " + getId() + " (";
+		for (Definition def : getParams()) {
+			out += def.toString() + ",";
+		}
+		out = out.substring(0, out.length() - 1);
+		out += "){\n";
+		for (Definition def : definitions) {
+			out += def.toString() + ";\n";
+		}
+		out += "\n";
+		for (Statement st : statements) {
+			out += st.toString() + ";\n";
+		}
+		out += "\n}";
+		return out;
 	}
 
 }
