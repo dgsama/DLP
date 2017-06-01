@@ -13,7 +13,7 @@ public class CodeGenerator {
 
 	private int labelCount;
 
-	private final String route = "src/output.txt";
+	private final String route = "output/output.txt";
 
 	private BufferedWriter writer;
 
