@@ -25,19 +25,27 @@ public class MetadataVisitor extends AbstractVisitor {
 	@Override
 	public Object visit(DefFunc functionDef, Object param) {
 		cg.metaFunction(functionDef.getId());
+		if (functionDef.getParams().size() > 0) {
+			cg.preMetaParam();
+		}
 		for (Definition def : functionDef.getParams()) {
-			cg.metaParam(def.getId(), (String) def.getType().accept(this, param));
+			cg.metaParam(def.getId(), (String) def.getType().accept(this, param), def.getOffset());
+		}
+
+		if (functionDef.getDefinitions().size() > 0) {
+			cg.preMetaLocal();
+		}
+		for (Definition def : functionDef.getDefinitions()) {
+			cg.metaLocal(def.getId(), (String) def.getType().accept(this, param), def.getOffset());
 		}
 		cg.metaReturn((String) functionDef.getType().accept(this, param));
-		for (Definition def : functionDef.getDefinitions()) {
-			cg.metaLocal(def.getId(), (String) def.getType().accept(this, param));
-		}
 		return null;
 	}
 
 	@Override
 	public Object visit(DefVar variableDef, Object param) {
-		cg.metaVariable(variableDef.getId(), (String) variableDef.getType().accept(this, param));
+		cg.metaVariable(variableDef.getId(), (String) variableDef.getType().accept(this, param),
+				variableDef.getOffset());
 		return null;
 	}
 
@@ -73,7 +81,7 @@ public class MetadataVisitor extends AbstractVisitor {
 
 	@Override
 	public Object visit(StructType structType, Object param) {
-		String fields = "\n" + structType.getID() + "\n";
+		String fields = "\n";
 
 		for (Definition field : structType.getFieldsDefinitions()) {
 			fields += field.getId() + ":" + field.getType().accept(this, param) + "\n";

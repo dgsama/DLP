@@ -1,79 +1,80 @@
-#var i:int
-#var r:float
-#var c:byte
-#func f
-#param pi:int
-#param pr:float
-#ret int
-#local lr:float
-#local li:int
-#func main
-#ret void
-#type pair: {
-pair
+	' * int i (Offset 0)
+	' * float r (Offset 0)
+	' * byte c (Offset 0)
+func f
+	' * Parameters
+	' * int pi (Offset 0)
+	' * float pr (Offset 0)
+	' * Local variables
+	' * float lr (Offset 0)
+	' * int li (Offset 0)
+	ret int
+func main
+	' * Local variables
+type pair: {
 integer:int
 character:byte
 }
-#local pair:
-pair
+	' * 
 integer:int
 character:byte
-
+ pair (Offset 0)
+	ret void
 call main
-halt
-f:
-enter 6
-push bp
-pushi 0
-addi
-push bp
-pushi 0
-addi
-loadi
-storei
-push bp
-pushi 0
-addi
-push bp
-pushi 0
-addi
-loadf
-storef
-push bp
-pushi 0
-addi
-loadi
-ret 2, 6, 6
-main:
-enter 0
-pusha 0
-pushi 3
-storei
-pusha 0
-pushb97
-storeb
-pusha 0
-pushf 3.8
-storef
-push bp
-pushi 0
-addi
-pushi 9
-addi
-pusha 0
-loadi
-storei
-push bp
-pushi 0
-addi
-pushi 11
-addi
-pusha 0
-loadb
-storeb
-pusha 0
-loadi
-pusha 0
-loadf
+	halt
+ f:
+	enter 6
+	push bp
+	pushi 0
+	addi
+	push bp
+	pushi 0
+	addi
+	loadi
+	storei
+	push bp
+	pushi 0
+	addi
+	push bp
+	pushi 0
+	addi
+	loadf
+	storef
+	push bp
+	pushi 0
+	addi
+	loadi
+	ret 2, 6, 6
+ main:
+	enter 3
+	pusha 0
+	pushi 3
+	storei
+	pusha 0
+	pushb 97
+	storeb
+	pusha 0
+	pushf 3.8
+	storef
+	push bp
+	pushi 0
+	addi
+	pushi 9
+	addi
+	pusha 0
+	loadi
+	storei
+	push bp
+	pushi 0
+	addi
+	pushi 11
+	addi
+	pusha 0
+	loadb
+	storeb
+	pusha 0
+	loadi
+	pusha 0
+	loadf
 call f
-popi
+	popi

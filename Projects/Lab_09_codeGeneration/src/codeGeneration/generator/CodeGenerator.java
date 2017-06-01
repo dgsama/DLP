@@ -36,103 +36,103 @@ public class CodeGenerator {
 	}
 
 	public void pushB(int cte) {
-		write("pushb" + cte);
+		write("\tpushb " + cte);
 	}
 
 	public void pushI(int cte) {
-		write("pushi " + cte);
+		write("\tpushi " + cte);
 	}
 
 	public void pushF(double cte) {
-		write("pushf " + cte);
+		write("\tpushf " + cte);
 	}
 
 	public void pushA(int cte) {
-		write("pusha " + cte);
+		write("\tpusha " + cte);
 	}
 
 	public void load(Subfix subfix) {
-		write("load" + subfix);
+		write("\tload" + subfix);
 	}
 
 	public void store(Subfix subfix) {
-		write("store" + subfix);
+		write("\tstore" + subfix);
 	}
 
 	public void pop(Subfix subfix) {
-		write("pop" + subfix);
+		write("\tpop" + subfix);
 	}
 
 	public void dup(Subfix subfix) {
-		write("dup" + subfix);
+		write("\tdup" + subfix);
 	}
 
 	public void pushBP() {
-		write("push bp");
+		write("\tpush bp");
 	}
 
 	public void add(Subfix subfix) {
-		write("add" + subfix);
+		write("\tadd" + subfix);
 	}
 
 	public void sub(Subfix subfix) {
-		write("sub" + subfix);
+		write("\tsub" + subfix);
 	}
 
 	public void mul(Subfix subfix) {
-		write("mul" + subfix);
+		write("\tmul" + subfix);
 	}
 
 	public void div(Subfix subfix) {
-		write("div" + subfix);
+		write("\tdiv" + subfix);
 	}
 
 	public void mod(Subfix subfix) {
-		write("mod" + subfix);
+		write("\tmod" + subfix);
 	}
 
 	public void and() {
-		write("and");
+		write("\tand");
 	}
 
 	public void or() {
-		write("or");
+		write("\tor");
 	}
 
 	public void not() {
-		write("not");
+		write("\tnot");
 	}
 
 	public void greaterThan(Subfix subfix) {
-		write("gt" + subfix);
+		write("\tgt" + subfix);
 	}
 
 	public void lessThan(Subfix subfix) {
-		write("lt" + subfix);
+		write("\tlt" + subfix);
 	}
 
 	public void greaterEqualThan(Subfix subfix) {
-		write("ge" + subfix);
+		write("\tge" + subfix);
 	}
 
 	public void lessEqualThan(Subfix subfix) {
-		write("le" + subfix);
+		write("\tle" + subfix);
 	}
 
 	public void equal(Subfix subfix) {
-		write("eq" + subfix);
+		write("\teq" + subfix);
 	}
 
 	public void notEqual(Subfix subfix) {
-		write("ne" + subfix);
+		write("\tne" + subfix);
 	}
 
 	public void in(Subfix subfix) {
-		write("in" + subfix);
+		write("\tin" + subfix);
 	}
 
 	public void out(Subfix subfix) {
-		write("out" + subfix);
+		write("\tout" + subfix);
 	}
 
 	public void a2b(Type originalType, Type finalType) {
@@ -160,16 +160,16 @@ public class CodeGenerator {
 	}
 
 	public void jmp(String label) {
-		write("jmp " + label);
+		write("\tjmp " + label);
 	}
 
 	public void jz(String label) {
-		write("jz " + label);
+		write("\tjz " + label);
 
 	}
 
 	public void jnz(String label) {
-		write("jnz " + label);
+		write("\tjnz " + label);
 
 	}
 
@@ -179,22 +179,22 @@ public class CodeGenerator {
 	}
 
 	public void ret(int retSize, int varsLocalSize, int paramsSize) {
-		write("ret " + retSize + ", " + varsLocalSize + ", " + paramsSize);
+		write("\tret " + retSize + ", " + varsLocalSize + ", " + paramsSize);
 
 	}
 
 	public void enter(int cte) {
-		write("enter " + cte);
+		write("\tenter " + cte);
 
 	}
 
 	public void halt() {
-		write("halt");
+		write("\thalt");
 
 	}
 
 	public void nop() {
-		write("nop");
+		write("\tnop");
 
 	}
 
@@ -203,32 +203,40 @@ public class CodeGenerator {
 	}
 
 	public void label(String label) {
-		write(label + ":");
+		write(" " + label + ":");
 
 	}
 
-	public void metaVariable(String ident, String type) {
-		comment("var " + ident + ":" + type);
+	public void metaVariable(String ident, String type, int i) {
+		write("\t' * " + type + " " + ident+ " (Offset " + i + ")");
 	}
 
 	public void metaFunction(String ident) {
-		comment("func " + ident);
+		write("func " + ident);
 	}
 
-	public void metaParam(String ident, String type) {
-		comment("param " + ident + ":" + type);
+	public void preMetaParam() {
+		write("\t' * Parameters");
+	}
+
+	public void metaParam(String ident, String type, int i) {
+		write("\t' * " + type + " " + ident + " (Offset " + i + ")");
 	}
 
 	public void metaReturn(String type) {
-		comment("ret " + type);
+		write("\tret " + type);
 	}
 
-	public void metaLocal(String ident, String type) {
-		comment("local " + ident + ":" + type);
+	public void preMetaLocal() {
+		write("\t' * Local variables");
+	}
+
+	public void metaLocal(String ident, String type, int i) {
+		write("\t' * " + type + " " + ident+ " (Offset " + i + ")");
 	}
 
 	public void metaStruct(String ident, String fields) {
-		comment("type " + ident + ": {" + fields + "}");
+		write("type " + ident + ": {" + fields + "}");
 	}
 
 	public void arithmeticOperator(String operator, Subfix subfix) {
@@ -304,7 +312,6 @@ public class CodeGenerator {
 
 	public void comment(String comment) {
 		write("#" + comment);
-
 	}
 
 	public void end() {
