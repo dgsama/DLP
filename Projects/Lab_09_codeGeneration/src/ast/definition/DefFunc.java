@@ -2,9 +2,11 @@ package ast.definition;
 
 import java.util.List;
 
+import ast.statement.Return;
 import ast.statement.Statement;
 import ast.type.FuncType;
 import ast.type.Type;
+import ast.type.VoidType;
 import visitor.Visitor;
 
 public class DefFunc extends AbstractDef {

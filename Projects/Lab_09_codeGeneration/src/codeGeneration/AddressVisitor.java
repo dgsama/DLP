@@ -103,10 +103,8 @@ public class AddressVisitor extends AbstractVisitor {
 
 	@Override
 	public Object visit(StructType structType, Object param) {
-		if (structType.getDefinition() != null) {
-			return getDefsSize(structType.getFieldsDefinitions(), param);
-		}
-		return 0;
+		return getDefsSize(structType.getFieldsDefinitions(), param);
+
 	}
 
 	@Override

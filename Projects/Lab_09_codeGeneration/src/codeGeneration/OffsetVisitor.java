@@ -54,14 +54,14 @@ public class OffsetVisitor extends AbstractVisitor {
 	public Object visit(FuncType fT, Object param) {
 		int paramOffset;
 		Definition parameter;
-		
+
 		paramOffset = 4;
 		for (int i = (fT.getParameters().size() - 1); i >= 0; i--) {
 			parameter = fT.getParameters().get(i);
 			parameter.setOffset(paramOffset);
 			paramOffset += (int) parameter.accept(this, paramOffset);
 		}
-		
+
 		return fT.getRetType().accept(this, param);
 	}
 
@@ -97,7 +97,6 @@ public class OffsetVisitor extends AbstractVisitor {
 		for (Definition each : dF.getDefinitions()) {
 			localOffset -= (int) each.accept(this, localOffset);
 			each.setOffset(localOffset);
-			each.accept(this, localOffset);
 		}
 		return dF.getType().accept(this, param);
 	}

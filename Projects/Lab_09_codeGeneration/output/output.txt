@@ -47,7 +47,7 @@ call main
 	loadi
 	ret 2, 6, 6
  main:
-	enter 0
+	enter 3
 	pusha 0
 	pushi 3
 	storei
@@ -60,7 +60,7 @@ call main
 	push bp
 	pushi -3
 	addi
-	pushi -3
+	pushi 0
 	addi
 	pusha 0
 	loadi
@@ -68,7 +68,7 @@ call main
 	push bp
 	pushi -3
 	addi
-	pushi -1
+	pushi 2
 	addi
 	pusha 6
 	loadb
@@ -79,3 +79,4 @@ call main
 	loadf
 call f
 	popi
+	ret 0, 3, 0

@@ -47,6 +47,10 @@ public class ExecuteVisitor extends AbstractVisitor {
 		for (Statement stat : functionDef.getStatements()) {
 			stat.accept(this, functionDef);
 		}
+		if (functionDef.getRetType() instanceof VoidType) {
+			cg.ret((int) functionDef.getType().accept(this, param), getDefsSize(functionDef.getDefinitions(), param),
+					getDefsSize(functionDef.getParams(), param));
+		}
 		return null;
 	}
 
@@ -168,10 +172,7 @@ public class ExecuteVisitor extends AbstractVisitor {
 
 	@Override
 	public Object visit(StructType structType, Object param) {
-		if (structType.getDefinition() != null) {
-			return getDefsSize(structType.getFieldsDefinitions(), param);
-		}
-		return 0;
+		return getDefsSize(structType.getFieldsDefinitions(), param);
 	}
 
 	@Override

@@ -63,12 +63,12 @@ public class Main {
 			parser.getRoot().accept(new TypeVisitor(), null);
 			if (checkErrors("SEMANTIC (Type checking)", files[i]))
 				continue;
-			
-			 System.out.print("\nNo errors in the SEMANTIC phase\n");
-			
-			 parser.getRoot().accept(new OffsetVisitor(), null);
-			
-			 parser.getRoot().accept(new RunVisitor(), null);
+
+			System.out.print("\nNo errors in the SEMANTIC phase\n");
+
+			parser.getRoot().accept(new OffsetVisitor(), null);
+
+			parser.getRoot().accept(new RunVisitor(), null);
 
 			IntrospectorModel model = new IntrospectorModel("Program", parser.getRoot());
 			new IntrospectorTree("Introspector", model);
