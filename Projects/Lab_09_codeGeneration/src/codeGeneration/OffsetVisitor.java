@@ -52,6 +52,16 @@ public class OffsetVisitor extends AbstractVisitor {
 
 	@Override
 	public Object visit(FuncType fT, Object param) {
+		int paramOffset;
+		Definition parameter;
+		
+		paramOffset = 4;
+		for (int i = (fT.getParameters().size() - 1); i >= 0; i--) {
+			parameter = fT.getParameters().get(i);
+			parameter.setOffset(paramOffset);
+			paramOffset += (int) parameter.accept(this, paramOffset);
+		}
+		
 		return fT.getRetType().accept(this, param);
 	}
 
@@ -81,33 +91,20 @@ public class OffsetVisitor extends AbstractVisitor {
 	}
 
 	@Override
-	public Object visit(DefField dF, Object param) {
-		dF.getType().accept(this, param);
-		return null;
-	}
-
-	@Override
 	public Object visit(DefFunc dF, Object param) {
 		int localOffset = 0;
-		int paramOffset = 4;
 
-		Definition parameter;
-		for (int i = (dF.getParams().size() - 1); i >= 0; i--) {
-			parameter = dF.getParams().get(i);
-			parameter.setOffset(paramOffset);
-			paramOffset += (int) parameter.getType().accept(this, param);
-		}
 		for (Definition each : dF.getDefinitions()) {
-			localOffset -= (int) each.getType().accept(this, param);
+			localOffset -= (int) each.accept(this, localOffset);
 			each.setOffset(localOffset);
+			each.accept(this, localOffset);
 		}
-		return null;
+		return dF.getType().accept(this, param);
 	}
 
 	@Override
 	public Object visit(DefVar dV, Object param) {
-		dV.getType().accept(this, param);
-		return null;
+		return dV.getType().accept(this, param);
 	}
 
 	@Override
@@ -115,10 +112,13 @@ public class OffsetVisitor extends AbstractVisitor {
 		int offset = 0;
 		for (Definition each : program.getDefinitions()) {
 			each.setOffset(offset);
-			each.accept(this, offset);
-			offset += (int) each.getType().accept(this, offset);
+			offset += (int) each.accept(this, offset);
 		}
+		return null;
+	}
 
+	@Override
+	public Object visit(DefField dF, Object param) {
 		return null;
 	}
 

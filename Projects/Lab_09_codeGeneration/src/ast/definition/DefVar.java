@@ -5,14 +5,8 @@ import visitor.Visitor;
 
 public class DefVar extends AbstractDef {
 
-	private int offset;
-
 	public DefVar(int line, int column, Type type, String name) {
 		super(line, column, type, name);
-	}
-
-	public int getOffset() {
-		return offset;
 	}
 
 	@Override

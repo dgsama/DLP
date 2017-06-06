@@ -8,7 +8,7 @@ import visitor.Visitor;
 public class StructType extends AbstractType {
 
 	private List<Definition> fieldsDefinitions;
-	private Definition definition;
+	// private Definition definition;
 	private String ID;
 
 	public StructType(int line, int column, List<Definition> fieldsDefinitions) {
@@ -30,13 +30,13 @@ public class StructType extends AbstractType {
 		return fieldsDefinitions;
 	}
 
-	public Definition getDefinition() {
-		return definition;
-	}
-
-	public void setDefinition(Definition definition) {
-		this.definition = definition;
-	}
+	// public Definition getDefinition() {
+	// return definition;
+	// }
+	//
+	// public void setDefinition(Definition definition) {
+	// this.definition = definition;
+	// }
 
 	@Override
 	public Type dot(String fieldName) {

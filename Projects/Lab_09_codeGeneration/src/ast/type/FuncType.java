@@ -44,5 +44,4 @@ public class FuncType extends AbstractType {
 		return visitor.visit(this, param);
 	}
 
-
 }

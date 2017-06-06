@@ -8,6 +8,7 @@ import ast.type.CharType;
 import ast.type.IntType;
 import ast.type.RealType;
 import ast.type.Type;
+import codeGeneration.RunVisitor;
 
 public class CodeGenerator {
 
@@ -207,8 +208,12 @@ public class CodeGenerator {
 
 	}
 
+	public void metaDocu() {
+		comment("source " + "");
+	}
+
 	public void metaVariable(String ident, String type, int i) {
-		write("\t' * " + type + " " + ident+ " (Offset " + i + ")");
+		write("\t' * " + type + " " + ident + " (Offset " + i + ")");
 	}
 
 	public void metaFunction(String ident) {
@@ -232,7 +237,7 @@ public class CodeGenerator {
 	}
 
 	public void metaLocal(String ident, String type, int i) {
-		write("\t' * " + type + " " + ident+ " (Offset " + i + ")");
+		write("\t' * " + type + " " + ident + " (Offset " + i + ")");
 	}
 
 	public void metaStruct(String ident, String fields) {

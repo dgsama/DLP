@@ -20,6 +20,7 @@ public class MetadataVisitor extends AbstractVisitor {
 
 	public MetadataVisitor(CodeGenerator codeGenerator) {
 		this.cg = codeGenerator;
+		cg.metaDocu();
 	}
 
 	@Override

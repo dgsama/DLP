@@ -66,14 +66,17 @@ public class IdentificationVisitor extends AbstractVisitor {
 			new ErrorType(var.getLine(), var.getColumn(), "The variable " + var.getName() + " is not declared.");
 		} else {
 			var.setDefinition(aux);
+			return aux.getType();
 		}
-		return aux;
+		return null;
 	}
 
 	@Override
 	public Object visit(ArrayAccess exp, Object param) {
+		Object result;
 		exp.getIndex().accept(this, param);
-		return exp.getName().accept(this, param);
+		result = exp.getName().accept(this, param);
+		return (result == null) ? null : ((ArrayType) result).getTypeOf();
 	}
 
 	@Override
@@ -112,27 +115,26 @@ public class IdentificationVisitor extends AbstractVisitor {
 
 	@Override
 	public Object visit(StructType structT, Object param) {
-		if(structT.getDefinition() == null) {
-			structT.setDefinition((Definition)param);
-		}
 		sT.set();
 		for (Definition each : structT.getFieldsDefinitions()) {
 			each.accept(this, param);
 		}
 		sT.reset();
-		return structT;
+		return null;
 	}
 
 	@Override
 	public Object visit(StructAccess exp, Object param) {
-		StructType aux = (StructType) ((Definition) exp.getName().accept(this, param)).getType().accept(this, param);
+		Object aux = exp.getName().accept(this, param);
 		if (aux != null) {
-			for (Definition defCampo : aux.getFieldsDefinitions()) {
-				if (defCampo.getId().equals(exp.getField())) {
-					return defCampo;
+			if (aux instanceof StructType) {
+				for (Definition defCampo : ((StructType) aux).getFieldsDefinitions()) {
+					if (defCampo.getId().equals(exp.getField())) {
+						return defCampo.getType();
+					}
 				}
+				new ErrorType(exp.getLine(), exp.getColumn(), "The field " + exp.getField() + " doesn´t exists");
 			}
-			new ErrorType(exp.getLine(), exp.getColumn(), "The field doesn´t exists");
 		}
 		return null;
 	}

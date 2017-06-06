@@ -1,7 +1,8 @@
-		Thu May 04 14:43:03 CEST 2017
+		Tue Jun 06 14:02:53 CEST 2017
 
-  The errors are in the SYNTACTIC phase.
-  There are 2 in the errors list.
+  The errors are in the SEMANTIC (Type checking) phase.
+  There are 3 in the errors list.
 
-	+ 1: Syntax error -> 257 (2) in line [7] column [23]
-	+ 2: Syntax error -> 93 (]) in line [7] column [24]
+	+ 1: The invocation is not valid in line [93] column [6]
+	+ 2: Expression i is not of type struct in line [94] column [5]
+	+ 3: The assigment is not posible in line [95] column [8]

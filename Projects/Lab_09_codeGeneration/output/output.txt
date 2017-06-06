@@ -1,13 +1,14 @@
+#source 
 	' * int i (Offset 0)
-	' * float r (Offset 0)
-	' * byte c (Offset 0)
+	' * float r (Offset 2)
+	' * byte c (Offset 6)
 func f
 	' * Parameters
-	' * int pi (Offset 0)
-	' * float pr (Offset 0)
+	' * int pi (Offset 8)
+	' * float pr (Offset 4)
 	' * Local variables
-	' * float lr (Offset 0)
-	' * int li (Offset 0)
+	' * float lr (Offset -4)
+	' * int li (Offset -6)
 	ret int
 func main
 	' * Local variables
@@ -18,63 +19,63 @@ character:byte
 	' * 
 integer:int
 character:byte
- pair (Offset 0)
+ pair (Offset -3)
 	ret void
 call main
 	halt
  f:
 	enter 6
 	push bp
-	pushi 0
+	pushi -6
 	addi
 	push bp
-	pushi 0
+	pushi 8
 	addi
 	loadi
 	storei
 	push bp
-	pushi 0
+	pushi -4
 	addi
 	push bp
-	pushi 0
+	pushi 4
 	addi
 	loadf
 	storef
 	push bp
-	pushi 0
+	pushi 8
 	addi
 	loadi
 	ret 2, 6, 6
  main:
-	enter 3
+	enter 0
 	pusha 0
 	pushi 3
 	storei
-	pusha 0
+	pusha 6
 	pushb 97
 	storeb
-	pusha 0
+	pusha 2
 	pushf 3.8
 	storef
 	push bp
-	pushi 0
+	pushi -3
 	addi
-	pushi 9
+	pushi -3
 	addi
 	pusha 0
 	loadi
 	storei
 	push bp
-	pushi 0
+	pushi -3
 	addi
-	pushi 11
+	pushi -1
 	addi
-	pusha 0
+	pusha 6
 	loadb
 	storeb
 	pusha 0
 	loadi
-	pusha 0
+	pusha 2
 	loadf
 call f
 	popi

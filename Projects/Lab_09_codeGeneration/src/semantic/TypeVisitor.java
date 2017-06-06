@@ -130,7 +130,7 @@ public class TypeVisitor extends AbstractVisitor {
 		exp.setType(exp.getName().getType().dot(exp.getField()));
 		if (exp.getType() == null) {
 			exp.setType(new ErrorType(exp.getLine(), exp.getColumn(),
-					"The access to this field of the struct is not posible."));
+					"Expression " + exp.getName() + " is not of type struct"));
 		}
 		return null;
 	}
