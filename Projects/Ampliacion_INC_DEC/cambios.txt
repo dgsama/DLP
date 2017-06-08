@@ -1,0 +1,10 @@
+
+Se tratan como si fuera una asignacion:
+
+	i++ -> i = i+1;
+	i-- -> i = i-1;
+
+CAMBIOS EN:
+
+	-Scanner.jflex (añadir "++" y "--")
+	-parser.y (añadir a statements las lineas correspondientes)

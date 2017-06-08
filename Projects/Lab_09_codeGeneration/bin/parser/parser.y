@@ -71,8 +71,6 @@ INT
 L_EQ
 MAIN
 CHAR_CONSTANT
-INC
-DEC
 %token 
 
 //Lower precedence

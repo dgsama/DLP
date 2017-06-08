@@ -1,27 +1,20 @@
-#source 
+#source "input.txt"
+
 	' * int i (Offset 0)
 	' * float r (Offset 2)
 	' * byte c (Offset 6)
-func f
+' * func f
 	' * Parameters
 	' * int pi (Offset 8)
 	' * float pr (Offset 4)
 	' * Local variables
 	' * float lr (Offset -4)
 	' * int li (Offset -6)
-	ret int
-func main
+' * func main
 	' * Local variables
-type pair: {
-integer:int
-character:byte
-}
 	' * 
-integer:int
-character:byte
- pair (Offset -3)
-	ret void
-call main
+	' * {(integer:int) , (character:byte) , } pair (Offset -3)
+	call main
 	halt
  f:
 	enter 6
@@ -77,6 +70,6 @@ call main
 	loadi
 	pusha 2
 	loadf
-call f
+	call f
 	popi
 	ret 0, 3, 0

@@ -474,6 +474,7 @@ public class Parser {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void mergeDefs(List<Definition> defsA, Object defB) {
 		if (defB instanceof List) {
 			for (Definition def : (List<Definition>) defB) {
@@ -520,6 +521,7 @@ public class Parser {
 	// ###############################################################
 	// method: yyparse : parse input and execute indicated items
 	// ###############################################################
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	int yyparse() {
 		boolean doaction;
 		init_stacks();

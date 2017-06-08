@@ -1,0 +1,21 @@
+// * Global variables
+int i;
+int j;
+
+
+// * Main program
+void main() {
+  i = 0;
+  j=2;
+  
+  i+=2;
+  
+  i*=2;
+  
+  i*=3;
+  
+  i/=j;
+  
+  i-=3;
+
+}
