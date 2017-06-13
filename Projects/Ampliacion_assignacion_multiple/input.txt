@@ -2,8 +2,6 @@
 int i;
 int j;
 
-
-
 // * Main program
 void main() {
 

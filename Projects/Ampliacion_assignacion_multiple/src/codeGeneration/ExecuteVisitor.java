@@ -35,7 +35,7 @@ public class ExecuteVisitor extends AbstractVisitor {
 
 	public ExecuteVisitor(CodeGenerator codeGenerator) {
 		cg = codeGenerator;
-		value = new ValueVisitor(codeGenerator);
+		value = new ValueVisitor(codeGenerator, this);
 		address = new AddressVisitor(codeGenerator);
 		value.setVisitorAddress(address);
 		address.setVisitorValue(value);

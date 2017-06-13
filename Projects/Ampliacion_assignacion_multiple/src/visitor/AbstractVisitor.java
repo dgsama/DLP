@@ -262,6 +262,8 @@ public abstract class AbstractVisitor implements Visitor {
 
 	@Override
 	public Object visit(AssignmentExpr assig, Object param) {
+		assig.getLeftExpression().accept(this, param);
+		assig.getRightExpression().accept(this, param);
 		return null;
 	}
 

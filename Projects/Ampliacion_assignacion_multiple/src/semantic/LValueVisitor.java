@@ -104,7 +104,7 @@ public class LValueVisitor extends AbstractVisitor {
 	public Object visit(Assignment assig, Object param) {
 		super.visit(assig, param);
 		if (!assig.getLeftExpression().islValue()) {
-			new ErrorType(assig.getLine(), assig.getColumn(), "The left part of the assignment can't be there");
+			new ErrorType(assig.getLine(), assig.getColumn(), "The left part of the assignment(st) can't be there");
 		}
 
 		return null;
@@ -125,7 +125,6 @@ public class LValueVisitor extends AbstractVisitor {
 	
 	@Override
 	public Object visit(AssignmentExpr assig, Object param) {
-		assig.setLValue(true);
 		super.visit(assig, param);
 		if (!assig.getLeftExpression().islValue()) {
 			new ErrorType(assig.getLine(), assig.getColumn(), "The left part of the assignment can't be there");

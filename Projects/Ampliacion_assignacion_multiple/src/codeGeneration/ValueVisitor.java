@@ -1,6 +1,7 @@
 package codeGeneration;
 
 import ast.expression.ArrayAccess;
+import ast.expression.AssignmentExpr;
 import ast.expression.Cast;
 import ast.expression.Expression;
 import ast.expression.LiteralChar;
@@ -30,9 +31,11 @@ public class ValueVisitor extends AbstractVisitor {
 
 	private AddressVisitor address;
 	private CodeGenerator cg;
+	private ExecuteVisitor execute;
 
-	public ValueVisitor(CodeGenerator codeGenerator) {
+	public ValueVisitor(CodeGenerator codeGenerator, ExecuteVisitor executeVisitor) {
 		this.cg = codeGenerator;
+		this.execute = executeVisitor;
 	}
 
 	public void setVisitorAddress(AddressVisitor address) {
@@ -187,6 +190,15 @@ public class ValueVisitor extends AbstractVisitor {
 	public Object visit(VoidType voidType, Object param) {
 		return null;
 	}
-	
+
+	// AMPLIACION
+
+	@Override
+	public Object visit(AssignmentExpr assig, Object param) {
+		assig.accept(execute, param);
+		assig.getLeftExpression().accept(address, param);
+		cg.load((Subfix) assig.getLeftExpression().getType().accept(this, param));
+		return null;
+	}
 
 }

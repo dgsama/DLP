@@ -279,6 +279,8 @@ public class TypeVisitor extends AbstractVisitor {
 		if (assig.getRightExpression().getType().promotesTo(assig.getLeftExpression().getType()) == null) {
 			assig.getLeftExpression().setType(new ErrorType(assig.getLeftExpression().getLine(),
 					assig.getLeftExpression().getColumn(), "The assigment is not posible"));
+		}else{
+			assig.setType(assig.getLeftExpression().getType());
 		}
 
 		return false;
