@@ -174,7 +174,18 @@ statement:		RETURN exp ';' 						{ $$ = new Return(scanner.getLine(), scanner.ge
 				| ternario 							{ $$ = $1;}
 				;
 
-ternario:		'(' exp ')' '?' statement ':' statement ';'		{ $$ = new IfElse(scanner.getLine(), scanner.getColumn(), (Expression)$2, (Statement)$5, (Statement)$7);}
+statement_sin:		RETURN exp  						{ $$ = new Return(scanner.getLine(), scanner.getColumn(), (Expression)$2); }
+				| READ list_exp 					{ $$ = new Read(scanner.getLine(), scanner.getColumn(), (List<Expression>)$2); }
+				| WRITE list_exp				{ $$ = new Write(scanner.getLine(), scanner.getColumn(), (List<Expression>)$2); }
+				| if_else							{ $$ = $1;}
+				| while								{ $$ = $1;}	
+				| exp '=' exp					{ $$ = new Assignment(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3); }
+				| ID '(' opt_list_exp ')'		{ $$ = new InvocationSt(scanner.getLine(), scanner.getColumn(), (String)$1, (List<Expression>)$3); }
+				//AMPLIACION TERNARIO
+				| ternario 							{ $$ = $1;}
+				;
+
+ternario:		'(' exp ')' '?' statement_sin ':' statement_sin ';'		{ $$ = new IfElse(scanner.getLine(), scanner.getColumn(), (Expression)$2, (Statement)$5, (Statement)$7);}
 				| exp '=' '(' exp ')' '?' exp ':' exp ';'		{ $$ = new IfElse(scanner.getLine(), scanner.getColumn(), (Expression)$4, (Statement)(new Assignment(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$7)),(Statement)(new Assignment(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$9)));}
 				;
 				

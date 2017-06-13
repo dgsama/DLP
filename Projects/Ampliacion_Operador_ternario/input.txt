@@ -18,5 +18,5 @@ else{
 	write 3;
 }
 
-(j<=k) ? write j; : j = j-2;;
+(j<=k) ? write j : j = j-2;
 }
