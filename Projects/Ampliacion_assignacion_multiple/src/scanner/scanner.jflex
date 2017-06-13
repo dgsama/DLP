@@ -76,7 +76,7 @@ public Object getYylval() {
 // ************  Macros ********************
 INT_CONSTANT = 0|[1-9][0-9]*  
 ASCII = 0|[1-9][0-9]?|1[0-9][0-9]|2[0-4][0-9]|25[0-6]
-LETTER = [a-zA-Z√°√©√≠√≥√∫√Å√â√ç√ì√ö√±√ë]
+LETTER = [a-zA-Z·ÈÌÛ˙¡…Õ”⁄Ò—]
 IDENTS = {LETTER}({LETTER}*{INT_CONSTANT}*)*
 COMMENT = "//" . *	
 COMMENT_MULTILINE = "/*" ~ "*/"
@@ -103,12 +103,6 @@ BLANKS = (\t|\n|" "|\r)
 "!="	{return Parser.NOT_EQ;}
 "&&"	{return Parser.AND;}
 "||"	{return Parser.OR;}
-
-//AMPLIACION MAS IGUAL MENOS IGUAL
-"+="	{return Parser.ADD_ASSIG;}
-"-="	{return Parser.SUB_ASSIG;}
-"*="	{return Parser.PROD_ASSIG;}
-"/="	{return Parser.DIV_ASSIG;}
 
 
 
