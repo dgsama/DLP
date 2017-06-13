@@ -25,4 +25,10 @@ void main() {
   pair.integer = i;
   pair.character = c;
   f(i, r);
+  
+  if(i>0)
+  	write 0;
+  else
+  	write 1;
+  
 }

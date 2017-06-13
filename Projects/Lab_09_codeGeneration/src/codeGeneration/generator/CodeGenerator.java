@@ -265,44 +265,44 @@ public class CodeGenerator {
 	}
 
 	public void comparisonOperator(String operator, Subfix subfix) {
-		if (operator.equals("gt")) {
+		if (operator.equals(">")) {
 			greaterThan(subfix);
 			return;
 		}
 
-		if (operator.equals("lt")) {
+		if (operator.equals("<")) {
 			lessThan(subfix);
 			return;
 		}
 
-		if (operator.equals("ge")) {
+		if (operator.equals(">=")) {
 			greaterEqualThan(subfix);
 			return;
 		}
 
-		if (operator.equals("le")) {
+		if (operator.equals("<=")) {
 			lessEqualThan(subfix);
 			return;
 		}
 
-		if (operator.equals("eq")) {
+		if (operator.equals("==")) {
 			equal(subfix);
 			return;
 		}
 
-		if (operator.equals("ne")) {
+		if (operator.equals("!=")) {
 			notEqual(subfix);
 			return;
 		}
 	}
 
 	public void logicOperator(String operator) {
-		if (operator.equals("and")) {
+		if (operator.equals("&&")) {
 			and();
 			return;
 		}
 
-		if (operator.equals("or")) {
+		if (operator.equals("||")) {
 			or();
 			return;
 		}

@@ -72,4 +72,16 @@
 	loadf
 	call f
 	popi
+	pusha 0
+	loadi
+	pushi 0
+	gti
+	jz startElse0
+	pushi 0
+	outi
+	jmp endElse1
+ startElse0:
+	pushi 1
+	outi
+ endElse1:
 	ret 0, 3, 0
