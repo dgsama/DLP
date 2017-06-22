@@ -1,0 +1,7 @@
+		Tue Jun 20 17:33:18 CEST 2017
+
+  The errors are in the SYNTACTIC phase.
+  There are 2 in the errors list.
+
+	+ 1: Syntax error -> 264 (f) in line [3] column [8]
+	+ 2: Syntax error -> 59 (;) in line [3] column [9]

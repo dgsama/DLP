@@ -1,0 +1,37 @@
+#source "input.txt"
+
+	' * int i (Offset 0)
+	' * int j (Offset 2)
+' * func main
+	call main
+	halt
+ main:
+	enter 0
+	pusha 0
+	pushi 3
+	storei
+	pusha 2
+	pushi 0
+	storei
+ startWhile0:
+	pusha 2
+	pusha 2
+	loadi
+	pushi 1
+	addi
+	storei
+	pusha 0
+	pusha 0
+	loadi
+	pushi 1
+	subi
+	storei
+	pusha 2
+	loadi
+	outi
+	pusha 0
+	loadi
+	pushi 0
+	nei
+	jnz startWhile0
+	ret 0, 0, 0

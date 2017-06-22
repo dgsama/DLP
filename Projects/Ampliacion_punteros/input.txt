@@ -1,0 +1,15 @@
+// * Global variables
+int b;
+int *a,f;
+int c;
+int d;
+int e;
+
+// * Main program
+void main() {
+b=2;
+a=&b;
+c=a+2;
+d=&b+c;
+e=*a;
+}

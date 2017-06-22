@@ -1,0 +1,15 @@
+// * Global variables
+int i;
+int j;
+
+// * Main program
+void main() {
+i = 3;
+j = 0;
+do{
+j = j+1;
+i = i-1;
+write j;
+}while(i!=0);
+
+}
