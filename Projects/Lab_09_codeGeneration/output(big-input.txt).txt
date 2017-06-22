@@ -24,11 +24,17 @@
 	' * int j (Offset -4)
 	call main
 	halt
+#line	14
+
  p:
 	enter 0
 	ret 0, 0, 0
+#line	29
+
  f:
 	enter 7
+#line	20
+
 	push bp
 	pushi -4
 	addi
@@ -39,11 +45,15 @@
 	pushf 10.0
 	mulf
 	storef
+#line	21
+
 	push bp
 	pushi -5
 	addi
 	pushb 48
 	storeb
+#line	27
+
 	push bp
 	pushi 4
 	addi
@@ -51,6 +61,8 @@
 	pushi 256
 	lti
 	jz startElse0
+#line	23
+
 	push bp
 	pushi -5
 	addi
@@ -58,8 +70,10 @@
 	pushi 4
 	addi
 	loadi
-i2b
+	i2b
 	storeb
+#line	24
+
 	push bp
 	pushi -7
 	addi
@@ -67,10 +81,12 @@ i2b
 	pushi -5
 	addi
 	loadb
-b2i
+	b2i
 	storei
 	jmp endElse1
  startElse0:
+#line	27
+
 	push bp
 	pushi -7
 	addi
@@ -78,39 +94,68 @@ b2i
 	pushi -4
 	addi
 	loadf
-f2i
+	f2i
 	storei
  endElse1:
+#line	28
+
 	push bp
 	pushi -7
 	addi
 	loadi
 	ret 2, 7, 6
+#line	43
+
  initialize:
 	enter 2
+#line	33
+
+	pusha 11
+	pushi 0
+	pushi 6
+	muli
+	addi
 	pushi 0
 	pushi 2
 	muli
 	addi
 	pushi 0
 	storei
+#line	34
+
+	pusha 11
+	pushi 0
+	pushi 6
+	muli
+	addi
 	pushi 1
 	pushi 2
 	muli
 	addi
 	pushi 1
 	storei
+#line	35
+
+	pusha 11
+	pushi 0
+	pushi 6
+	muli
+	addi
 	pushi 2
 	pushi 2
 	muli
 	addi
 	pushi 1
 	storei
+#line	36
+
 	push bp
 	pushi -2
 	addi
 	pushi 1
 	storei
+#line	42
+
  startWhile2:
 	push bp
 	pushi -2
@@ -119,35 +164,101 @@ f2i
 	pushi 8
 	lti
 	jz endWhile3
-	pushi 0
-	pushi 2
-	muli
-	addi
-	pushi 1
-	pushi 2
-	muli
+#line	38
+
+	pusha 11
+	push bp
+	pushi -2
 	addi
 	loadi
-	storei
-	pushi 1
-	pushi 2
-	muli
-	addi
-	pushi 2
-	pushi 2
-	muli
-	addi
-	loadi
-	storei
-	pushi 2
-	pushi 2
+	pushi 6
 	muli
 	addi
 	pushi 0
 	pushi 2
 	muli
 	addi
+	pusha 11
+	push bp
+	pushi -2
+	addi
 	loadi
+	pushi 1
+	subi
+	pushi 6
+	muli
+	addi
+	pushi 1
+	pushi 2
+	muli
+	addi
+	loadi
+	storei
+#line	39
+
+	pusha 11
+	push bp
+	pushi -2
+	addi
+	loadi
+	pushi 6
+	muli
+	addi
+	pushi 1
+	pushi 2
+	muli
+	addi
+	pusha 11
+	push bp
+	pushi -2
+	addi
+	loadi
+	pushi 1
+	subi
+	pushi 6
+	muli
+	addi
+	pushi 2
+	pushi 2
+	muli
+	addi
+	loadi
+	storei
+#line	40
+
+	pusha 11
+	push bp
+	pushi -2
+	addi
+	loadi
+	pushi 6
+	muli
+	addi
+	pushi 2
+	pushi 2
+	muli
+	addi
+	pusha 11
+	push bp
+	pushi -2
+	addi
+	loadi
+	pushi 6
+	muli
+	addi
+	pushi 0
+	pushi 2
+	muli
+	addi
+	loadi
+	pusha 11
+	push bp
+	pushi -2
+	addi
+	loadi
+	pushi 6
+	muli
+	addi
 	pushi 1
 	pushi 2
 	muli
@@ -155,6 +266,8 @@ f2i
 	loadi
 	addi
 	storei
+#line	41
+
 	push bp
 	pushi -2
 	addi
@@ -168,48 +281,69 @@ f2i
 	jmp startWhile2
  endWhile3:
 	ret 0, 2, 0
+#line	94
+
  main:
 	enter 4
+#line	49
+
 	call p
+#line	50
+
 	push bp
 	pushi -2
 	addi
 	pushi 0
 	storei
+#line	51
+
 	pusha 0
 	pushi 2
 	addi
 	pushb 48
 	storeb
+#line	52
+
 	pusha 0
 	pushi 0
 	addi
 	pushb 48
-b2i
+	b2i
 	storei
+#line	55
+
 	push bp
 	pushi -2
 	addi
 	loadi
-i2f
+	i2f
 	pusha 0
 	pushi 2
 	addi
 	loadb
-b2i
+	b2i
+	call f
 	outi
 	pushb 10
 	outb
+#line	56
+
 	pushf 1.3
 	pushi 2
 	call f
 	popi
+#line	58
+
 	call initialize
+#line	59
+
 	push bp
 	pushi -2
 	addi
 	pushi 0
 	storei
+#line	66
+
  startWhile4:
 	push bp
 	pushi -2
@@ -218,6 +352,8 @@ b2i
 	pushi 8
 	lti
 	jz endWhile5
+#line	64
+
 	pushb 40
 	outb
 	push bp
@@ -229,6 +365,14 @@ b2i
 	outi
 	pushb 41
 	outb
+	pusha 11
+	push bp
+	pushi -2
+	addi
+	loadi
+	pushi 6
+	muli
+	addi
 	pushi 0
 	pushi 2
 	muli
@@ -237,6 +381,14 @@ b2i
 	outi
 	pushb 43
 	outb
+	pusha 11
+	push bp
+	pushi -2
+	addi
+	loadi
+	pushi 6
+	muli
+	addi
 	pushi 1
 	pushi 2
 	muli
@@ -245,6 +397,14 @@ b2i
 	outi
 	pushb 61
 	outb
+	pusha 11
+	push bp
+	pushi -2
+	addi
+	loadi
+	pushi 6
+	muli
+	addi
 	pushi 2
 	pushi 2
 	muli
@@ -253,6 +413,8 @@ b2i
 	outi
 	pushb 10
 	outb
+#line	65
+
 	push bp
 	pushi -2
 	addi
@@ -265,29 +427,51 @@ b2i
 	storei
 	jmp startWhile4
  endWhile5:
+#line	68
+
+	pusha 3
+	pushi 1
+	pushi 4
+	muli
+	addi
+	pushi 0
+	addi
 	pushi 1
 	pushi 2
 	muli
 	addi
-	pushi 3
+	pushi 0
 	addi
 	pushi 56
 	storei
+#line	70
+
+	pusha 3
+	pushi 1
+	pushi 4
+	muli
+	addi
+	pushi 0
+	addi
 	pushi 1
 	pushi 2
 	muli
 	addi
-	pushi 3
+	pushi 0
 	addi
 	loadi
 	outi
 	pushb 10
 	outb
+#line	71
+
 	push bp
 	pushi -2
 	addi
 	pushi 0
 	storei
+#line	79
+
  startWhile6:
 	push bp
 	pushi -2
@@ -296,11 +480,15 @@ b2i
 	pushi 2
 	lti
 	jz endWhile7
+#line	73
+
 	push bp
 	pushi -4
 	addi
 	pushi 0
 	storei
+#line	77
+
  startWhile8:
 	push bp
 	pushi -4
@@ -309,8 +497,17 @@ b2i
 	pushi 2
 	lti
 	jz endWhile9
+#line	75
+
+	pusha 3
 	push bp
-	pushi -4
+	pushi -2
+	addi
+	loadi
+	pushi 4
+	muli
+	addi
+	pushi 0
 	addi
 	push bp
 	pushi -4
@@ -319,7 +516,7 @@ b2i
 	pushi 2
 	muli
 	addi
-	pushi 3
+	pushi 0
 	addi
 	push bp
 	pushi -2
@@ -331,6 +528,8 @@ b2i
 	loadi
 	addi
 	storei
+#line	76
+
 	push bp
 	pushi -4
 	addi
@@ -343,6 +542,8 @@ b2i
 	storei
 	jmp startWhile8
  endWhile9:
+#line	78
+
 	push bp
 	pushi -2
 	addi
@@ -355,11 +556,15 @@ b2i
 	storei
 	jmp startWhile6
  endWhile7:
+#line	82
+
 	push bp
 	pushi -2
 	addi
 	pushi 0
 	storei
+#line	91
+
  startWhile10:
 	push bp
 	pushi -2
@@ -368,11 +573,15 @@ b2i
 	pushi 2
 	lti
 	jz endWhile11
+#line	84
+
 	push bp
 	pushi -4
 	addi
 	pushi 0
 	storei
+#line	89
+
  startWhile12:
 	push bp
 	pushi -4
@@ -381,8 +590,17 @@ b2i
 	pushi 2
 	lti
 	jz endWhile13
+#line	87
+
+	pusha 3
 	push bp
-	pushi -4
+	pushi -2
+	addi
+	loadi
+	pushi 4
+	muli
+	addi
+	pushi 0
 	addi
 	push bp
 	pushi -4
@@ -391,12 +609,14 @@ b2i
 	pushi 2
 	muli
 	addi
-	pushi 3
+	pushi 0
 	addi
 	loadi
 	outi
 	pushb 32
 	outb
+#line	88
+
 	push bp
 	pushi -4
 	addi
@@ -409,6 +629,8 @@ b2i
 	storei
 	jmp startWhile12
  endWhile13:
+#line	90
+
 	push bp
 	pushi -2
 	addi

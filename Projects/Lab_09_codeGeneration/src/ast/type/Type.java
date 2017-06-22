@@ -3,6 +3,7 @@ package ast.type;
 import java.util.List;
 
 import ast.ASTNode;
+import ast.expression.Expression;
 
 public interface Type extends ASTNode {
 
@@ -18,7 +19,7 @@ public interface Type extends ASTNode {
 
 	Type promotesTo(Type type);
 
-	Type parentesis(List<Type> types); // funcType, mainType
+	Type parentesis(List<Expression> list); // funcType, mainType
 
 	Type dot(String fieldName); // structType
 
@@ -27,5 +28,7 @@ public interface Type extends ASTNode {
 	Type parentesisCast(Type type);
 
 	boolean isPrimitive();
+
+	int getTamaño();
 
 }

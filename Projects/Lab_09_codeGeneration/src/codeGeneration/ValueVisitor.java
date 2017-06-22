@@ -3,6 +3,7 @@ package codeGeneration;
 import ast.expression.ArrayAccess;
 import ast.expression.Cast;
 import ast.expression.Expression;
+import ast.expression.InvocationExp;
 import ast.expression.LiteralChar;
 import ast.expression.LiteralInt;
 import ast.expression.LiteralReal;
@@ -42,7 +43,9 @@ public class ValueVisitor extends AbstractVisitor {
 	@Override
 	public Object visit(ArithmeticOperation arithmetic, Object param) {
 		arithmetic.getLeftExpression().accept(this, param);
+		cg.a2b(arithmetic.getLeftExpression().getType(), arithmetic.getType());
 		arithmetic.getRightExpression().accept(this, param);
+		cg.a2b(arithmetic.getRightExpression().getType(), arithmetic.getType());
 		cg.arithmeticOperator(arithmetic.getOperator(), (Subfix) arithmetic.getType().accept(this, param));
 		return null;
 	}
@@ -50,7 +53,9 @@ public class ValueVisitor extends AbstractVisitor {
 	@Override
 	public Object visit(CompOperation comparison, Object param) {
 		comparison.getLeftExpression().accept(this, param);
+		cg.a2b(comparison.getLeftExpression().getType(), comparison.getType());
 		comparison.getRightExpression().accept(this, param);
+		cg.a2b(comparison.getRightExpression().getType(), comparison.getType());
 		cg.comparisonOperator(comparison.getOperator(),
 				(Subfix) comparison.getLeftExpression().getType().accept(this, param));
 		return null;
@@ -59,7 +64,9 @@ public class ValueVisitor extends AbstractVisitor {
 	@Override
 	public Object visit(LogicOperation logic, Object param) {
 		logic.getLeftExpression().accept(this, param);
+		cg.a2b(logic.getLeftExpression().getType(), logic.getType());
 		logic.getRightExpression().accept(this, param);
+		cg.a2b(logic.getRightExpression().getType(), logic.getType());
 		cg.logicOperator(logic.getOperator());
 		return null;
 	}
@@ -67,37 +74,28 @@ public class ValueVisitor extends AbstractVisitor {
 	@Override
 	public Object visit(LiteralChar litChar, Object param) {
 		cg.pushB(litChar.getValue());
+		cg.a2b(new CharType(0, 0), litChar.getType());
 		return null;
 	}
 
 	@Override
 	public Object visit(LiteralInt litInt, Object param) {
 		cg.pushI(litInt.getValue());
+		cg.a2b(new IntType(0, 0), litInt.getType());
 		return null;
 	}
 
 	@Override
 	public Object visit(LiteralReal litReal, Object param) {
 		cg.pushF(litReal.getValue());
+		cg.a2b(new RealType(0, 0), litReal.getType());
 		return null;
 	}
-
-	/*
-	 * @Override public Object visit(TernaryComparison ternaryComp, Object
-	 * param) { ternaryComp.getLeftExpr().accept(this, param);
-	 * ternaryComp.getCenterExpr().accept(this, param);
-	 * cg.comparisonOperator(ternaryComp.getLeftOperator(), (Subfix)
-	 * ternaryComp.getLeftExpr().getType().accept(this, param));
-	 * ternaryComp.getCenterExpr().accept(this, param);
-	 * ternaryComp.getRightExpr().accept(this, param);
-	 * cg.comparisonOperator(ternaryComp.getLeftOperator(), (Subfix)
-	 * ternaryComp.getLeftExpr().getType().accept(this, param)); cg.and();
-	 * return null; }
-	 */
 
 	@Override
 	public Object visit(UnaryNot not, Object param) {
 		not.getExpression().accept(this, param);
+		cg.a2b(not.getExpression().getType(), not.getType());
 		cg.not();
 		return null;
 	}
@@ -120,6 +118,15 @@ public class ValueVisitor extends AbstractVisitor {
 
 	@Override
 	public Object visit(InvocationSt callFunc, Object param) {
+		for (Expression arg : callFunc.getParameters()) {
+			arg.accept(this, param);
+		}
+		cg.call(callFunc.getName());
+		return null;
+	}
+	
+	@Override
+	public Object visit(InvocationExp callFunc, Object param) {
 		for (Expression arg : callFunc.getParameters()) {
 			arg.accept(this, param);
 		}

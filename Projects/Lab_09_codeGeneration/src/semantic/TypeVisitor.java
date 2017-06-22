@@ -1,8 +1,5 @@
 package semantic;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ast.definition.DefFunc;
 import ast.expression.ArrayAccess;
 import ast.expression.Cast;
@@ -31,7 +28,6 @@ import ast.type.ErrorType;
 import ast.type.FuncType;
 import ast.type.IntType;
 import ast.type.RealType;
-import ast.type.Type;
 import ast.type.VoidType;
 import error.Err;
 import visitor.AbstractVisitor;
@@ -215,11 +211,8 @@ public class TypeVisitor extends AbstractVisitor {
 	@Override
 	public Object visit(InvocationExp exp, Object param) {
 		super.visit(exp, param);
-		List<Type> types = new ArrayList<>();
-		for (Expression each : exp.getParameters()) {
-			types.add(each.getType());
-		}
-		exp.setType(exp.getDefinition().getType().parentesis(types));
+
+		exp.setType(exp.getDefinition().getType().parentesis(exp.getParameters()));
 		if (exp.getType() == null) {
 			exp.setType(new ErrorType(exp.getLine(), exp.getColumn(), "The invocation is not valid"));
 		}
@@ -230,11 +223,8 @@ public class TypeVisitor extends AbstractVisitor {
 	@Override
 	public Object visit(InvocationSt cF, Object param) {
 		super.visit(cF, param);
-		List<Type> types = new ArrayList<>();
-		for (Expression each : cF.getParameters()) {
-			types.add(each.getType());
-		}
-		if ((cF.getDefinition().getType().parentesis(types)) == null) {
+
+		if ((cF.getDefinition().getType().parentesis(cF.getParameters())) == null) {
 			new ErrorType(cF.getLine(), cF.getColumn(), "The invocation is not valid");
 		}
 
@@ -250,8 +240,8 @@ public class TypeVisitor extends AbstractVisitor {
 	@Override
 	public Object visit(Return ret, Object param) {
 		super.visit(ret, param);
-
-		if (ret.getExpression().getType().promotesTo(((FuncType) param).getRetType()) == null) {
+		ret.getExpression().setType(ret.getExpression().getType().promotesTo(((FuncType) param).getRetType()));
+		if (ret.getExpression().getType() == null) {
 			ret.getExpression().setType(
 					new ErrorType(ret.getLine(), ret.getColumn(), "The return type is not valid for this function"));
 		}

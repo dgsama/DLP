@@ -1,0 +1,115 @@
+#source "binarias.txt"
+
+' * func f
+	' * Parameters
+	' * int a (Offset 4)
+' * func main
+	' * Local variables
+	' * 10*3*float m (Offset -120)
+	' * float a (Offset -124)
+	call main
+	halt
+#line	4
+
+ f:
+	enter 0
+#line	3
+
+	push bp
+	pushi 4
+	addi
+	loadi
+	ret 2, 0, 2
+#line	25
+
+ main:
+	enter 124
+#line	10
+
+	push bp
+	pushi -124
+	addi
+	pushi 13
+	i2f
+	storef
+#line	11
+
+	push bp
+	pushi -120
+	addi
+	pushi 7
+	pushi 12
+	muli
+	addi
+	pushi 2
+	pushi 4
+	muli
+	addi
+	pushi 12
+	i2f
+	storef
+#line	13
+
+	push bp
+	pushi -124
+	addi
+	pushb 97
+	b2i
+	pushi 12
+	addi
+	i2f
+	storef
+#line	15
+
+	push bp
+	pushi -124
+	addi
+	pushb 97
+	b2i
+	i2f
+	storef
+#line	17
+
+	pushb 97
+	b2i
+	call f
+	popi
+#line	19
+
+	push bp
+	pushi -124
+	addi
+	push bp
+	pushi -124
+	addi
+	loadf
+	push bp
+	pushi -120
+	addi
+	pushi 7
+	pushi 12
+	muli
+	addi
+	pushi 2
+	pushi 4
+	muli
+	addi
+	loadf
+	subf
+	pushi 2
+	i2f
+	addf
+	storef
+#line	25
+
+	pushb 97
+	b2i
+	jz startElse0
+#line	22
+
+	pushb 49
+	outb
+	jmp endElse1
+ startElse0:
+ endElse1:
+	ret 0, 124, 0

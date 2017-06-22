@@ -3,6 +3,7 @@ package ast.type;
 import java.util.List;
 
 import ast.AbstractASTNode;
+import ast.expression.Expression;
 
 public abstract class AbstractType extends AbstractASTNode implements Type {
 
@@ -36,7 +37,7 @@ public abstract class AbstractType extends AbstractASTNode implements Type {
 	}
 
 	@Override
-	public Type parentesis(List<Type> types) {
+	public Type parentesis(List<Expression> types) {
 		return null;
 	}
 
@@ -63,6 +64,11 @@ public abstract class AbstractType extends AbstractASTNode implements Type {
 	@Override
 	public boolean isPrimitive() {
 		return false;
+	}
+	
+	@Override
+	public int getTamaño() {
+		return 0;
 	}
 
 }

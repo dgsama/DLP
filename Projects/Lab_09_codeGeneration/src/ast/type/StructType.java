@@ -29,14 +29,15 @@ public class StructType extends AbstractType {
 	public List<Definition> getFieldsDefinitions() {
 		return fieldsDefinitions;
 	}
-
-	// public Definition getDefinition() {
-	// return definition;
-	// }
-	//
-	// public void setDefinition(Definition definition) {
-	// this.definition = definition;
-	// }
+	
+	@Override
+	public int getTamaño() {
+		int retorno = 0;
+		for (Definition definicion : fieldsDefinitions) {
+			retorno += definicion.getType().getTamaño();
+		}
+		return retorno;
+	}
 
 	@Override
 	public Type dot(String fieldName) {

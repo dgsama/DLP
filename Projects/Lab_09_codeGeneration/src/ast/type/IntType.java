@@ -87,4 +87,8 @@ public class IntType extends AbstractType {
 		return "INT";
 	}
 
+	@Override
+	public int getTamaño() {
+		return 2;
+	}
 }

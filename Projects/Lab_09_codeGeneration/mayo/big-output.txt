@@ -537,7 +537,7 @@ halt
 	pushi	4
 	muli
 	addi
-	pushi	0
+	pushi	0 
 	addi
 	push	bp
 	pushi	-4
@@ -546,7 +546,7 @@ halt
 	pushi	2
 	muli
 	addi
-	pushi	0
+	pushi	0 
 	addi
 	push	bp
 	pushi	-2
@@ -635,7 +635,7 @@ halt
 	pushi	4
 	muli
 	addi
-	pushi	0
+	pushi	0 
 	addi
 	push	bp
 	pushi	-4
@@ -644,7 +644,7 @@ halt
 	pushi	2
 	muli
 	addi
-	pushi	0
+	pushi	0  
 	addi
 	loadi
 	outi

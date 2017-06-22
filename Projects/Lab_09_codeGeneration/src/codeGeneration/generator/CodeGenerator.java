@@ -19,7 +19,7 @@ public class CodeGenerator {
 
 	public CodeGenerator(String file) {
 		this.setFile(file);
-		route = "output/output(" + file + ").txt";
+		route = "output(" + file + ").txt";
 		labelCount = 0;
 		try {
 			writer = new BufferedWriter(new FileWriter(route));
@@ -140,23 +140,23 @@ public class CodeGenerator {
 	public void a2b(Type originalType, Type finalType) {
 		if (originalType instanceof CharType) {
 			if (finalType instanceof IntType) {
-				write("b2i");
+				write("\tb2i");
 			} else if (finalType instanceof RealType) {
-				write("b2i");
-				write("i2f");
+				write("\tb2i");
+				write("\ti2f");
 			}
 		} else if (originalType instanceof IntType) {
 			if (finalType instanceof CharType) {
-				write("i2b");
+				write("\ti2b");
 			} else if (finalType instanceof RealType) {
-				write("i2f");
+				write("\ti2f");
 			}
 		} else if (originalType instanceof RealType) {
 			if (finalType instanceof IntType) {
-				write("f2i");
+				write("\tf2i");
 			} else if (finalType instanceof CharType) {
-				write("f2i");
-				write("i2b");
+				write("\tf2i");
+				write("\ti2b");
 			}
 		}
 	}
@@ -235,6 +235,11 @@ public class CodeGenerator {
 
 	public void metaLocal(String ident, String type, int i) {
 		write("\t' * " + type + " " + ident + " (Offset " + i + ")");
+	}
+
+	public void metaLine(int line) {
+		comment("line\t" + line + "\n");
+
 	}
 
 	public void arithmeticOperator(String operator, Subfix subfix) {
@@ -328,4 +333,5 @@ public class CodeGenerator {
 	public void setFile(String file) {
 		this.file = file;
 	}
+
 }

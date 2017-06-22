@@ -1,0 +1,25 @@
+// * Funcion main
+int f(int a) {
+    return a;
+}
+
+void main() {
+	double[10][3] m;
+	double a;
+	
+	a = 13;
+	m[7][2] = 12;
+	
+	a= 'a' + 12;
+	
+	a = 'a';
+	
+	f('a');
+	
+	a = a - m[7][2] + 2;
+	
+	if('a') {
+		write '1';
+		}
+  
+}

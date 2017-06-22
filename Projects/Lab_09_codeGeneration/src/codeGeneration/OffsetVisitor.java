@@ -79,8 +79,9 @@ public class OffsetVisitor extends AbstractVisitor {
 	public Object visit(StructType sT, Object param) {
 		int total = 0;
 		for (Definition each : sT.getFieldsDefinitions()) {
-			each.setOffset(total + (int) param);
-			total += (int) each.getType().accept(this, each.getOffset());
+			each.setOffset(total);
+			total += (int) each.getType().getTamaño();
+			each.accept(this, total);
 		}
 		return total;
 	}
@@ -118,6 +119,7 @@ public class OffsetVisitor extends AbstractVisitor {
 
 	@Override
 	public Object visit(DefField dF, Object param) {
+		dF.getType().accept(this, param);
 		return null;
 	}
 

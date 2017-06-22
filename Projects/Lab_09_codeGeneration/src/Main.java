@@ -55,6 +55,9 @@ public class Main {
 		parser.getRoot().accept(new OffsetVisitor(), null);
 		parser.getRoot().accept(new RunVisitor(file), null);
 
+		System.out.print("\nOutput created\n");
+		System.out.print("\nLaunching Introspector\n");
+		
 		/** INSTROSPECTOR **/
 		IntrospectorModel model = new IntrospectorModel("Program", parser.getRoot());
 		new IntrospectorTree("Introspector", model);

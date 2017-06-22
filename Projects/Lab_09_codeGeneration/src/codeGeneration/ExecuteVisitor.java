@@ -42,6 +42,7 @@ public class ExecuteVisitor extends AbstractVisitor {
 
 	@Override
 	public Object visit(DefFunc functionDef, Object param) {
+		cg.metaLine(functionDef.getLine());
 		cg.label(functionDef.getId());
 		cg.enter(getDefsSize(functionDef.getDefinitions(), param));
 		for (Statement stat : functionDef.getStatements()) {
@@ -56,14 +57,17 @@ public class ExecuteVisitor extends AbstractVisitor {
 
 	@Override
 	public Object visit(Assignment assignment, Object param) {
+		cg.metaLine(assignment.getLine());
 		assignment.getLeftExpression().accept(address, param);
 		assignment.getRightExpression().accept(value, param);
+		cg.a2b(assignment.getRightExpression().getType(), assignment.getLeftExpression().getType());
 		cg.store((Subfix) assignment.getLeftExpression().getType().accept(value, param));
 		return null;
 	}
 
 	@Override
 	public Object visit(InvocationSt callProc, Object param) {
+		cg.metaLine(callProc.getLine());
 		for (Expression arg : callProc.getParameters()) {
 			arg.accept(value, param);
 		}
@@ -77,6 +81,7 @@ public class ExecuteVisitor extends AbstractVisitor {
 
 	@Override
 	public Object visit(IfElse ifElse, Object param) {
+		cg.metaLine(ifElse.getLine());
 		String startElse = "startElse" + cg.getLabelCount();
 		String endElse = "endElse" + cg.getLabelCount();
 		ifElse.getCondition().accept(value, param);
@@ -95,6 +100,7 @@ public class ExecuteVisitor extends AbstractVisitor {
 
 	@Override
 	public Object visit(Read read, Object param) {
+		cg.metaLine(read.getLine());
 		for (Expression expr : read.getExpressions()) {
 			expr.accept(address, param);
 			cg.in((Subfix) expr.getType().accept(value, param));
@@ -105,6 +111,7 @@ public class ExecuteVisitor extends AbstractVisitor {
 
 	@Override
 	public Object visit(Return ret, Object param) {
+		cg.metaLine(ret.getLine());
 		DefFunc def = (DefFunc) param;
 
 		if (ret.getExpression() != null) {
@@ -117,6 +124,7 @@ public class ExecuteVisitor extends AbstractVisitor {
 
 	@Override
 	public Object visit(While whileStat, Object param) {
+		cg.metaLine(whileStat.getLine());
 		String startWhile = "startWhile" + cg.getLabelCount();
 		String endWhile = "endWhile" + cg.getLabelCount();
 
@@ -133,6 +141,7 @@ public class ExecuteVisitor extends AbstractVisitor {
 
 	@Override
 	public Object visit(Write write, Object param) {
+		cg.metaLine(write.getLine());
 		for (Expression expr : write.getExpressions()) {
 			expr.accept(value, param);
 			cg.out((Subfix) expr.getType().accept(value, param));

@@ -73,9 +73,8 @@ public class CharType extends AbstractType {
 
 	@Override
 	public Type promotesTo(Type type) {
-		if (type instanceof CharType || type instanceof IntType) {
-			return this;
-		} else if (type instanceof ErrorType) {
+		if (type instanceof CharType || type instanceof IntType || type instanceof ErrorType
+				|| type instanceof RealType) {
 			return type;
 		}
 		return null;
@@ -84,6 +83,11 @@ public class CharType extends AbstractType {
 	@Override
 	public String toString() {
 		return "CHAR";
+	}
+
+	@Override
+	public int getTamaño() {
+		return 1;
 	}
 
 }

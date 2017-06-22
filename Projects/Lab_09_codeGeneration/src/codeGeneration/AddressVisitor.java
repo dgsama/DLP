@@ -33,7 +33,7 @@ public class AddressVisitor extends AbstractVisitor {
 
 	@Override
 	public Object visit(ArrayAccess arrayAccess, Object param) {
-		arrayAccess.getIndex().accept(this, param);
+		arrayAccess.getName().accept(this, param);
 		arrayAccess.getIndex().accept(value, param);
 		cg.pushI((int) arrayAccess.getType().accept(this, param));
 		cg.mul(Subfix.INTEGER);

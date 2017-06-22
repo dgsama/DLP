@@ -3,6 +3,7 @@ package ast.type;
 import java.util.List;
 
 import ast.definition.Definition;
+import ast.expression.Expression;
 import visitor.Visitor;
 
 public class FuncType extends AbstractType {
@@ -25,12 +26,15 @@ public class FuncType extends AbstractType {
 	}
 
 	@Override
-	public Type parentesis(List<Type> types) {
+	public Type parentesis(List<Expression> types) {
 		if (parameters.size() != types.size()) {
 			return null;
 		}
+		Expression arg;
 		for (int i = 0; i < types.size(); i++) {
-			if (null == types.get(i).promotesTo(this.parameters.get(i).getType())) {
+			arg = types.get(i);
+			arg.setType(arg.getType().promotesTo(parameters.get(i).getType()));
+			if (null == types.get(i).getType()) {
 				return null;
 			}
 		}
