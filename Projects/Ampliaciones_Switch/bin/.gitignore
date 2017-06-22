@@ -1,4 +1,3 @@
-/Main.class
 /ast/
 /codeGeneration/
 /error/
@@ -7,3 +6,4 @@
 /scanner/
 /semantic/
 /visitor/
+/Main.class

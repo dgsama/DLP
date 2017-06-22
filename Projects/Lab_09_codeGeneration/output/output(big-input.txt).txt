@@ -1,0 +1,424 @@
+#source "big-input.txt"
+
+	' * 
+	' * {(integer:int) , (character:byte) , } pair (Offset 0)
+	' * 2*
+	' * {(employees:2*
+	' * {(age:int) , }) , } acme (Offset 3)
+	' * 8*3*int fibonacci (Offset 11)
+' * func p
+' * func f
+	' * Parameters
+	' * float r (Offset 6)
+	' * int e (Offset 4)
+	' * Local variables
+	' * float real (Offset -4)
+	' * byte c (Offset -5)
+	' * int result (Offset -7)
+' * func initialize
+	' * Local variables
+	' * int i (Offset -2)
+' * func main
+	' * Local variables
+	' * int i (Offset -2)
+	' * int j (Offset -4)
+	call main
+	halt
+ p:
+	enter 0
+	ret 0, 0, 0
+ f:
+	enter 7
+	push bp
+	pushi -4
+	addi
+	push bp
+	pushi 6
+	addi
+	loadf
+	pushf 10.0
+	mulf
+	storef
+	push bp
+	pushi -5
+	addi
+	pushb 48
+	storeb
+	push bp
+	pushi 4
+	addi
+	loadi
+	pushi 256
+	lti
+	jz startElse0
+	push bp
+	pushi -5
+	addi
+	push bp
+	pushi 4
+	addi
+	loadi
+i2b
+	storeb
+	push bp
+	pushi -7
+	addi
+	push bp
+	pushi -5
+	addi
+	loadb
+b2i
+	storei
+	jmp endElse1
+ startElse0:
+	push bp
+	pushi -7
+	addi
+	push bp
+	pushi -4
+	addi
+	loadf
+f2i
+	storei
+ endElse1:
+	push bp
+	pushi -7
+	addi
+	loadi
+	ret 2, 7, 6
+ initialize:
+	enter 2
+	pushi 0
+	pushi 2
+	muli
+	addi
+	pushi 0
+	storei
+	pushi 1
+	pushi 2
+	muli
+	addi
+	pushi 1
+	storei
+	pushi 2
+	pushi 2
+	muli
+	addi
+	pushi 1
+	storei
+	push bp
+	pushi -2
+	addi
+	pushi 1
+	storei
+ startWhile2:
+	push bp
+	pushi -2
+	addi
+	loadi
+	pushi 8
+	lti
+	jz endWhile3
+	pushi 0
+	pushi 2
+	muli
+	addi
+	pushi 1
+	pushi 2
+	muli
+	addi
+	loadi
+	storei
+	pushi 1
+	pushi 2
+	muli
+	addi
+	pushi 2
+	pushi 2
+	muli
+	addi
+	loadi
+	storei
+	pushi 2
+	pushi 2
+	muli
+	addi
+	pushi 0
+	pushi 2
+	muli
+	addi
+	loadi
+	pushi 1
+	pushi 2
+	muli
+	addi
+	loadi
+	addi
+	storei
+	push bp
+	pushi -2
+	addi
+	push bp
+	pushi -2
+	addi
+	loadi
+	pushi 1
+	addi
+	storei
+	jmp startWhile2
+ endWhile3:
+	ret 0, 2, 0
+ main:
+	enter 4
+	call p
+	push bp
+	pushi -2
+	addi
+	pushi 0
+	storei
+	pusha 0
+	pushi 2
+	addi
+	pushb 48
+	storeb
+	pusha 0
+	pushi 0
+	addi
+	pushb 48
+b2i
+	storei
+	push bp
+	pushi -2
+	addi
+	loadi
+i2f
+	pusha 0
+	pushi 2
+	addi
+	loadb
+b2i
+	outi
+	pushb 10
+	outb
+	pushf 1.3
+	pushi 2
+	call f
+	popi
+	call initialize
+	push bp
+	pushi -2
+	addi
+	pushi 0
+	storei
+ startWhile4:
+	push bp
+	pushi -2
+	addi
+	loadi
+	pushi 8
+	lti
+	jz endWhile5
+	pushb 40
+	outb
+	push bp
+	pushi -2
+	addi
+	loadi
+	pushi 1
+	addi
+	outi
+	pushb 41
+	outb
+	pushi 0
+	pushi 2
+	muli
+	addi
+	loadi
+	outi
+	pushb 43
+	outb
+	pushi 1
+	pushi 2
+	muli
+	addi
+	loadi
+	outi
+	pushb 61
+	outb
+	pushi 2
+	pushi 2
+	muli
+	addi
+	loadi
+	outi
+	pushb 10
+	outb
+	push bp
+	pushi -2
+	addi
+	push bp
+	pushi -2
+	addi
+	loadi
+	pushi 1
+	addi
+	storei
+	jmp startWhile4
+ endWhile5:
+	pushi 1
+	pushi 2
+	muli
+	addi
+	pushi 3
+	addi
+	pushi 56
+	storei
+	pushi 1
+	pushi 2
+	muli
+	addi
+	pushi 3
+	addi
+	loadi
+	outi
+	pushb 10
+	outb
+	push bp
+	pushi -2
+	addi
+	pushi 0
+	storei
+ startWhile6:
+	push bp
+	pushi -2
+	addi
+	loadi
+	pushi 2
+	lti
+	jz endWhile7
+	push bp
+	pushi -4
+	addi
+	pushi 0
+	storei
+ startWhile8:
+	push bp
+	pushi -4
+	addi
+	loadi
+	pushi 2
+	lti
+	jz endWhile9
+	push bp
+	pushi -4
+	addi
+	push bp
+	pushi -4
+	addi
+	loadi
+	pushi 2
+	muli
+	addi
+	pushi 3
+	addi
+	push bp
+	pushi -2
+	addi
+	loadi
+	push bp
+	pushi -4
+	addi
+	loadi
+	addi
+	storei
+	push bp
+	pushi -4
+	addi
+	push bp
+	pushi -4
+	addi
+	loadi
+	pushi 1
+	addi
+	storei
+	jmp startWhile8
+ endWhile9:
+	push bp
+	pushi -2
+	addi
+	push bp
+	pushi -2
+	addi
+	loadi
+	pushi 1
+	addi
+	storei
+	jmp startWhile6
+ endWhile7:
+	push bp
+	pushi -2
+	addi
+	pushi 0
+	storei
+ startWhile10:
+	push bp
+	pushi -2
+	addi
+	loadi
+	pushi 2
+	lti
+	jz endWhile11
+	push bp
+	pushi -4
+	addi
+	pushi 0
+	storei
+ startWhile12:
+	push bp
+	pushi -4
+	addi
+	loadi
+	pushi 2
+	lti
+	jz endWhile13
+	push bp
+	pushi -4
+	addi
+	push bp
+	pushi -4
+	addi
+	loadi
+	pushi 2
+	muli
+	addi
+	pushi 3
+	addi
+	loadi
+	outi
+	pushb 32
+	outb
+	push bp
+	pushi -4
+	addi
+	push bp
+	pushi -4
+	addi
+	loadi
+	pushi 1
+	addi
+	storei
+	jmp startWhile12
+ endWhile13:
+	push bp
+	pushi -2
+	addi
+	push bp
+	pushi -2
+	addi
+	loadi
+	pushi 1
+	addi
+	storei
+	jmp startWhile10
+ endWhile11:
+	ret 0, 4, 0

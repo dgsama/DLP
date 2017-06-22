@@ -1,9 +1,0 @@
-/ast/
-/codeGeneration/
-/error/
-/io/
-/Main.class
-/parser/
-/scanner/
-/semantic/
-/visitor/

@@ -79,7 +79,6 @@ CHAR_CONSTANT
 %left EQ NOT_EQ
 %left L_EQ G_EQ '>' '<'
 %left '+' '-'
-%left INC DEC
 %left '*' '/' '%'
 %nonassoc LESSTHANELSE
 %nonassoc ELSE

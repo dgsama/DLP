@@ -19,6 +19,7 @@ import ast.expression.binary.LogicOperation;
 import ast.expression.unary.UnaryMinus;
 import ast.expression.unary.UnaryNot;
 import ast.statement.Assignment;
+import ast.statement.DoWhile;
 import ast.statement.IfElse;
 import ast.statement.InvocationSt;
 import ast.statement.Read;
@@ -266,6 +267,18 @@ public class TypeVisitor extends AbstractVisitor {
 			if (!each.getType().isPrimitive()) {
 				new Err(each.getLine(), each.getColumn(), "This expression can't be called here.");
 			}
+		}
+		return false;
+	}
+
+	@Override
+	public Object visit(DoWhile w, Object param) {
+		super.visit(w, param);
+		w.getCondition().accept(this, param);
+		w.getCondition().setType(w.getCondition().getType().logical());
+		if (w.getCondition().getType() == null) {
+			ErrorType err = new ErrorType(w.getLine(), w.getColumn(), "The type of the condition is invalid(while)");
+			w.getCondition().setType(err);
 		}
 		return false;
 	}

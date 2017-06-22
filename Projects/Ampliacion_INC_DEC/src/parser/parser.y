@@ -175,6 +175,8 @@ statement:		RETURN exp ';' 						{ $$ = new Return(scanner.getLine(), scanner.ge
 				//AMPLIACION INC_DEC
 				| exp INC ';'						{ $$ = new Assignment(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)new ArithmeticOperation(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)new LiteralInt(scanner.getLine(), scanner.getColumn(), (Integer)1), "+")); }
 				| exp DEC ';'						{ $$ = new Assignment(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)new ArithmeticOperation(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)new LiteralInt(scanner.getLine(), scanner.getColumn(), (Integer)1), "-")); }
+				| INC exp ';'						{ $$ = new Assignment(scanner.getLine(), scanner.getColumn(), (Expression)$2, (Expression)new ArithmeticOperation(scanner.getLine(), scanner.getColumn(), (Expression)$2, (Expression)new LiteralInt(scanner.getLine(), scanner.getColumn(), (Integer)1), "+")); }
+				| DEC exp ';'						{ $$ = new Assignment(scanner.getLine(), scanner.getColumn(), (Expression)$2, (Expression)new ArithmeticOperation(scanner.getLine(), scanner.getColumn(), (Expression)$2, (Expression)new LiteralInt(scanner.getLine(), scanner.getColumn(), (Integer)1), "-")); }
 				;
 				
 while:	WHILE '(' exp ')' '{' statements '}'		{ $$ = new While(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$6); }
@@ -221,6 +223,11 @@ exp:	exp '+' exp                               		{ $$ = new ArithmeticOperation(
 		| ID											{ $$ = new Variable(scanner.getLine(), scanner.getColumn(), (String)$1); }
 		| CHAR_CONSTANT									{ $$ = new LiteralChar(scanner.getLine(), scanner.getColumn(), (Character)$1); }
 		| REAL_CONSTANT		  							{ $$ = new LiteralReal(scanner.getLine(), scanner.getColumn(), (Double)$1); }
+		//| exp INC 									{ $$ = new AssignmentExpr(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)new ArithmeticOperation(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)new LiteralInt(scanner.getLine(), scanner.getColumn(), (Integer)1), "+")); }
+		//| exp DEC 									{ $$ = new AssignmentExpr(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)new ArithmeticOperation(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)new LiteralInt(scanner.getLine(), scanner.getColumn(), (Integer)1), "-")); }
+		//| INC exp 									{ $$ = new AssignmentExpr(scanner.getLine(), scanner.getColumn(), (Expression)$2, (Expression)new ArithmeticOperation(scanner.getLine(), scanner.getColumn(), (Expression)$2, (Expression)new LiteralInt(scanner.getLine(), scanner.getColumn(), (Integer)1), "+")); }
+		//| DEC exp 									{ $$ = new AssignmentExpr(scanner.getLine(), scanner.getColumn(), (Expression)$2, (Expression)new ArithmeticOperation(scanner.getLine(), scanner.getColumn(), (Expression)$2, (Expression)new LiteralInt(scanner.getLine(), scanner.getColumn(), (Integer)1), "-")); }
+				
 		;
 		
 %%

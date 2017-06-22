@@ -3,7 +3,7 @@
 /codeGeneration/
 /error/
 /io/
-/parser/
 /scanner/
 /semantic/
 /visitor/
+/parser/
