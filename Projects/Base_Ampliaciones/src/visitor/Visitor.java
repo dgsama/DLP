@@ -74,6 +74,4 @@ public interface Visitor {
 
 	Object visit(VoidType vT, Object param);
 
-	Object visit(DoWhile doWhile, Object param);
-
 }

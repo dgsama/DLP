@@ -120,7 +120,6 @@ struct	{return Parser.STRUCT;}
 return	{return Parser.RETURN;}
 void	{return Parser.VOID;}
 main	{return Parser.MAIN;}
-do 		{return Parser.DO;}
 
 
 // * OPERATORS

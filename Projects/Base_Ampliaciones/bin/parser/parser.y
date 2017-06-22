@@ -33,7 +33,6 @@ import ast.statement.Read;
 import ast.statement.Return;
 import ast.statement.Statement;
 import ast.statement.While;
-import ast.statement.DoWhile;
 import ast.statement.Write;
 import ast.type.ArrayType;
 import ast.type.CharType;
@@ -72,7 +71,6 @@ INT
 L_EQ
 MAIN
 CHAR_CONSTANT
-DO
 %token 
 
 //Lower precedence
@@ -169,8 +167,7 @@ statement:		RETURN exp ';' 						{ $$ = new Return(scanner.getLine(), scanner.ge
 				| READ list_exp ';'					{ $$ = new Read(scanner.getLine(), scanner.getColumn(), (List<Expression>)$2); }
 				| WRITE list_exp ';'				{ $$ = new Write(scanner.getLine(), scanner.getColumn(), (List<Expression>)$2); }
 				| if_else							{ $$ = $1;}
-				| while								{ $$ = $1;}
-				| do_while							{ $$ = $1;}
+				| while								{ $$ = $1;}	
 				| exp '=' exp ';'					{ $$ = new Assignment(scanner.getLine(), scanner.getColumn(), (Expression)$1, (Expression)$3); }
 				| ID '(' opt_list_exp ')' ';'		{ $$ = new InvocationSt(scanner.getLine(), scanner.getColumn(), (String)$1, (List<Expression>)$3); }
 				;
@@ -178,9 +175,6 @@ statement:		RETURN exp ';' 						{ $$ = new Return(scanner.getLine(), scanner.ge
 while:	WHILE '(' exp ')' '{' statements '}'		{ $$ = new While(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$6); }
 		|WHILE '(' exp ')' statement				{ $$ = new While(scanner.getLine(), scanner.getColumn(), (Expression)$3, (Statement)$5); }
 		;
-
-do_while:	DO '{' statements '}' WHILE '(' exp ')' 		{ $$ = new DoWhile(scanner.getLine(), scanner.getColumn(), (Expression)$7, (List<Statement>)$3); }
-			;
 		
 if_else:	IF '(' exp ')' '{' statements '}'	ELSE '{' statements '}'   { $$ = new IfElse(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$6, (List<Statement>)$10); }
 			|IF '(' exp ')' '{' statements '}'	ELSE statement            { $$ = new IfElse(scanner.getLine(), scanner.getColumn(), (Expression)$3, (List<Statement>)$6, (Statement)$9); }

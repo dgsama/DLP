@@ -20,7 +20,6 @@ import ast.expression.binary.LogicOperation;
 import ast.expression.unary.UnaryMinus;
 import ast.expression.unary.UnaryNot;
 import ast.statement.Assignment;
-import ast.statement.DoWhile;
 import ast.statement.IfElse;
 import ast.statement.InvocationSt;
 import ast.statement.Read;
@@ -258,12 +257,4 @@ public abstract class AbstractVisitor implements Visitor {
 		return null;
 	}
 
-	@Override
-	public Object visit(DoWhile w, Object param) {
-		w.getCondition().accept(this, param);
-		for (Statement each : w.getStatements()) {
-			each.accept(this, param);
-		}
-		return null;
-	}
 }

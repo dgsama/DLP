@@ -6,7 +6,6 @@ import ast.definition.DefFunc;
 import ast.definition.Definition;
 import ast.expression.Expression;
 import ast.statement.Assignment;
-import ast.statement.DoWhile;
 import ast.statement.IfElse;
 import ast.statement.InvocationSt;
 import ast.statement.Read;
@@ -189,16 +188,4 @@ public class ExecuteVisitor extends AbstractVisitor {
 		return result;
 	}
 
-	@Override
-	public Object visit(DoWhile whileStat, Object param) {
-		String startWhile = "startWhile" + cg.getLabelCount();
-
-		cg.label(startWhile);
-		for (Statement stat : whileStat.getStatements()) {
-			stat.accept(this, param);
-		}
-		whileStat.getCondition().accept(value, param);
-		cg.jz(startWhile);
-		return null;
-	}
 }

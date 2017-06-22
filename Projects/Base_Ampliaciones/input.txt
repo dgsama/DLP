@@ -1,15 +1,28 @@
 // * Global variables
 int i;
-int j;
+double r;
+char c;
+
+// * Functions
+int f(int pi, double pr) {
+  double lr;
+  int li;
+  li = pi;
+  lr = pr;
+  return pi;
+}
 
 // * Main program
 void main() {
-i = 3;
-j = 0;
-do{
-j = j+1;
-i = i-1;
-write j;
-}while(i!=0);
+  struct { 
+    int integer;
+    char character;
+  } pair;
 
+  i = 3;
+  c = 'a';
+  r = 3.8;
+  pair.integer = i;
+  pair.character = c;
+  f(i, r);
 }

@@ -1,0 +1,75 @@
+#source "input.txt"
+
+	' * int i (Offset 0)
+	' * float r (Offset 2)
+	' * byte c (Offset 6)
+' * func f
+	' * Parameters
+	' * int pi (Offset 8)
+	' * float pr (Offset 4)
+	' * Local variables
+	' * float lr (Offset -4)
+	' * int li (Offset -6)
+' * func main
+	' * Local variables
+	' * 
+	' * {(integer:int) , (character:byte) , } pair (Offset -3)
+	call main
+	halt
+ f:
+	enter 6
+	push bp
+	pushi -6
+	addi
+	push bp
+	pushi 8
+	addi
+	loadi
+	storei
+	push bp
+	pushi -4
+	addi
+	push bp
+	pushi 4
+	addi
+	loadf
+	storef
+	push bp
+	pushi 8
+	addi
+	loadi
+	ret 2, 6, 6
+ main:
+	enter 3
+	pusha 0
+	pushi 3
+	storei
+	pusha 6
+	pushb 97
+	storeb
+	pusha 2
+	pushf 3.8
+	storef
+	push bp
+	pushi -3
+	addi
+	pushi 0
+	addi
+	pusha 0
+	loadi
+	storei
+	push bp
+	pushi -3
+	addi
+	pushi 2
+	addi
+	pusha 6
+	loadb
+	storeb
+	pusha 0
+	loadi
+	pusha 2
+	loadf
+	call f
+	popi
+	ret 0, 3, 0

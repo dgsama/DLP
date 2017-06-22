@@ -19,7 +19,6 @@ import ast.expression.binary.LogicOperation;
 import ast.expression.unary.UnaryMinus;
 import ast.expression.unary.UnaryNot;
 import ast.statement.Assignment;
-import ast.statement.DoWhile;
 import ast.statement.IfElse;
 import ast.statement.InvocationSt;
 import ast.statement.Read;
@@ -227,8 +226,4 @@ public class OffsetVisitor extends AbstractVisitor {
 		return null;
 	}
 
-	@Override
-	public Object visit(DoWhile w, Object param) {
-		return null;
-	}
 }
