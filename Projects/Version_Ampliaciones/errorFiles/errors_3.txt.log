@@ -1,0 +1,8 @@
+		Thu May 04 13:51:17 CEST 2017
+
+  The errors are in the SEMANTIC (Type checking) phase.
+  There are 3 in the errors list.
+
+	+ 1: The access to this field of the struct is not posible. in line [14] column [13]
+	+ 2: The assigment is not posible in line [15] column [5]
+	+ 3: The assigment is not posible in line [16] column [5]

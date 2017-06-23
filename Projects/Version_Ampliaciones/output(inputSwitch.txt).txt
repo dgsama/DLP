@@ -1,0 +1,72 @@
+#source "inputSwitch.txt"
+
+	' * int i (Offset 0)
+	' * int j (Offset 2)
+' * func main
+	call main
+	halt
+#line	25
+
+ main:
+	enter 0
+#line	7
+
+	pusha 0
+	pushi 123
+	storei
+#line	8
+
+	pusha 2
+	pushi 0
+	storei
+#line	13
+
+	pusha 0
+	loadi
+	pushi 1
+	eqi
+	jz startElse0
+#line	12
+
+	pusha 2
+	pushi 1
+	storei
+	jmp endElse1
+ startElse0:
+#line	16
+
+	pusha 0
+	loadi
+	pushi 2
+	eqi
+	jz startElse2
+#line	15
+
+	pusha 2
+	pushi 2
+	storei
+	jmp endElse3
+ startElse2:
+#line	19
+
+	pusha 0
+	loadi
+	pushi 3
+	eqi
+	jz startElse4
+#line	18
+
+	pusha 2
+	pushi 3
+	storei
+	jmp endElse5
+ startElse4:
+#line	21
+
+	pusha 2
+	pushi 10
+	storei
+ endElse5:
+ endElse3:
+ endElse1:
+	ret 0, 0, 0

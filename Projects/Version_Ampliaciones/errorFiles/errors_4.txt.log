@@ -1,0 +1,11 @@
+		Thu May 04 14:29:06 CEST 2017
+
+  The errors are in the SEMANTIC (Type checking) phase.
+  There are 6 in the errors list.
+
+	+ 1: The invocation is not valid in line [10] column [6]
+	+ 2: The logical operation is not posible. in line [11] column [15]
+	+ 3: The comparison is not posible. in line [12] column [15]
+	+ 4: The type of the condition is invalid (if) in line [16] column [1]
+	+ 5: The logical operation is not posible. in line [15] column [15]
+	+ 6: The type of the condition is invalid(while) in line [16] column [1]

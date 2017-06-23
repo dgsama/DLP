@@ -1,0 +1,9 @@
+// * Global variables
+int i;
+int j;
+
+// * Main program
+void main() {
+
+i = j = 3;
+}

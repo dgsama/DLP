@@ -1,0 +1,63 @@
+#source "inputUnario2.txt"
+
+	' * int i (Offset 0)
+	' * int j (Offset 2)
+' * func main
+	call main
+	halt
+#line	21
+
+ main:
+	enter 0
+#line	8
+
+	pusha 0
+	pushi 0
+	storei
+#line	9
+
+	pusha 2
+	pushi 2
+	storei
+#line	11
+
+	pusha 0
+	pusha 0
+	loadi
+	pushi 2
+	addi
+	storei
+#line	13
+
+	pusha 0
+	pusha 0
+	loadi
+	pushi 2
+	muli
+	storei
+#line	15
+
+	pusha 0
+	pusha 0
+	loadi
+	pushi 3
+	muli
+	storei
+#line	17
+
+	pusha 0
+	pusha 0
+	loadi
+	pusha 2
+	loadi
+	divi
+	storei
+#line	19
+
+	pusha 0
+	pusha 0
+	loadi
+	pushi 3
+	subi
+	storei
+	ret 0, 0, 0

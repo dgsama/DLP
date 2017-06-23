@@ -1,0 +1,25 @@
+// * Global variables
+int i;
+int j;
+
+// * Main program
+void main() {
+  i = 123;
+  j = 0;
+  
+  switch(i){  
+  	case 1:
+  		j = 1;
+  		break;
+  	case 2:
+  		j = 2;
+  		break;
+  	case 3:
+  		j = 3;
+  		break;
+  	default:
+  		j = 10;
+  		break;  
+  }
+  
+}

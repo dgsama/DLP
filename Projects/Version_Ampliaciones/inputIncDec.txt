@@ -1,0 +1,17 @@
+// * Global variables
+int[10]j;
+int i;
+
+// * Main program
+void main() {
+  i = 0;
+  
+  //inc
+  i++;
+  ++i;
+  
+  //DEC
+  i--;
+  --i;
+  
+}

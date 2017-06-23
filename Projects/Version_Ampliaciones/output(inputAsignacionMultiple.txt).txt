@@ -1,0 +1,23 @@
+#source "inputAsignacionMultiple.txt"
+
+	' * int i (Offset 0)
+	' * int j (Offset 2)
+' * func main
+	call main
+	halt
+#line	9
+
+ main:
+	enter 0
+#line	8
+
+	pusha 0
+#line	8
+
+	pusha 2
+	pushi 3
+	storei
+	pusha 2
+	loadi
+	storei
+	ret 0, 0, 0

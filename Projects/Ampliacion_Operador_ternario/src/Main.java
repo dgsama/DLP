@@ -18,7 +18,7 @@ public class Main {
 	public static void main(String args[]) throws IOException {
 
 		FileReader fr = null;
-		String file = "input.txt";
+		String file = "inputTernario.txt";
 
 		System.out.println("\n\n\t File: " + file + "\n");
 		try {

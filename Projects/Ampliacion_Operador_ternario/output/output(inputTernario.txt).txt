@@ -1,0 +1,72 @@
+#source "inputTernario.txt"
+
+	' * int i (Offset 0)
+	' * int j (Offset 2)
+	' * int k (Offset 4)
+' * func main
+	call main
+	halt
+ main:
+	enter 0
+	pusha 4
+	pushi 10
+	storei
+	pusha 0
+	pushi 0
+	storei
+	pusha 2
+	pushi 0
+	storei
+	pusha 4
+	loadi
+	pusha 0
+	loadi
+	gti
+	jz startElse0
+	pusha 0
+	pusha 0
+	loadi
+	pushi 2
+	addi
+	storei
+	jmp endElse1
+ startElse0:
+	pusha 0
+	pusha 0
+	loadi
+	pushi 4
+	subi
+	storei
+ endElse1:
+	pusha 4
+	loadi
+	pusha 0
+	loadi
+	lti
+	jz startElse2
+	pushi 2
+	outi
+	jmp endElse3
+ startElse2:
+	pushi 3
+	outi
+ endElse3:
+	pusha 2
+	loadi
+	pusha 4
+	loadi
+	lei
+	jz startElse4
+	pusha 2
+	loadi
+	outi
+	jmp endElse5
+ startElse4:
+	pusha 2
+	pusha 2
+	loadi
+	pushi 2
+	subi
+	storei
+ endElse5:
+	ret 0, 0, 0
